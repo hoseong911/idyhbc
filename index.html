@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="width">
+    <title>인천동양중 역사답사반 베이스캠프</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&display=swap">
+
+    <style>
+        :root {
+            --pastel-bg: #F4F9F9;
+            --pastel-blue: #A4D4CC;
+            --pastel-yellow: #FBEA9E;
+            --pastel-pink: #F5D3D6;
+            --pastel-purple: #D5C6E0;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --card-bg: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* Apps Script 환경 대응: CDN 폰트 대신 시스템 한글 폰트 스택 사용 */
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--pastel-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-purple));
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        header h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .location-selector {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid var(--pastel-blue);
+            background-color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border-top: 5px solid transparent;
+        }
+
+        .card-blue   { border-top-color: var(--pastel-blue); }
+        .card-yellow { border-top-color: var(--pastel-yellow); }
+        .card-pink   { border-top-color: var(--pastel-pink); }
+        .card-purple { border-top-color: var(--pastel-purple); }
+
+        .card h2 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2 span {
+            font-size: 1.5rem;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        ul li::before {
+            content: "📌";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.9rem;
+        }
+
+        .highlight-box {
+            background-color: #FFF9E6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            color: #7A6200;
+        }
+
+        .highlight-box strong {
+            color: #D4A000;
+        }
+
+        .museum-info {
+            background-color: #F0F4F8;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 0.9rem;
+            color: #334E68;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-pink {
+            background-color: var(--pastel-pink);
+            color: #A34A52;
+            box-shadow: 0 4px 0 #DDA9AD;
+        }
+
+        .btn-blue {
+            background-color: var(--pastel-blue);
+            color: #3D7A70;
+            box-shadow: 0 4px 0 #85BDB4;
+        }
+
+        .btn-yellow {
+            background-color: var(--pastel-yellow);
+            color: #7A6200;
+            box-shadow: 0 4px 0 #E0D08A;
+        }
+
+        .footer-space {
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🧭 인천동양중학교 역사콘텐츠탐구반&역사답사반</h1>
+        <p>우리들의 생생한 역사 탐험 베이스캠프</p>
+    </header>
+
+    <select class="location-selector" id="pageSelector" onchange="switchPage(this.value)">
+        <option value="jungang">📍 [이전 답사] 2026. 4. 4. (자율) 국립중앙박물관</option>
+        <option value="gyeyang">📍 [현재 답사] 2026. 4. 21. (창체) 계양산성박물관</option>
+        <option value="" disabled>📍 [예정] 다음 답사지를 기대해주세요!</option>
+    </select>
+
+
+    <!-- ===== 페이지 1: 국립중앙박물관 ===== -->
+    <div id="page-jungang" class="page active">
+
+        <div class="card card-blue">
+            <h2><span>📖</span> 국립중앙박물관, 어떤 곳일까?</h2>
+            <div class="museum-info">
+                <strong>세계 6위 규모의 압도적인 스케일!</strong><br>
+                무려 42만 점이 넘는 유물을 소장하고 있는 대한민국 최대의 박물관입니다. 하루 만에 다 보는 것은 불가능에 가까우니, 선택과 집중이 필수랍니다.<br><br>
+                <strong>🚶 층별 핵심 안내</strong><br>
+                • <strong>1층 (선사·고대관/중근세관):</strong> 교과서에서 보던 구석기 시대부터 조선 시대까지의 굵직한 역사적 유물들이 모두 모여 있는 핵심 공간입니다.<br>
+                • <strong>2층 (서화관/기증관):</strong> 옛사람들의 멋진 글씨와 그림, 그리고 개인 수집가들이 기증한 독특한 문화재를 만날 수 있습니다.<br>
+                • <strong>3층 (조각·공예관/세계문화관):</strong> 세계적인 걸작인 불상과 아름다운 도자기, 그리고 이집트, 메소포타미아 등 다른 나라의 역사까지 탐험할 수 있습니다.
+            </div>
+            <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 국립중앙박물관 더 알아보기</a>
+        </div>
+
+        <div class="card card-yellow">
+            <h2><span>🏛️</span> 오늘의 답사장소: 국립중앙박물관</h2>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px;">
+                방대한 박물관에서 길을 잃지 않도록, 동양중 역사답사반이 반드시 두 눈으로 확인해야 할 최고의 마스터피스 5가지를 소개합니다.
+            </p>
+            <div class="highlight-box">
+                <strong>🔥 절대 놓치지 말아야 할 보물 Top 5</strong><br><br>
+                1️⃣ <strong>백제 금동대향로 (1층 백제실):</strong> 향을 피우면 마치 신선들이 사는 세계에 안개가 피어오르는 듯한 착각을 주는, 우리나라 최고의 금속 공예품입니다.<br><br>
+                2️⃣ <strong>반가사유상 (2층 사유의 방):</strong> 어두운 방 안, 고요히 미소 짓는 두 부처님. 박물관 최고의 '물멍/불멍' 힐링 스팟이자 세계적인 걸작입니다.<br><br>
+                3️⃣ <strong>경천사지 10층 석탑 (1층 역사의 길):</strong> 박물관 1층 중심에 웅장하게 솟아오른 거대한 대리석 탑입니다. 화려한 조각들을 가까이서 올려다보세요.<br><br>
+                4️⃣ <strong>신라 금관 (1층 신라실):</strong> 금과 영롱한 곱은옥으로 장식된 신라 마립간의 상징! 조명 아래에서 눈부시게 빛나는 화려함의 극치를 보여줍니다.<br><br>
+                5️⃣ <strong>빗살무늬토기 (1층 신석기실):</strong> 교과서 1단원의 주인공! 사진으로 볼 때보다 훨씬 크고 정교한 V자형 토기의 진짜 모습을 확인해 보세요.
+            </div>
+        </div>
+
+        <div class="card card-pink">
+            <h2><span>🗺️</span> 나만의 답사 가이드 만들기</h2>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px;">
+                내가 큐레이터가 된다면? 친구들을 위한 나만의 톡톡 튀는 관람 코스를 기획해 보세요!
+            </p>
+            <ul>
+                <li>누구를 위한 가이드인지 타깃 정하기 (예: 역사 초보 동생, 사진 찍기 좋아하는 친구)</li>
+                <li>내가 추천하는 박물관 최애 유물 3가지 선정하기</li>
+                <li><strong>[미션 내기]</strong> 친구들이 쉽게 참여할 수 있는 미션을 1개 만들어 주세요.<br>
+                    <em>(예: "이 유물과 찰떡인 표정 지으면서 인증샷 찍기!", "이 유물의 특징을 살려서 세 글자로 새 이름 지어주기")</em></li>
+            </ul>
+            <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출하러 가기 🚀</a>
+        </div>
+
+        <div class="card card-purple">
+            <h2><span>✍️</span> 생생 기행기 기록하기</h2>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px;">
+                답사를 마무리하며 잊지 못할 순간을 아카이빙합니다. 여러분이 남긴 기록은 멋진 온라인 웹진과 PDF 자료집으로 탄생합니다!
+            </p>
+            <ul>
+                <li>가장 인상 깊었던 '나의 원픽' 유물 사진/영상 첨부 필수!</li>
+                <li>그 유물을 보고 떠오른 3가지 키워드 적기</li>
+                <li>현장에서 느낀 점을 편안한 말투로 200자 이상 자유롭게 쓰기</li>
+            </ul>
+            <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
+        </div>
+
+    </div>
+    <!-- ===== /페이지 1 끝 ===== -->
+
+
+    <!-- ===== 페이지 2: 계양산성박물관 ===== -->
+    <div id="page-gyeyang" class="page">
+
+        <div class="card card-blue">
+            <h2><span>📖</span> 계양산성박물관, 어떤 곳일까?</h2>
+            <div class="museum-info">
+                <strong>국내 최초의 산성 전문 박물관!</strong><br>
+                우리 학교와 가까운 계양산 자락에 위치한 이곳은 삼국시대부터 치열한 영토 전쟁이 벌어졌던 계양산성의 역사를 고스란히 담고 있습니다.<br><br>
+                <strong>🚶 관람 포인트 안내</strong><br>
+                • <strong>상설전시실:</strong> 계양산성에서 발굴된 목간, 연화문 수막새 등 생생한 유물들을 통해 삼국시대 사람들의 생활상과 군사적 요충지로서의 중요성을 확인할 수 있습니다.<br>
+                • <strong>전망대:</strong> 박물관 관람 후 전망대에 올라가면 우리가 사는 인천과 한강 일대가 한눈에 들어옵니다. 왜 이곳에 산성을 지었는지 직접 눈으로 확인해 보세요!
+            </div>
+            <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 계양산성박물관 더 알아보기</a>
+        </div>
+
+        <div class="card card-yellow">
+            <h2><span>🏛️</span> 이번 답사장소: 계양산성박물관</h2>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px;">
+                작지만 알찬 박물관! 동양중 역사답사반이 반드시 두 눈으로 확인해야 할 핵심 포인트 4선을 소개합니다.
+            </p>
+            <div class="highlight-box">
+                <strong>🔥 절대 놓치지 말아야 할 보물 Top 4</strong><br><br>
+                1️⃣ <strong>목간 (상설전시실):</strong> 나무에 글씨를 새긴 삼국시대의 메모지! 종이가 귀했던 시절, 병사들이 주고받은 실제 기록이 담겨 있습니다. 1,500년 전 사람의 필체를 직접 확인해 보세요.<br><br>
+                2️⃣ <strong>연화문 수막새 (상설전시실):</strong> 산성 지붕 끝을 장식했던 연꽃무늬 기와입니다. 전쟁터 한가운데서도 아름다움을 추구했던 삼국시대 사람들의 감각이 느껴집니다.<br><br>
+                3️⃣ <strong>산성 모형 (중앙 전시 공간):</strong> 계양산성 전체를 한눈에 볼 수 있는 대형 모형입니다. 성벽이 어떤 지형을 따라 지어졌는지 살피며 왜 이곳이 전략적 요충지였는지 상상해 보세요.<br><br>
+                4️⃣ <strong>전망대 뷰 (야외):</strong> 유물만큼 중요한 이곳의 하이라이트! 인천 시내와 한강 하구가 한눈에 펼쳐집니다. 고대 장군이 된 것처럼 "이래서 여기다!"를 외쳐보세요.
+            </div>
+        </div>
+
+        <div class="card card-purple">
+            <h2><span>✍️</span> 생생 기행기 기록하기</h2>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 15px;">
+                이번 계양산성박물관 답사의 미션은 오직 하나, <strong>'기행기 작성'</strong>입니다! 집중해서 관람하고 나만의 기록을 남겨주세요.
+            </p>
+            <ul>
+                <li>가장 인상 깊었던 '나의 원픽' 유물이나 풍경 사진/영상 첨부 필수!</li>
+                <li>그 모습을 보고 떠오른 3가지 키워드 적기</li>
+                <li>현장에서 느낀 점을 편안한 말투로 200자 이상 자유롭게 쓰기</li>
+            </ul>
+            <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
+        </div>
+
+    </div>
+    <!-- ===== /페이지 2 끝 ===== -->
+
+    <div class="footer-space"></div>
+</div>
+
+<script>
+    // Apps Script iframe 모바일 viewport 강제 적용
+    (function() {
+        var meta = document.querySelector('meta[name="viewport"]');
+        if (meta) {
+            meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+        }
+    })();
+
+    function switchPage(value) {
+        document.querySelectorAll('.page').forEach(function(p) {
+            p.classList.remove('active');
+        });
+        if (value) {
+            var target = document.getElementById('page-' + value);
+            if (target) target.classList.add('active');
+        }
+    }
+
+    // 답사 날짜 목록 (날짜 지난 것 중 가장 최근 답사를 자동 선택)
+    var trips = [
+        { value: 'jungang', date: '2026-04-04' },
+        { value: 'gyeyang', date: '2026-04-21' }
+    ];
+
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // 오늘 날짜 이전 답사 중 가장 최근 것 선택
+    var latest = trips
+        .filter(function(t) { return new Date(t.date) <= today; })
+        .pop();
+
+    // 아직 아무 답사도 안 지났으면 첫 번째 항목으로
+    var defaultPage = latest ? latest.value : trips[0].value;
+
+    document.getElementById('pageSelector').value = defaultPage;
+    switchPage(defaultPage);
+</script>
+
+</body>
+</html>
