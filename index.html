@@ -22,92 +22,111 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
     html, body { width: 100%; min-height: 100%; overflow-x: hidden; background: var(--bg); color: var(--dark); line-height: 1.6; }
 
-    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-
-    /* ── PC 2단 레이아웃 ── */
-    .layout {
-      display: flex;
-      gap: 24px;
+    /* ══════════════════════════════════
+       PC 4단 레이아웃
+    ══════════════════════════════════ */
+    .pc-wrap {
+      display: none;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 20px;
+      gap: 16px;
       align-items: flex-start;
     }
 
-    /* ── 사이드바 (PC) ── */
-    .sidebar {
-      width: 240px;
+    /* ══════════════════════════════════
+       모바일 레이아웃
+    ══════════════════════════════════ */
+    .mobile-wrap {
+      display: block;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    @media (min-width: 900px) {
+      .pc-wrap    { display: flex; }
+      .mobile-wrap { display: none; }
+    }
+
+    /* ── 사이드바 ── */
+    .pc-sidebar {
+      width: 190px;
       flex-shrink: 0;
       position: sticky;
       top: 20px;
     }
 
-    /* ── 콘텐츠 영역 ── */
-    .content-area {
+    /* ── PC 컬럼 ── */
+    .pc-col {
       flex: 1;
       min-width: 0;
     }
 
-    /* ── 모바일: 1단으로 ── */
-    @media (max-width: 700px) {
-      .layout { flex-direction: column; gap: 0; }
-      .sidebar { width: 100%; position: static; }
+    .col-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--blue);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* ── 헤더 (사이드바 안) ── */
-    header {
+    /* ── 헤더 ── */
+    .site-header {
       background: linear-gradient(160deg, var(--blue), var(--purple));
-      border-radius: 20px;
-      padding: 28px 18px 22px;
+      border-radius: 18px;
+      padding: 22px 14px 18px;
       text-align: center;
       color: white;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       cursor: pointer;
     }
-    header h1 { font-size: 0.82rem; font-weight: 600; margin-bottom: 8px; opacity: 0.85; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-    header p { font-size: 1.1rem; font-weight: 800; line-height: 1.5; word-break: keep-all; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+    .site-header h1 { font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; opacity: 0.85; }
+    .site-header p  { font-size: 0.95rem; font-weight: 800; line-height: 1.5; word-break: keep-all; }
 
-    /* ── 사이드 메뉴 버튼 ── */
-    .side-nav { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    /* 모바일 헤더는 조금 크게 */
+    .mobile-wrap .site-header { padding: 28px 20px 22px; margin-bottom: 20px; }
+    .mobile-wrap .site-header h1 { font-size: 0.82rem; }
+    .mobile-wrap .site-header p  { font-size: 1.15rem; }
+
+    /* ── 사이드 네비 ── */
+    .side-nav { display: flex; flex-direction: column; gap: 8px; }
     .side-nav-btn {
-      display: flex; align-items: center; gap: 12px;
-      background: var(--card); border: none; border-radius: 14px;
-      padding: 14px 16px; width: 100%; cursor: pointer;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card); border: none; border-radius: 12px;
+      padding: 12px 13px; width: 100%; cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      border-left: 5px solid transparent;
-      text-align: left; transition: transform 0.15s, box-shadow 0.15s;
+      border-left: 4px solid transparent;
+      text-align: left; transition: background 0.15s, transform 0.15s;
     }
     .side-nav-btn:active { transform: scale(0.98); }
     .side-nav-btn.blue   { border-left-color: var(--blue); }
     .side-nav-btn.pink   { border-left-color: var(--pink); }
     .side-nav-btn.yellow { border-left-color: var(--yellow); }
-    .side-nav-btn.active { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
-    .side-nav-btn .s-icon { font-size: 1.4rem; flex-shrink: 0; }
-    .side-nav-btn .s-label { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
-    .side-nav-btn .s-desc  { font-size: 0.75rem; color: var(--light); margin-top: 1px; }
+    .side-nav-btn.active { background: #EEF7F5; }
+    .side-nav-btn.active .s-label { color: var(--blue-deep); }
+    .side-nav-btn .s-icon  { font-size: 1.2rem; flex-shrink: 0; }
+    .side-nav-btn .s-label { font-size: 0.85rem; font-weight: 700; color: var(--dark); }
+    .side-nav-btn .s-desc  { font-size: 0.7rem; color: var(--light); margin-top: 1px; }
 
-    /* ── 모바일에서는 기존 메인메뉴 스타일로 ── */
-    @media (max-width: 700px) {
-      .side-nav { gap: 12px; }
-      .side-nav-btn { padding: 18px 20px; border-radius: 16px; }
-      .side-nav-btn .s-icon { font-size: 2rem; }
-      .side-nav-btn .s-label { font-size: 1.05rem; }
-    }
-
-    /* ── 메인 메뉴 (모바일 하위 호환, PC에서는 side-nav 사용) ── */
+    /* ── 모바일 메인 메뉴 ── */
     .main-menu { display: flex; flex-direction: column; gap: 14px; margin-bottom: 10px; }
     .menu-btn {
       display: flex; align-items: center; gap: 16px;
-      background: var(--card);
-      border: none; border-radius: 16px;
-      padding: 20px 22px;
-      width: 100%; cursor: pointer;
+      background: var(--card); border: none; border-radius: 16px;
+      padding: 20px 22px; width: 100%; cursor: pointer;
       box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      transition: transform 0.15s, box-shadow 0.15s;
-      border-left: 6px solid transparent;
-      text-align: left;
+      transition: transform 0.15s;
+      border-left: 6px solid transparent; text-align: left;
     }
     .menu-btn:active { transform: scale(0.98); }
-    .menu-btn.blue  { border-left-color: var(--blue); }
-    .menu-btn.pink  { border-left-color: var(--pink); }
+    .menu-btn.blue   { border-left-color: var(--blue); }
+    .menu-btn.pink   { border-left-color: var(--pink); }
     .menu-btn.yellow { border-left-color: var(--yellow); }
     .menu-btn .icon { font-size: 2rem; flex-shrink: 0; }
     .menu-btn .text-wrap { flex: 1; }
@@ -115,24 +134,15 @@
     .menu-btn .desc  { font-size: 0.82rem; color: var(--light); margin-top: 2px; }
     .menu-btn .arrow { font-size: 1.1rem; color: #ccc; flex-shrink: 0; }
 
-    /* ── 페이지 전환 ── */
-    .view { display: none; }
-    .view.active { display: block; animation: fadeIn 0.25s ease; }
+    /* ── 모바일 뷰 전환 ── */
+    .mobile-view { display: none; animation: fadeIn 0.25s ease; }
+    .mobile-view.active { display: block; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-
-    /* ── 뒤로가기 버튼 ── */
-    .back-btn {
-      display: flex; align-items: center; gap: 8px;
-      background: none; border: none;
-      font-size: 0.92rem; font-weight: 700; color: var(--blue-deep);
-      cursor: pointer; padding: 0; margin-bottom: 20px;
-    }
-    .back-btn:before { content: "←"; font-size: 1.1rem; }
 
     /* ── 카드 ── */
     .card {
       background: var(--card); border-radius: 15px;
-      padding: 22px; margin-bottom: 18px;
+      padding: 18px 20px; margin-bottom: 16px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.04);
       border-top: 5px solid transparent;
     }
@@ -140,41 +150,40 @@
     .card.yellow { border-top-color: var(--yellow); }
     .card.pink   { border-top-color: var(--pink); }
     .card.purple { border-top-color: var(--purple); }
-    .card h2 { font-size: 1.15rem; color: var(--dark); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .card h2 .ico { font-size: 1.4rem; }
+    .card h2 { font-size: 1.05rem; color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .card h2 .ico { font-size: 1.3rem; }
 
-    /* ── 답사 안내 드롭다운 ── */
+    /* ── 드롭다운 ── */
     .location-selector {
-      width: 100%; padding: 12px; border-radius: 10px;
+      width: 100%; padding: 11px 12px; border-radius: 10px;
       border: 2px solid var(--blue); background: white;
-      font-size: 1rem; font-weight: 600; color: var(--dark);
-      margin-bottom: 20px; outline: none; cursor: pointer;
+      font-size: 0.9rem; font-weight: 600; color: var(--dark);
+      margin-bottom: 16px; outline: none; cursor: pointer;
     }
 
     ul { list-style: none; }
-    ul li { position: relative; padding-left: 22px; margin-bottom: 11px; font-size: 0.93rem; color: var(--light); }
-    ul li::before { content: "📌"; position: absolute; left: 0; top: 1px; font-size: 0.88rem; }
+    ul li { position: relative; padding-left: 20px; margin-bottom: 10px; font-size: 0.88rem; color: var(--light); }
+    ul li::before { content: "📌"; position: absolute; left: 0; top: 1px; font-size: 0.82rem; }
 
     .highlight-box {
       background: #FFF9E6; border-radius: 10px;
-      padding: 15px; margin: 14px 0;
-      font-size: 0.88rem; color: #7A6200;
-      line-height: 1.8;
+      padding: 13px; margin: 12px 0;
+      font-size: 0.83rem; color: #7A6200; line-height: 1.8;
     }
     .highlight-box strong { color: #D4A000; }
 
     .museum-info {
       background: #F0F4F8; border-radius: 10px;
-      padding: 15px; font-size: 0.88rem; color: #334E68;
-      margin-bottom: 14px; line-height: 1.8;
+      padding: 13px; font-size: 0.83rem; color: #334E68;
+      margin-bottom: 12px; line-height: 1.8;
     }
 
     .btn {
-      display: block; width: 100%; padding: 15px;
+      display: block; width: 100%; padding: 13px;
       border: none; border-radius: 12px;
-      font-size: 1rem; font-weight: 700;
+      font-size: 0.95rem; font-weight: 700;
       text-align: center; text-decoration: none;
-      margin-top: 14px; cursor: pointer;
+      margin-top: 12px; cursor: pointer;
       transition: transform 0.15s;
     }
     .btn:active { transform: scale(0.98); }
@@ -184,77 +193,47 @@
     .btn-purple { background: var(--purple); color: #5A4A7A;            box-shadow: 0 4px 0 #BDB0D0; }
 
     /* ── 기행기 아카이브 ── */
-    .archive-header {
-      text-align: center; margin-bottom: 24px;
-    }
-    .archive-header h2 { font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
-    .archive-header p { font-size: 0.85rem; color: var(--light); }
+    .archive-loading { text-align: center; padding: 30px; color: var(--light); font-size: 0.88rem; }
+    .entry-empty { text-align: center; padding: 40px 20px; color: var(--light); font-size: 0.88rem; }
+    .entry-empty .ico { font-size: 2.5rem; display: block; margin-bottom: 10px; }
 
     .entry-card {
-      background: var(--card); border-radius: 16px;
-      padding: 20px; margin-bottom: 16px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      background: var(--card); border-radius: 14px;
+      padding: 16px 18px; margin-bottom: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
       border-left: 5px solid var(--blue);
-      position: relative;
     }
-    .entry-card .entry-meta {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 10px;
-    }
-    .entry-card .entry-name {
-      font-weight: 800; font-size: 1rem; color: var(--dark);
-    }
-    .entry-card .entry-date {
-      font-size: 0.78rem; color: #aaa;
-    }
-    .entry-card .entry-pick {
+    .entry-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .entry-name { font-weight: 800; font-size: 0.92rem; color: var(--dark); }
+    .entry-date { font-size: 0.75rem; color: #aaa; }
+    .entry-pick {
       display: inline-block;
       background: #EEF7F5; color: var(--blue-deep);
-      border-radius: 20px; padding: 3px 10px;
-      font-size: 0.78rem; font-weight: 700;
-      margin-bottom: 10px;
+      border-radius: 20px; padding: 2px 10px;
+      font-size: 0.75rem; font-weight: 700; margin-bottom: 8px;
     }
-    .entry-card .entry-body {
-      font-size: 0.9rem; color: var(--light);
-      line-height: 1.75;
-      white-space: pre-wrap;
-    }
-    .entry-card .entry-photo {
-      width: 100%; border-radius: 10px;
-      margin-top: 12px; max-height: 220px;
-      object-fit: cover;
-    }
-    .entry-empty {
-      text-align: center; padding: 50px 20px;
-      color: var(--light); font-size: 0.9rem;
-    }
-    .entry-empty .ico { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .entry-body { font-size: 0.86rem; color: var(--light); line-height: 1.75; white-space: pre-wrap; }
+    .entry-photo { width: 100%; border-radius: 10px; margin-top: 10px; max-height: 200px; object-fit: cover; }
 
-    .archive-loading {
-      text-align: center; padding: 40px;
-      color: var(--light); font-size: 0.9rem;
-    }
-
-    /* ── 관리자 모드 ── */
+    /* ── 관리자 ── */
     .admin-toggle-btn {
       display: block; text-align: center;
-      font-size: 0.8rem; color: #bbb;
-      margin: 10px auto 20px;
+      font-size: 0.78rem; color: #ccc;
+      margin: 12px auto 16px;
       background: none; border: none; cursor: pointer;
     }
     .admin-login-box {
       background: var(--card); border-radius: 14px;
-      padding: 24px; margin-bottom: 20px;
+      padding: 20px; margin-bottom: 16px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       text-align: center; display: none;
     }
     .admin-login-box.show { display: block; }
-    .admin-login-box p { font-size: 0.9rem; color: var(--light); margin-bottom: 14px; }
+    .admin-login-box p { font-size: 0.88rem; color: var(--light); margin-bottom: 12px; }
     .admin-input {
-      width: 100%; padding: 12px; border-radius: 10px;
-      border: 2px solid #eee; font-size: 1rem;
-      margin-bottom: 12px; outline: none;
-      transition: border-color 0.2s;
+      width: 100%; padding: 11px; border-radius: 10px;
+      border: 2px solid #eee; font-size: 0.95rem;
+      margin-bottom: 10px; outline: none; transition: border-color 0.2s;
     }
     .admin-input:focus { border-color: var(--blue); }
 
@@ -262,296 +241,204 @@
     .admin-panel.show { display: block; }
     .admin-panel-header {
       background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 14px; padding: 16px 20px;
-      color: white; margin-bottom: 20px;
+      border-radius: 12px; padding: 14px 18px;
+      color: white; margin-bottom: 16px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .admin-panel-header h3 { font-size: 1rem; font-weight: 700; }
-    .admin-panel-header span { font-size: 0.8rem; opacity: 0.8; }
+    .admin-panel-header h3 { font-size: 0.95rem; font-weight: 700; }
+    .admin-panel-header span { font-size: 0.78rem; opacity: 0.8; }
 
     .admin-entry {
-      background: var(--card); border-radius: 14px;
-      padding: 18px; margin-bottom: 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      background: var(--card); border-radius: 12px;
+      padding: 16px; margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
       border: 2px solid #f0f0f0;
     }
     .admin-entry.published { border-color: #A4D4CC; }
-    .admin-entry-header {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 12px;
-    }
-    .admin-entry-name { font-weight: 800; font-size: 0.95rem; }
-    .admin-entry-date { font-size: 0.75rem; color: #aaa; }
-    .admin-entry-pick {
-      font-size: 0.82rem; color: var(--light);
-      margin-bottom: 10px;
-    }
-
-    .raw-answers {
-      background: #f8f9fa; border-radius: 8px;
-      padding: 12px; margin-bottom: 12px;
-      font-size: 0.8rem; color: var(--light);
-      line-height: 1.7;
-    }
+    .admin-entry-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 6px; }
+    .admin-entry-name { font-weight: 800; font-size: 0.9rem; }
+    .admin-entry-date { font-size: 0.72rem; color: #aaa; }
+    .admin-entry-pick { font-size: 0.8rem; color: var(--light); margin-bottom: 8px; }
+    .raw-answers { background: #f8f9fa; border-radius: 8px; padding: 10px; margin-bottom: 10px; font-size: 0.78rem; color: var(--light); line-height: 1.7; }
     .raw-answers .q { font-weight: 700; color: var(--dark); }
-
     .draft-area {
-      width: 100%; min-height: 120px;
-      border: 2px solid #eee; border-radius: 10px;
-      padding: 12px; font-size: 0.88rem;
-      line-height: 1.7; resize: vertical;
-      font-family: 'Noto Sans KR', sans-serif;
-      margin-bottom: 10px; outline: none;
+      width: 100%; min-height: 100px; border: 2px solid #eee; border-radius: 10px;
+      padding: 10px; font-size: 0.84rem; line-height: 1.7; resize: vertical;
+      font-family: 'Noto Sans KR', sans-serif; margin-bottom: 8px; outline: none;
       transition: border-color 0.2s;
     }
     .draft-area:focus { border-color: var(--blue); }
     .draft-area::placeholder { color: #ccc; }
-
     .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; }
     .admin-btn {
-      flex: 1; min-width: 100px;
-      padding: 10px 8px; border: none; border-radius: 10px;
-      font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      flex: 1; min-width: 90px; padding: 9px 8px;
+      border: none; border-radius: 10px;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer;
       transition: transform 0.15s, opacity 0.15s;
     }
     .admin-btn:active { transform: scale(0.97); }
     .admin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-generate { background: #E8E4F8; color: #5A4A7A; }
-    .btn-publish  { background: var(--blue); color: var(--blue-deep); }
+    .btn-generate  { background: #E8E4F8; color: #5A4A7A; }
+    .btn-publish   { background: var(--blue); color: var(--blue-deep); }
     .btn-unpublish { background: #FFE8EA; color: var(--pink-deep); }
-
-    .publish-badge {
-      display: inline-block;
-      background: #D4EDDA; color: #2D6A4F;
-      border-radius: 20px; padding: 2px 10px;
-      font-size: 0.72rem; font-weight: 700;
-    }
-    .unpublish-badge {
-      display: inline-block;
-      background: #f0f0f0; color: #aaa;
-      border-radius: 20px; padding: 2px 10px;
-      font-size: 0.72rem; font-weight: 700;
-    }
+    .publish-badge   { display: inline-block; background: #D4EDDA; color: #2D6A4F; border-radius: 20px; padding: 2px 9px; font-size: 0.7rem; font-weight: 700; }
+    .unpublish-badge { display: inline-block; background: #f0f0f0; color: #aaa; border-radius: 20px; padding: 2px 9px; font-size: 0.7rem; font-weight: 700; }
 
     /* ── 준비 중 ── */
-    .coming-soon {
-      text-align: center; padding: 60px 20px;
-    }
-    .coming-soon .big-icon { font-size: 4rem; display: block; margin-bottom: 16px; }
-    .coming-soon h3 { font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
-    .coming-soon p { font-size: 0.9rem; color: var(--light); line-height: 1.7; }
+    .coming-soon { text-align: center; padding: 50px 20px; }
+    .coming-soon .big-icon { font-size: 3.5rem; display: block; margin-bottom: 14px; }
+    .coming-soon h3 { font-size: 1.2rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+    .coming-soon p  { font-size: 0.88rem; color: var(--light); line-height: 1.7; }
 
-    .footer-space { height: 40px; }
-
-    /* ── 메인으로 버튼 (모바일 전용) ── */
-    .home-btn {
-      display: none;
-    }
-    @media (max-width: 700px) {
-      .home-btn {
-        display: block;
-        margin: 30px auto 10px;
-        padding: 13px 32px;
-        background: white;
-        border: 2px solid var(--blue);
-        border-radius: 30px;
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: var(--blue-deep);
-        cursor: pointer;
-        text-align: center;
-        transition: background 0.15s, transform 0.15s;
-      }
-      .home-btn:active { transform: scale(0.97); background: var(--bg); }
-    }
-
-    /* ── 사이드바 활성 강조 ── */
-    .side-nav-btn.active {
-      background: #EEF7F5;
-    }
-    .side-nav-btn.active .s-label { color: var(--blue-deep); }
-
-    /* ── 답사 페이지 내 기행기 버튼 ── */
+    /* ── 모바일 기행기 이동 버튼 ── */
     .to-archive-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; padding: 16px;
+      width: 100%; padding: 15px;
       background: linear-gradient(135deg, var(--blue), var(--purple));
       color: white; border: none; border-radius: 14px;
-      font-size: 1rem; font-weight: 700; cursor: pointer;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer;
       margin-top: 6px;
       box-shadow: 0 4px 15px rgba(164,212,204,0.4);
       transition: transform 0.15s;
     }
     .to-archive-btn:active { transform: scale(0.98); }
+
+    /* ── 메인으로 버튼 (모바일) ── */
+    .home-btn {
+      display: block; margin: 24px auto 8px;
+      padding: 12px 30px; background: white;
+      border: 2px solid var(--blue); border-radius: 30px;
+      font-size: 0.92rem; font-weight: 700; color: var(--blue-deep);
+      cursor: pointer; text-align: center;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .home-btn:active { transform: scale(0.97); background: var(--bg); }
+
+    .footer-space { height: 40px; }
   </style>
 </head>
 <body>
-<div class="container">
-<div class="layout">
 
-  <!-- ── 사이드바 ── -->
-  <div class="sidebar">
-    <header onclick="goTo('view-main')">
+<!-- ══════════════════════════════════════════════
+     PC 4단 레이아웃
+══════════════════════════════════════════════ -->
+<div class="pc-wrap">
+
+  <!-- 1단: 사이드바 -->
+  <div class="pc-sidebar">
+    <div class="site-header" onclick="pcGoMain()">
       <h1>🧭 인천동양중학교</h1>
-      <p>역사콘텐츠탐구반 &amp; 역사답사반<br>베이스캠프</p>
-    </header>
-
+      <p>역사콘텐츠탐구반 &amp;<br>역사답사반 베이스캠프</p>
+    </div>
     <nav class="side-nav">
-      <button class="side-nav-btn blue" id="nav-guide" onclick="goTo('view-guide')">
+      <button class="side-nav-btn blue active" id="pc-nav-guide" onclick="pcSideNav('guide')">
         <span class="s-icon">📍</span>
-        <div>
-          <div class="s-label">답사 안내</div>
-          <div class="s-desc">날짜별 답사지 정보</div>
-        </div>
+        <div><div class="s-label">답사 안내</div><div class="s-desc">날짜별 답사 정보</div></div>
       </button>
-      <button class="side-nav-btn pink" id="nav-archive" onclick="goTo('view-archive'); loadArchive();">
+      <button class="side-nav-btn pink" id="pc-nav-archive" onclick="pcSideNav('archive')">
         <span class="s-icon">📖</span>
-        <div>
-          <div class="s-label">기행기 아카이브</div>
-          <div class="s-desc">친구들의 답사 기록 모음</div>
-        </div>
+        <div><div class="s-label">기행기 아카이브</div><div class="s-desc">친구들의 답사 기록</div></div>
       </button>
-      <button class="side-nav-btn yellow" id="nav-mission" onclick="goTo('view-mission')">
+      <button class="side-nav-btn yellow" id="pc-nav-mission" onclick="pcSideNav('mission')">
         <span class="s-icon">🎯</span>
-        <div>
-          <div class="s-label">답사 미션 모음</div>
-          <div class="s-desc">나만의 답사 가이드</div>
-        </div>
+        <div><div class="s-label">답사 미션 모음</div><div class="s-desc">나만의 답사 가이드</div></div>
       </button>
     </nav>
   </div>
 
-  <!-- ── 콘텐츠 영역 ── -->
-  <div class="content-area">
-
-  <!-- ══════════════════════════════
-       VIEW 1: 답사 안내
-  ══════════════════════════════ -->
-  <div id="view-guide" class="view">
-    <select class="location-selector" id="pageSelector" onchange="switchGuide(this.value)">
-      <option value="jungang">📍 [이전 답사] 2026. 4. 4. (자율) 국립중앙박물관</option>
-      <option value="gyeyang">📍 [현재 답사] 2026. 4. 21. (창체) 계양산성박물관</option>
+  <!-- 2단: 답사 안내 -->
+  <div class="pc-col" id="pc-col-guide">
+    <div class="col-title">📍 답사 안내</div>
+    <select class="location-selector" id="pc-pageSelector" onchange="pcOnLocationChange(this.value)">
+      <option value="jungang">📍 [이전] 2026. 4. 4. 국립중앙박물관</option>
+      <option value="gyeyang">📍 [현재] 2026. 4. 21. 계양산성박물관</option>
       <option value="" disabled>📍 [예정] 다음 답사지를 기대해주세요!</option>
     </select>
 
-    <!-- 국립중앙박물관 -->
-    <div id="guide-jungang" class="guide-page">
+    <div id="pc-guide-jungang" class="guide-page" style="display:none;">
       <div class="card blue">
-        <h2><span class="ico">📖</span> 국립중앙박물관, 어떤 곳일까?</h2>
+        <h2><span class="ico">📖</span> 어떤 곳일까?</h2>
         <div class="museum-info">
-          <strong>세계 6위 규모의 압도적인 스케일!</strong><br>
-          무려 42만 점이 넘는 유물을 소장하고 있는 대한민국 최대의 박물관입니다.<br><br>
-          <strong>🚶 층별 핵심 안내</strong><br>
-          • <strong>1층:</strong> 구석기~조선 시대의 굵직한 유물들이 총집결한 핵심 공간<br>
+          <strong>세계 6위 규모!</strong><br>
+          42만 점이 넘는 유물을 소장한 대한민국 최대 박물관입니다.<br><br>
+          • <strong>1층:</strong> 구석기~조선 시대 핵심 유물<br>
           • <strong>2층:</strong> 옛 글씨·그림과 기증 문화재<br>
           • <strong>3층:</strong> 불상·도자기·세계문화관
         </div>
-        <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 국립중앙박물관 더 알아보기</a>
+        <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
       </div>
-
       <div class="card yellow">
-        <h2><span class="ico">🏛️</span> 놓치면 안 될 보물 Top 5</h2>
+        <h2><span class="ico">🏛️</span> 보물 Top 5</h2>
         <div class="highlight-box">
-          <strong>🔥 절대 놓치지 말아야 할 보물 Top 5</strong><br><br>
-          1️⃣ <strong>백제 금동대향로 (1층 백제실)</strong><br>우리나라 최고의 금속 공예품<br><br>
-          2️⃣ <strong>반가사유상 (2층 사유의 방)</strong><br>세계적인 걸작, 박물관 최고의 힐링 스팟<br><br>
-          3️⃣ <strong>경천사지 10층 석탑 (1층 역사의 길)</strong><br>웅장한 대리석 탑<br><br>
-          4️⃣ <strong>신라 금관 (1층 신라실)</strong><br>금과 곱은옥으로 장식된 화려함의 극치<br><br>
-          5️⃣ <strong>빗살무늬토기 (1층 신석기실)</strong><br>교과서 1단원의 주인공, 실물이 훨씬 크다!
+          1️⃣ <strong>백제 금동대향로</strong> - 최고의 금속 공예품<br><br>
+          2️⃣ <strong>반가사유상</strong> - 세계적 걸작, 힐링 스팟<br><br>
+          3️⃣ <strong>경천사지 10층 석탑</strong> - 웅장한 대리석 탑<br><br>
+          4️⃣ <strong>신라 금관</strong> - 화려함의 극치<br><br>
+          5️⃣ <strong>빗살무늬토기</strong> - 실물이 훨씬 크다!
         </div>
       </div>
-
       <div class="card pink">
-        <h2><span class="ico">🗺️</span> 나만의 답사 가이드 만들기</h2>
+        <h2><span class="ico">🗺️</span> 나만의 가이드</h2>
         <ul>
-          <li>타깃 정하기 (역사 초보 동생, 사진 좋아하는 친구 등)</li>
-          <li>내가 추천하는 최애 유물 3가지 선정</li>
-          <li><strong>[미션]</strong> 친구들이 참여할 수 있는 미션 1개 만들기</li>
+          <li>타깃 정하기</li>
+          <li>최애 유물 3가지 선정</li>
+          <li>친구들 참여 미션 1개</li>
         </ul>
-        <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출하러 가기 🚀</a>
+        <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출 🚀</a>
       </div>
-
       <div class="card purple">
-        <h2><span class="ico">✍️</span> 생생 기행기 기록하기</h2>
+        <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
         <ul>
-          <li>원픽 유물 사진/영상 첨부 필수!</li>
-          <li>떠오른 키워드 3가지 적기</li>
-          <li>현장 소감 200자 이상 자유롭게</li>
+          <li>원픽 유물 사진 첨부</li>
+          <li>키워드 3가지</li>
+          <li>현장 소감 200자 이상</li>
         </ul>
-        <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
+        <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
       </div>
-
-      <button class="to-archive-btn" onclick="goTo('view-archive'); loadArchive();">
-        📖 친구들의 기행기 보러가기 →
-      </button>
-      <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
     </div>
 
-    <!-- 계양산성박물관 -->
-    <div id="guide-gyeyang" class="guide-page" style="display:none;">
+    <div id="pc-guide-gyeyang" class="guide-page" style="display:none;">
       <div class="card blue">
-        <h2><span class="ico">📖</span> 계양산성박물관, 어떤 곳일까?</h2>
+        <h2><span class="ico">📖</span> 어떤 곳일까?</h2>
         <div class="museum-info">
-          <strong>국내 최초의 산성 전문 박물관!</strong><br>
-          우리 학교와 가까운 계양산 자락에 위치. 삼국시대 영토 전쟁의 흔적을 고스란히 담고 있습니다.<br><br>
-          <strong>🚶 관람 포인트</strong><br>
-          • <strong>상설전시실:</strong> 목간·연화문 수막새 등 발굴 유물<br>
+          <strong>국내 최초 산성 전문 박물관!</strong><br>
+          계양산 자락에 위치. 삼국시대 영토 전쟁의 흔적을 담고 있습니다.<br><br>
+          • <strong>상설전시실:</strong> 목간·연화문 수막새 등 유물<br>
           • <strong>전망대:</strong> 인천과 한강 일대가 한눈에!
         </div>
-        <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 계양산성박물관 더 알아보기</a>
+        <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
       </div>
-
       <div class="card yellow">
-        <h2><span class="ico">🏛️</span> 놓치면 안 될 핵심 4선</h2>
+        <h2><span class="ico">🏛️</span> 핵심 4선</h2>
         <div class="highlight-box">
-          <strong>🔥 절대 놓치지 말아야 할 보물 Top 4</strong><br><br>
-          1️⃣ <strong>목간 (상설전시실)</strong><br>삼국시대 나무 메모지. 1,500년 전 필체 확인!<br><br>
-          2️⃣ <strong>연화문 수막새 (상설전시실)</strong><br>전쟁터 속에서도 아름다움을 추구한 기와<br><br>
-          3️⃣ <strong>산성 모형 (중앙 전시 공간)</strong><br>계양산성 전체를 한눈에 보는 대형 모형<br><br>
-          4️⃣ <strong>전망대 뷰 (야외)</strong><br>인천 시내 &amp; 한강 하구가 펼쳐지는 하이라이트!
+          1️⃣ <strong>목간</strong> - 1,500년 전 나무 메모지<br><br>
+          2️⃣ <strong>연화문 수막새</strong> - 전쟁터의 아름다운 기와<br><br>
+          3️⃣ <strong>산성 모형</strong> - 계양산성 전체를 한눈에<br><br>
+          4️⃣ <strong>전망대 뷰</strong> - 인천·한강 하구 파노라마!
         </div>
       </div>
-
       <div class="card purple">
-        <h2><span class="ico">✍️</span> 생생 기행기 기록하기</h2>
+        <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
         <ul>
-          <li>원픽 유물·풍경 사진/영상 첨부 필수!</li>
-          <li>떠오른 키워드 3가지 적기</li>
-          <li>현장 소감 200자 이상 자유롭게</li>
+          <li>원픽 유물·풍경 사진 첨부</li>
+          <li>키워드 3가지</li>
+          <li>현장 소감 200자 이상</li>
         </ul>
-        <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
+        <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
       </div>
-
-      <button class="to-archive-btn" onclick="goTo('view-archive'); loadArchive();">
-        📖 친구들의 기행기 보러가기 →
-      </button>
-      <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
     </div>
   </div>
 
-  <!-- ══════════════════════════════
-       VIEW 2: 기행기 아카이브
-  ══════════════════════════════ -->
-  <div id="view-archive" class="view">
-    <div class="archive-header">
-      <h2>📖 기행기 아카이브</h2>
-      <p>우리들의 생생한 답사 기록 모음</p>
-    </div>
-
-    <!-- 공개 아카이브 -->
-    <div id="archive-list">
-      <div class="archive-loading">⏳ 기행기를 불러오는 중...</div>
-    </div>
-
-    <!-- 관리자 진입 -->
+  <!-- 3단: 기행기 아카이브 -->
+  <div class="pc-col" id="pc-col-archive">
+    <div class="col-title">📖 기행기 아카이브</div>
+    <div id="pc-archive-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     <button class="admin-toggle-btn" onclick="toggleAdminLogin()">🔒 관리자</button>
-
     <div id="admin-login-box" class="admin-login-box">
       <p>관리자 비밀번호를 입력하세요</p>
       <input type="password" id="admin-pw-input" class="admin-input" placeholder="비밀번호" onkeydown="if(event.key==='Enter') checkAdminPw()">
       <button class="btn btn-purple" onclick="checkAdminPw()">확인</button>
     </div>
-
     <div id="admin-panel" class="admin-panel">
       <div class="admin-panel-header">
         <h3>🛠️ 관리자 모드</h3>
@@ -559,145 +446,275 @@
       </div>
       <div id="admin-list"></div>
     </div>
-
-    <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
   </div>
 
-  <!-- ══════════════════════════════
-       VIEW 3: 답사 미션 모음 (준비 중)
-  ══════════════════════════════ -->
-  <div id="view-mission" class="view">
+  <!-- 4단: 답사 미션 -->
+  <div class="pc-col" id="pc-col-mission">
+    <div class="col-title">🎯 답사 미션 모음</div>
+    <div class="coming-soon">
+      <span class="big-icon">🚧</span>
+      <h3>준비 중!</h3>
+      <p>친구들의 답사 가이드와<br>미션 결과물을 모아서<br>곧 공개할게요! 🎉</p>
+    </div>
+  </div>
+
+</div><!-- /pc-wrap -->
+
+
+<!-- ══════════════════════════════════════════════
+     모바일 레이아웃
+══════════════════════════════════════════════ -->
+<div class="mobile-wrap">
+  <div class="site-header" onclick="mobileGoTo('main')">
+    <h1>🧭 인천동양중학교</h1>
+    <p>역사콘텐츠탐구반 &amp; 역사답사반<br>베이스캠프</p>
+  </div>
+
+  <!-- 메인 허브 -->
+  <div id="m-main" class="mobile-view active">
+    <div class="main-menu">
+      <button class="menu-btn blue" onclick="mobileGoTo('guide')">
+        <span class="icon">📍</span>
+        <div class="text-wrap"><div class="label">답사 안내</div><div class="desc">날짜별 답사지 정보 &amp; 미션 확인</div></div>
+        <span class="arrow">›</span>
+      </button>
+      <button class="menu-btn pink" onclick="mobileGoTo('archive')">
+        <span class="icon">📖</span>
+        <div class="text-wrap"><div class="label">기행기 아카이브</div><div class="desc">친구들의 생생한 답사 기록 모음</div></div>
+        <span class="arrow">›</span>
+      </button>
+      <button class="menu-btn yellow" onclick="mobileGoTo('mission')">
+        <span class="icon">🎯</span>
+        <div class="text-wrap"><div class="label">답사 미션 모음</div><div class="desc">나만의 답사 가이드 &amp; 미션 결과물</div></div>
+        <span class="arrow">›</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 답사 안내 -->
+  <div id="m-guide" class="mobile-view">
+    <select class="location-selector" id="m-pageSelector" onchange="mobileOnLocationChange(this.value)">
+      <option value="jungang">📍 [이전] 2026. 4. 4. 국립중앙박물관</option>
+      <option value="gyeyang">📍 [현재] 2026. 4. 21. 계양산성박물관</option>
+      <option value="" disabled>📍 [예정] 다음 답사지를 기대해주세요!</option>
+    </select>
+
+    <div id="m-guide-jungang" class="guide-page" style="display:none;">
+      <div class="card blue">
+        <h2><span class="ico">📖</span> 국립중앙박물관, 어떤 곳일까?</h2>
+        <div class="museum-info">
+          <strong>세계 6위 규모!</strong><br>
+          42만 점이 넘는 유물을 소장한 대한민국 최대 박물관입니다.<br><br>
+          • <strong>1층:</strong> 구석기~조선 시대 핵심 유물<br>
+          • <strong>2층:</strong> 옛 글씨·그림과 기증 문화재<br>
+          • <strong>3층:</strong> 불상·도자기·세계문화관
+        </div>
+        <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
+      </div>
+      <div class="card yellow">
+        <h2><span class="ico">🏛️</span> 보물 Top 5</h2>
+        <div class="highlight-box">
+          1️⃣ <strong>백제 금동대향로</strong> - 최고의 금속 공예품<br><br>
+          2️⃣ <strong>반가사유상</strong> - 세계적 걸작, 힐링 스팟<br><br>
+          3️⃣ <strong>경천사지 10층 석탑</strong> - 웅장한 대리석 탑<br><br>
+          4️⃣ <strong>신라 금관</strong> - 화려함의 극치<br><br>
+          5️⃣ <strong>빗살무늬토기</strong> - 실물이 훨씬 크다!
+        </div>
+      </div>
+      <div class="card pink">
+        <h2><span class="ico">🗺️</span> 나만의 가이드 만들기</h2>
+        <ul>
+          <li>타깃 정하기</li>
+          <li>최애 유물 3가지 선정</li>
+          <li>친구들 참여 미션 1개</li>
+        </ul>
+        <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출 🚀</a>
+      </div>
+      <div class="card purple">
+        <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
+        <ul>
+          <li>원픽 유물 사진 첨부</li>
+          <li>키워드 3가지</li>
+          <li>현장 소감 200자 이상</li>
+        </ul>
+        <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
+      </div>
+      <button class="to-archive-btn" onclick="mobileGoTo('archive')">📖 친구들의 기행기 보러가기 →</button>
+      <button class="home-btn" onclick="mobileGoTo('main')">🏠 메인으로</button>
+    </div>
+
+    <div id="m-guide-gyeyang" class="guide-page" style="display:none;">
+      <div class="card blue">
+        <h2><span class="ico">📖</span> 계양산성박물관, 어떤 곳일까?</h2>
+        <div class="museum-info">
+          <strong>국내 최초 산성 전문 박물관!</strong><br>
+          계양산 자락에 위치. 삼국시대 영토 전쟁의 흔적을 담고 있습니다.<br><br>
+          • <strong>상설전시실:</strong> 목간·연화문 수막새 등 유물<br>
+          • <strong>전망대:</strong> 인천과 한강 일대가 한눈에!
+        </div>
+        <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
+      </div>
+      <div class="card yellow">
+        <h2><span class="ico">🏛️</span> 핵심 4선</h2>
+        <div class="highlight-box">
+          1️⃣ <strong>목간</strong> - 1,500년 전 나무 메모지<br><br>
+          2️⃣ <strong>연화문 수막새</strong> - 전쟁터의 아름다운 기와<br><br>
+          3️⃣ <strong>산성 모형</strong> - 계양산성 전체를 한눈에<br><br>
+          4️⃣ <strong>전망대 뷰</strong> - 인천·한강 하구 파노라마!
+        </div>
+      </div>
+      <div class="card purple">
+        <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
+        <ul>
+          <li>원픽 유물·풍경 사진 첨부</li>
+          <li>키워드 3가지</li>
+          <li>현장 소감 200자 이상</li>
+        </ul>
+        <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
+      </div>
+      <button class="to-archive-btn" onclick="mobileGoTo('archive')">📖 친구들의 기행기 보러가기 →</button>
+      <button class="home-btn" onclick="mobileGoTo('main')">🏠 메인으로</button>
+    </div>
+  </div>
+
+  <!-- 기행기 아카이브 -->
+  <div id="m-archive" class="mobile-view">
+    <div style="text-align:center; margin-bottom:20px;">
+      <h2 style="font-size:1.2rem; font-weight:800;">📖 기행기 아카이브</h2>
+      <p style="font-size:0.85rem; color:var(--light);">우리들의 생생한 답사 기록 모음</p>
+    </div>
+    <div id="m-archive-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
+    <button class="home-btn" onclick="mobileGoTo('main')">🏠 메인으로</button>
+  </div>
+
+  <!-- 답사 미션 -->
+  <div id="m-mission" class="mobile-view">
     <div class="coming-soon">
       <span class="big-icon">🚧</span>
       <h3>준비 중입니다!</h3>
-      <p>친구들의 멋진 답사 가이드와<br>미션 결과물을 모아서<br>곧 공개할게요. 기대해주세요! 🎉</p>
+      <p>친구들의 멋진 답사 가이드와<br>미션 결과물을 모아서<br>곧 공개할게요! 🎉</p>
     </div>
-    <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
+    <button class="home-btn" onclick="mobileGoTo('main')">🏠 메인으로</button>
   </div>
-
-  <!-- ══════════════════════════════
-       VIEW 0: 모바일 메인 허브
-  ══════════════════════════════ -->
-  <div id="view-main" class="view">
-    <div class="main-menu">
-      <button class="menu-btn blue" onclick="goTo('view-guide')">
-        <span class="icon">📍</span>
-        <div class="text-wrap">
-          <div class="label">답사 안내</div>
-          <div class="desc">날짜별 답사지 정보 &amp; 미션 확인</div>
-        </div>
-        <span class="arrow">›</span>
-      </button>
-      <button class="menu-btn pink" onclick="goTo('view-archive'); loadArchive();">
-        <span class="icon">📖</span>
-        <div class="text-wrap">
-          <div class="label">기행기 아카이브</div>
-          <div class="desc">친구들의 생생한 답사 기록 모음</div>
-        </div>
-        <span class="arrow">›</span>
-      </button>
-      <button class="menu-btn yellow" onclick="goTo('view-mission')">
-        <span class="icon">🎯</span>
-        <div class="text-wrap">
-          <div class="label">답사 미션 모음</div>
-          <div class="desc">나만의 답사 가이드 &amp; 미션 결과물</div>
-        </div>
-        <span class="arrow">›</span>
-      </button>
-    </div>
-  </div>
-
-  </div><!-- /content-area -->
-</div><!-- /layout -->
 
   <div class="footer-space"></div>
-</div><!-- /container -->
+</div><!-- /mobile-wrap -->
+
 
 <script>
-  // ── 설정 ───────────────────────────────────────
-  // Apps Script 배포 후 아래 URL을 실제 URL로 교체하세요
-  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mcVUKve8iINHT_C6lnYQQl-1IU8JH6BIEi2vQBwRUNb9cEdum1864R3Mv15KPE0ExA/exec';
   const ADMIN_PW = 'ghtjd12!@';
 
-  const IS_PC = window.innerWidth > 700;
+  const LOCATION_MAP = {
+    'jungang': '국립중앙박물관',
+    'gyeyang': '계양산성박물관'
+  };
 
-  // ── 뷰 전환 ────────────────────────────────────
-  function goTo(viewId) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById(viewId).classList.add('active');
-    // 모바일에서만 스크롤 최상단
-    if (!IS_PC) window.scrollTo(0, 0);
-    location.hash = viewId;
-    // 사이드바 활성 표시
+  let pcLocation = 'gyeyang';
+  let mobileLocation = 'gyeyang';
+  let archiveCache = {};  // { locationValue: entries[] }
+
+  // ══════════════════════════
+  //  PC 로직
+  // ══════════════════════════
+
+  function pcGoMain() {
+    // 사이드바는 항상 보이므로 특별한 동작 없음
+  }
+
+  function pcSideNav(col) {
     document.querySelectorAll('.side-nav-btn').forEach(b => b.classList.remove('active'));
-    const map = { 'view-guide': 'nav-guide', 'view-archive': 'nav-archive', 'view-mission': 'nav-mission' };
-    if (map[viewId]) document.getElementById(map[viewId]).classList.add('active');
+    document.getElementById('pc-nav-' + col).classList.add('active');
+    // 모든 컬럼 표시 (항상 4단 유지)
+    ['guide','archive','mission'].forEach(c => {
+      document.getElementById('pc-col-' + c).style.display = 'flex';
+      document.getElementById('pc-col-' + c).style.flexDirection = 'column';
+    });
   }
 
-  // ── 해시로 페이지 복원 / 초기 뷰 결정 ──────────────
-  (function() {
-    const hash = location.hash.replace('#', '');
-    if (hash && document.getElementById(hash)) {
-      goTo(hash);
-      if (hash === 'view-archive') loadArchive();
-    } else {
-      // PC: 바로 답사 안내 / 모바일: 메인 허브
-      goTo(IS_PC ? 'view-guide' : 'view-main');
-    }
-  })();
-
-  // ── 답사 안내 탭 전환 ────────────────────────────
-  function switchGuide(value) {
-    document.querySelectorAll('.guide-page').forEach(p => p.style.display = 'none');
-    if (value) {
-      const t = document.getElementById('guide-' + value);
-      if (t) t.style.display = 'block';
+  function pcOnLocationChange(value) {
+    if (!value) return;
+    pcLocation = value;
+    // 답사 안내 전환
+    document.querySelectorAll('#pc-col-guide .guide-page').forEach(p => p.style.display = 'none');
+    const g = document.getElementById('pc-guide-' + value);
+    if (g) g.style.display = 'block';
+    // 아카이브 갱신
+    pcLoadArchive(value);
+    // 관리자 패널이 열려있으면 갱신
+    if (document.getElementById('admin-panel').classList.contains('show')) {
+      loadAdminEntries();
     }
   }
 
-  // 자동 날짜 선택
-  (function() {
-    const trips = [
-      { value: 'jungang', date: '2026-04-04' },
-      { value: 'gyeyang', date: '2026-04-21' }
-    ];
-    const today = new Date(); today.setHours(0,0,0,0);
-
-    // 예정 답사 중 가장 가까운 것 (오늘 포함 이후)
-    const upcoming = trips.filter(t => new Date(t.date) >= today);
-    // 지난 답사 중 가장 최근 것
-    const past = trips.filter(t => new Date(t.date) < today);
-
-    const def = upcoming.length > 0
-      ? upcoming[0].value               // 예정 중 제일 가까운 것
-      : past.length > 0
-        ? past[past.length - 1].value   // 가장 최근 지난 것
-        : trips[0].value;               // 없으면 첫 번째
-
-    document.getElementById('pageSelector').value = def;
-    switchGuide(def);
-  })();
-
-  // ── 아카이브 로드 ────────────────────────────────
-  let archiveLoaded = false;
-  function loadArchive() {
-    if (archiveLoaded) return;
-    fetch(APPS_SCRIPT_URL + '?action=getPublished')
+  function pcLoadArchive(locationValue) {
+    const locationName = LOCATION_MAP[locationValue] || '';
+    if (archiveCache[locationValue]) {
+      renderArchive('pc-archive-list', archiveCache[locationValue]);
+      return;
+    }
+    document.getElementById('pc-archive-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
+    fetch(APPS_SCRIPT_URL + '?action=getPublished&location=' + encodeURIComponent(locationName))
       .then(r => r.json())
       .then(data => {
-        archiveLoaded = true;
-        renderArchive(data.entries || []);
+        archiveCache[locationValue] = data.entries || [];
+        renderArchive('pc-archive-list', archiveCache[locationValue]);
       })
       .catch(() => {
-        document.getElementById('archive-list').innerHTML =
-          '<div class="archive-loading">⚠️ 기행기를 불러오지 못했어요.<br>잠시 후 다시 시도해주세요.</div>';
+        document.getElementById('pc-archive-list').innerHTML =
+          '<div class="archive-loading">⚠️ 불러오지 못했어요.<br>잠시 후 다시 시도해주세요.</div>';
       });
   }
 
-  function renderArchive(entries) {
-    const el = document.getElementById('archive-list');
+  // ══════════════════════════
+  //  모바일 로직
+  // ══════════════════════════
+
+  function mobileGoTo(page) {
+    document.querySelectorAll('.mobile-view').forEach(v => v.classList.remove('active'));
+    const el = document.getElementById('m-' + page);
+    if (el) el.classList.add('active');
+    window.scrollTo(0, 0);
+    location.hash = 'm-' + page;
+    if (page === 'archive') mobileLoadArchive(mobileLocation);
+  }
+
+  function mobileOnLocationChange(value) {
+    if (!value) return;
+    mobileLocation = value;
+    document.querySelectorAll('#m-guide .guide-page').forEach(p => p.style.display = 'none');
+    const g = document.getElementById('m-guide-' + value);
+    if (g) g.style.display = 'block';
+  }
+
+  function mobileLoadArchive(locationValue) {
+    const locationName = LOCATION_MAP[locationValue] || '';
+    if (archiveCache[locationValue]) {
+      renderArchive('m-archive-list', archiveCache[locationValue]);
+      return;
+    }
+    document.getElementById('m-archive-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
+    fetch(APPS_SCRIPT_URL + '?action=getPublished&location=' + encodeURIComponent(locationName))
+      .then(r => r.json())
+      .then(data => {
+        archiveCache[locationValue] = data.entries || [];
+        renderArchive('m-archive-list', archiveCache[locationValue]);
+      })
+      .catch(() => {
+        document.getElementById('m-archive-list').innerHTML =
+          '<div class="archive-loading">⚠️ 불러오지 못했어요.<br>잠시 후 다시 시도해주세요.</div>';
+      });
+  }
+
+  // ══════════════════════════
+  //  공통 렌더링
+  // ══════════════════════════
+
+  function renderArchive(elId, entries) {
+    const el = document.getElementById(elId);
+    if (!el) return;
     if (!entries.length) {
-      el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>아직 발행된 기행기가 없어요.<br>첫 번째 기행기를 기대해주세요!</div>`;
+      el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>아직 발행된 기행기가 없어요!<br>첫 번째 기행기를 기대해주세요.</div>`;
       return;
     }
     el.innerHTML = entries.map(e => `
@@ -713,10 +730,12 @@
     `).join('');
   }
 
-  // ── 관리자 로그인 ────────────────────────────────
+  // ══════════════════════════
+  //  관리자
+  // ══════════════════════════
+
   function toggleAdminLogin() {
-    const box = document.getElementById('admin-login-box');
-    box.classList.toggle('show');
+    document.getElementById('admin-login-box').classList.toggle('show');
   }
 
   function checkAdminPw() {
@@ -731,131 +750,119 @@
     }
   }
 
-  // ── 관리자 전체 목록 로드 ──────────────────────────
   function loadAdminEntries() {
+    const locationName = LOCATION_MAP[pcLocation] || '';
     document.getElementById('admin-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
-    fetch(APPS_SCRIPT_URL + '?action=getAll')
+    fetch(APPS_SCRIPT_URL + '?action=getAll&location=' + encodeURIComponent(locationName))
       .then(r => r.json())
       .then(data => {
         const entries = data.entries || [];
         document.getElementById('admin-count').textContent = `총 ${entries.length}건`;
         renderAdminList(entries);
       })
-      .catch(e => {
+      .catch(() => {
         document.getElementById('admin-list').innerHTML = '<div class="archive-loading">⚠️ 데이터를 불러오지 못했어요.</div>';
       });
   }
 
   function renderAdminList(entries) {
     const el = document.getElementById('admin-list');
-    if (!entries.length) {
-      el.innerHTML = '<div class="archive-loading">제출된 기행기가 없습니다.</div>';
-      return;
-    }
+    if (!entries.length) { el.innerHTML = '<div class="archive-loading">제출된 기행기가 없습니다.</div>'; return; }
     el.innerHTML = entries.map(e => `
       <div class="admin-entry ${e.published ? 'published' : ''}" id="admin-entry-${e.rowIndex}">
         <div class="admin-entry-header">
-          <div>
-            <span class="admin-entry-name">${e.name}</span>
-            <span class="admin-entry-date"> · ${formatDate(e.timestamp)}</span>
-          </div>
-          ${e.published
-            ? '<span class="publish-badge">✅ 발행됨</span>'
-            : '<span class="unpublish-badge">미발행</span>'}
+          <div><span class="admin-entry-name">${e.name}</span><span class="admin-entry-date"> · ${formatDate(e.timestamp)}</span></div>
+          ${e.published ? '<span class="publish-badge">✅ 발행됨</span>' : '<span class="unpublish-badge">미발행</span>'}
         </div>
-        <div class="admin-entry-pick">📌 원픽: ${e.pick}</div>
+        <div class="admin-entry-pick">📌 ${e.pick}</div>
         <div class="raw-answers">
           <div class="q">선정 이유</div>${e.reason}<br>
-          <div class="q" style="margin-top:6px">키워드</div>${e.keywords}<br>
-          <div class="q" style="margin-top:6px">현장 소감</div>${e.essay}<br>
-          <div class="q" style="margin-top:6px">에피소드</div>${e.episode}<br>
-          <div class="q" style="margin-top:6px">한 문장 정의</div>${e.definition}
+          <div class="q" style="margin-top:5px">키워드</div>${e.keywords}<br>
+          <div class="q" style="margin-top:5px">현장 소감</div>${e.essay}<br>
+          <div class="q" style="margin-top:5px">에피소드</div>${e.episode}<br>
+          <div class="q" style="margin-top:5px">한 문장 정의</div>${e.definition}
         </div>
-        <textarea
-          class="draft-area"
-          id="draft-${e.rowIndex}"
-          placeholder="AI 초안 생성 버튼을 눌러주세요"
-        >${e.draft || ''}</textarea>
+        <textarea class="draft-area" id="draft-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${e.draft || ''}</textarea>
         <div class="admin-actions">
           <button class="admin-btn btn-generate" onclick="generateDraft(${e.rowIndex})">✨ AI 초안 생성</button>
           ${e.published
             ? `<button class="admin-btn btn-unpublish" onclick="togglePublish(${e.rowIndex}, false)">🚫 발행 취소</button>`
-            : `<button class="admin-btn btn-publish" onclick="togglePublish(${e.rowIndex}, true)">📢 발행하기</button>`
-          }
+            : `<button class="admin-btn btn-publish" onclick="togglePublish(${e.rowIndex}, true)">📢 발행하기</button>`}
         </div>
       </div>
     `).join('');
   }
 
-  // ── AI 초안 생성 ─────────────────────────────────
   function generateDraft(rowIndex) {
     const btn = event.target;
-    btn.disabled = true;
-    btn.textContent = '⏳ 생성 중...';
-
-    fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'generateDraft', rowIndex })
-    })
-    .then(r => r.json())
-    .then(data => {
-      if (data.draft) {
-        document.getElementById('draft-' + rowIndex).value = data.draft;
-        btn.textContent = '✅ 생성 완료';
-      } else {
-        alert('초안 생성 실패: ' + (data.error || '알 수 없는 오류'));
-        btn.textContent = '✨ AI 초안 생성';
-      }
-      btn.disabled = false;
-    })
-    .catch(() => {
-      alert('네트워크 오류가 발생했어요.');
-      btn.textContent = '✨ AI 초안 생성';
-      btn.disabled = false;
-    });
+    btn.disabled = true; btn.textContent = '⏳ 생성 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'generateDraft', rowIndex }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.draft) { document.getElementById('draft-' + rowIndex).value = data.draft; btn.textContent = '✅ 생성 완료'; }
+        else { alert('초안 생성 실패: ' + (data.error || '오류')); btn.textContent = '✨ AI 초안 생성'; }
+        btn.disabled = false;
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '✨ AI 초안 생성'; btn.disabled = false; });
   }
 
-  // ── 발행 토글 ─────────────────────────────────────
   function togglePublish(rowIndex, publish) {
     const draft = document.getElementById('draft-' + rowIndex).value;
-    if (publish && !draft.trim()) {
-      alert('먼저 AI 초안을 생성하거나 직접 내용을 입력해주세요.');
-      return;
-    }
-
-    fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'togglePublish', rowIndex, published: publish, editedDraft: draft })
-    })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        archiveLoaded = false; // 아카이브 새로고침 유도
-        // UI 업데이트
-        const card = document.getElementById('admin-entry-' + rowIndex);
-        if (publish) {
-          card.classList.add('published');
-          card.querySelector('.publish-badge, .unpublish-badge').outerHTML = '<span class="publish-badge">✅ 발행됨</span>';
-        } else {
-          card.classList.remove('published');
-        }
-        alert(publish ? '✅ 발행되었습니다!' : '발행이 취소되었습니다.');
-        // 목록 새로고침
-        loadAdminEntries();
-      } else {
-        alert('오류: ' + (data.error || '알 수 없는 오류'));
-      }
-    })
-    .catch(() => alert('네트워크 오류가 발생했어요.'));
+    if (publish && !draft.trim()) { alert('먼저 AI 초안을 생성하거나 직접 내용을 입력해주세요.'); return; }
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'togglePublish', rowIndex, published: publish, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          archiveCache = {};
+          alert(publish ? '✅ 발행되었습니다!' : '발행이 취소되었습니다.');
+          loadAdminEntries();
+          pcLoadArchive(pcLocation);
+        } else { alert('오류: ' + (data.error || '알 수 없는 오류')); }
+      })
+      .catch(() => alert('네트워크 오류'));
   }
 
-  // ── 날짜 포맷 ─────────────────────────────────────
   function formatDate(ts) {
     if (!ts) return '';
     const d = new Date(ts);
     if (isNaN(d)) return ts;
     return `${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.`;
   }
+
+  // ══════════════════════════
+  //  초기화
+  // ══════════════════════════
+  (function init() {
+    const trips = [
+      { value: 'jungang', date: '2026-04-04' },
+      { value: 'gyeyang', date: '2026-04-21' }
+    ];
+    const today = new Date(); today.setHours(0,0,0,0);
+    const upcoming = trips.filter(t => new Date(t.date) >= today);
+    const past     = trips.filter(t => new Date(t.date) < today);
+    const def = upcoming.length > 0 ? upcoming[0].value
+              : past.length > 0     ? past[past.length-1].value
+              : trips[0].value;
+
+    pcLocation = def;
+    mobileLocation = def;
+
+    // PC 초기화
+    document.getElementById('pc-pageSelector').value = def;
+    pcOnLocationChange(def);
+
+    // 모바일 초기화
+    document.getElementById('m-pageSelector').value = def;
+    mobileOnLocationChange(def);
+
+    // 모바일 해시 복원
+    const hash = location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+      document.querySelectorAll('.mobile-view').forEach(v => v.classList.remove('active'));
+      document.getElementById(hash).classList.add('active');
+      if (hash === 'm-archive') mobileLoadArchive(mobileLocation);
+    }
+  })();
 </script>
 </body>
 </html>
