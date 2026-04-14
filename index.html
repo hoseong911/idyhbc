@@ -33,9 +33,10 @@
       color: white;
       margin-bottom: 25px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      cursor: pointer;
     }
-    header h1 { font-size: 1.35rem; font-weight: 800; margin-bottom: 6px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-    header p { font-size: 0.88rem; opacity: 0.9; }
+    header h1 { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; opacity: 0.85; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+    header p { font-size: 1.25rem; font-weight: 800; line-height: 1.5; word-break: keep-all; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
 
     /* ── 메인 메뉴 ── */
     .main-menu { display: flex; flex-direction: column; gap: 14px; margin-bottom: 10px; }
@@ -288,6 +289,23 @@
 
     .footer-space { height: 40px; }
 
+    /* ── 메인으로 버튼 ── */
+    .home-btn {
+      display: block;
+      margin: 30px auto 10px;
+      padding: 13px 32px;
+      background: white;
+      border: 2px solid var(--blue);
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--blue-deep);
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .home-btn:active { transform: scale(0.97); background: var(--bg); }
+
     /* ── 답사 페이지 내 기행기 버튼 ── */
     .to-archive-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -305,9 +323,9 @@
 <body>
 <div class="container">
 
-  <header>
+  <header onclick="goTo('view-main')">
     <h1>🧭 인천동양중학교</h1>
-    <p>역사콘텐츠탐구반 &amp; 역사답사반 베이스캠프</p>
+    <p>역사콘텐츠탐구반 &amp; 역사답사반<br>베이스캠프</p>
   </header>
 
   <!-- ══════════════════════════════
@@ -346,8 +364,6 @@
        VIEW 1: 답사 안내
   ══════════════════════════════ -->
   <div id="view-guide" class="view">
-    <button class="back-btn" onclick="goTo('view-main')">메인으로</button>
-
     <select class="location-selector" id="pageSelector" onchange="switchGuide(this.value)">
       <option value="jungang">📍 [이전 답사] 2026. 4. 4. (자율) 국립중앙박물관</option>
       <option value="gyeyang">📍 [현재 답사] 2026. 4. 21. (창체) 계양산성박물관</option>
@@ -447,12 +463,13 @@
     </div>
   </div>
 
+      <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
+  </div>
+
   <!-- ══════════════════════════════
        VIEW 2: 기행기 아카이브
   ══════════════════════════════ -->
   <div id="view-archive" class="view">
-    <button class="back-btn" onclick="goTo('view-main')">메인으로</button>
-
     <div class="archive-header">
       <h2>📖 기행기 아카이브</h2>
       <p>우리들의 생생한 답사 기록 모음</p>
@@ -479,18 +496,20 @@
       </div>
       <div id="admin-list"></div>
     </div>
+
+    <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
   </div>
 
   <!-- ══════════════════════════════
        VIEW 3: 답사 미션 모음 (준비 중)
   ══════════════════════════════ -->
   <div id="view-mission" class="view">
-    <button class="back-btn" onclick="goTo('view-main')">메인으로</button>
     <div class="coming-soon">
       <span class="big-icon">🚧</span>
       <h3>준비 중입니다!</h3>
       <p>친구들의 멋진 답사 가이드와<br>미션 결과물을 모아서<br>곧 공개할게요. 기대해주세요! 🎉</p>
     </div>
+    <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
   </div>
 
   <div class="footer-space"></div>
@@ -507,7 +526,18 @@
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById(viewId).classList.add('active');
     window.scrollTo(0, 0);
+    location.hash = viewId;
   }
+
+  // ── 해시로 페이지 복원 ──────────────────────────
+  (function() {
+    const hash = location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(hash).classList.add('active');
+      if (hash === 'view-archive') loadArchive();
+    }
+  })();
 
   // ── 답사 안내 탭 전환 ────────────────────────────
   function switchGuide(value) {
