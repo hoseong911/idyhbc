@@ -235,6 +235,7 @@
     .admin-btn:active { transform: scale(0.97); }
     .admin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-generate  { background: #E8E4F8; color: #5A4A7A; }
+    .btn-save      { background: #E8F5E9; color: #2E7D32; }
     .btn-publish   { background: var(--blue); color: var(--blue-deep); }
     .btn-unpublish { background: #FFE8EA; color: var(--pink-deep); }
     .publish-badge   { display: inline-block; background: #D4EDDA; color: #2D6A4F; border-radius: 20px; padding: 2px 9px; font-size: 0.7rem; font-weight: 700; }
@@ -444,7 +445,6 @@
       <!-- 답사 미션 컬럼 -->
       <div class="pc-col">
         <div class="col-title">🎯 답사 미션 모음</div>
-        <p style="font-size:0.8rem; color:var(--light); margin-bottom:16px;">액티브한 답사 만들기</p>
         <div id="main-tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
       </div>
 
@@ -561,7 +561,6 @@
     <!-- 단일 페이지: 답사 미션 -->
     <div id="single-mission" class="single-page">
       <div class="page-title">🎯 답사 미션 모음</div>
-      <p style="font-size:0.9rem; color:var(--light); margin-bottom:24px;">액티브한 답사 만들기</p>
       <!-- 투어 카드 목록 -->
       <div id="tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     </div>
@@ -820,12 +819,43 @@
         <textarea class="draft-area" id="draft-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${e.draft || ''}</textarea>
         <div class="admin-actions">
           <button class="admin-btn btn-generate" onclick="generateDraft(${e.rowIndex})">✨ AI 초안 생성</button>
+          <button class="admin-btn btn-save" onclick="saveDraft(${e.rowIndex})">💾 수정 저장</button>
           ${e.published
             ? `<button class="admin-btn btn-unpublish" onclick="togglePublish(${e.rowIndex}, false)">🚫 발행 취소</button>`
             : `<button class="admin-btn btn-publish" onclick="togglePublish(${e.rowIndex}, true)">📢 발행하기</button>`}
         </div>
       </div>
     `).join('');
+  }
+
+  // ── 기행기 수정 저장 ─────────────────────────────
+  function saveDraft(rowIndex) {
+    const btn = event.target;
+    const draft = document.getElementById('draft-' + rowIndex).value;
+    if (!draft.trim()) { alert('내용을 입력해주세요.'); return; }
+    btn.disabled = true; btn.textContent = '⏳ 저장 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveDraftOnly', rowIndex, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) { btn.textContent = '✅ 저장됨'; setTimeout(() => { btn.textContent = '💾 수정 저장'; btn.disabled = false; }, 2000); }
+        else { alert('저장 실패: ' + (data.error || '오류')); btn.textContent = '💾 수정 저장'; btn.disabled = false; }
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '💾 수정 저장'; btn.disabled = false; });
+  }
+
+  // ── 투어 수정 저장 ────────────────────────────────
+  function saveTourDraft(rowIndex) {
+    const btn = event.target;
+    const draft = document.getElementById('tour-draft-' + rowIndex).value;
+    if (!draft.trim()) { alert('내용을 입력해주세요.'); return; }
+    btn.disabled = true; btn.textContent = '⏳ 저장 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveTourDraftOnly', rowIndex, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) { btn.textContent = '✅ 저장됨'; setTimeout(() => { btn.textContent = '💾 수정 저장'; btn.disabled = false; }, 2000); }
+        else { alert('저장 실패: ' + (data.error || '오류')); btn.textContent = '💾 수정 저장'; btn.disabled = false; }
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '💾 수정 저장'; btn.disabled = false; });
   }
 
   function generateDraft(rowIndex) {
@@ -932,6 +962,7 @@
         <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
         <div class="tour-card-title"><strong>${t.tourName}</strong></div>
         <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name} · ${formatDate(t.timestamp)}</div>
+        <span class="entry-tag" style="margin-top:8px; display:inline-block;">🏛️ 국립중앙박물관</span>
         ${t.photo ? `<img class="tour-card-photo" src="${t.photo}" alt="투어 대표 사진" onerror="this.style.display='none'">` : ''}
       </div>
     `).join('');
@@ -950,6 +981,7 @@
         <div class="tour-detail-label">[나만의 국중박 답사 코스 만들기]</div>
         <div class="tour-detail-title">${tour.tourName}</div>
         <div class="tour-detail-author">✏️ ${tour.studentId ? tour.studentId + ' ' : ''}${tour.name} · ${formatDate(tour.timestamp)}</div>
+        <span class="entry-tag" style="margin-top:8px; display:inline-block;">🏛️ 국립중앙박물관</span>
       </div>
       ${tour.photo ? `<img class="tour-detail-photo" src="${tour.photo}" alt="투어 대표 사진" onerror="this.style.display='none'">` : ''}
       <div class="tour-detail-body">${bodyHtml}</div>
@@ -1002,6 +1034,7 @@
         <textarea class="draft-area" id="tour-draft-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${e.draft || ''}</textarea>
         <div class="admin-actions">
           <button class="admin-btn btn-generate" onclick="generateTourDraft(${e.rowIndex})">✨ AI 초안 생성</button>
+          <button class="admin-btn btn-save" onclick="saveTourDraft(${e.rowIndex})">💾 수정 저장</button>
           ${e.published
             ? `<button class="admin-btn btn-unpublish" onclick="toggleTourPublish(${e.rowIndex}, false)">🚫 발행 취소</button>`
             : `<button class="admin-btn btn-publish" onclick="toggleTourPublish(${e.rowIndex}, true)">📢 발행하기</button>`}
