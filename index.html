@@ -555,8 +555,18 @@
       { value: 'gyeyang', date: '2026-04-21' }
     ];
     const today = new Date(); today.setHours(0,0,0,0);
-    const latest = trips.filter(t => new Date(t.date) <= today).pop();
-    const def = latest ? latest.value : trips[0].value;
+
+    // 예정 답사 중 가장 가까운 것 (오늘 포함 이후)
+    const upcoming = trips.filter(t => new Date(t.date) >= today);
+    // 지난 답사 중 가장 최근 것
+    const past = trips.filter(t => new Date(t.date) < today);
+
+    const def = upcoming.length > 0
+      ? upcoming[0].value               // 예정 중 제일 가까운 것
+      : past.length > 0
+        ? past[past.length - 1].value   // 가장 최근 지난 것
+        : trips[0].value;               // 없으면 첫 번째
+
     document.getElementById('pageSelector').value = def;
     switchGuide(def);
   })();
