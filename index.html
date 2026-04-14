@@ -22,23 +22,77 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
     html, body { width: 100%; min-height: 100%; overflow-x: hidden; background: var(--bg); color: var(--dark); line-height: 1.6; }
 
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
 
-    /* ── 헤더 ── */
+    /* ── PC 2단 레이아웃 ── */
+    .layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    /* ── 사이드바 (PC) ── */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 20px;
+    }
+
+    /* ── 콘텐츠 영역 ── */
+    .content-area {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ── 모바일: 1단으로 ── */
+    @media (max-width: 700px) {
+      .layout { flex-direction: column; gap: 0; }
+      .sidebar { width: 100%; position: static; }
+    }
+
+    /* ── 헤더 (사이드바 안) ── */
     header {
-      background: linear-gradient(135deg, var(--blue), var(--purple));
+      background: linear-gradient(160deg, var(--blue), var(--purple));
       border-radius: 20px;
-      padding: 30px 20px 25px;
+      padding: 28px 18px 22px;
       text-align: center;
       color: white;
-      margin-bottom: 25px;
+      margin-bottom: 14px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       cursor: pointer;
     }
-    header h1 { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; opacity: 0.85; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-    header p { font-size: 1.25rem; font-weight: 800; line-height: 1.5; word-break: keep-all; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+    header h1 { font-size: 0.82rem; font-weight: 600; margin-bottom: 8px; opacity: 0.85; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+    header p { font-size: 1.1rem; font-weight: 800; line-height: 1.5; word-break: keep-all; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
 
-    /* ── 메인 메뉴 ── */
+    /* ── 사이드 메뉴 버튼 ── */
+    .side-nav { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .side-nav-btn {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--card); border: none; border-radius: 14px;
+      padding: 14px 16px; width: 100%; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border-left: 5px solid transparent;
+      text-align: left; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .side-nav-btn:active { transform: scale(0.98); }
+    .side-nav-btn.blue   { border-left-color: var(--blue); }
+    .side-nav-btn.pink   { border-left-color: var(--pink); }
+    .side-nav-btn.yellow { border-left-color: var(--yellow); }
+    .side-nav-btn.active { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    .side-nav-btn .s-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .side-nav-btn .s-label { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
+    .side-nav-btn .s-desc  { font-size: 0.75rem; color: var(--light); margin-top: 1px; }
+
+    /* ── 모바일에서는 기존 메인메뉴 스타일로 ── */
+    @media (max-width: 700px) {
+      .side-nav { gap: 12px; }
+      .side-nav-btn { padding: 18px 20px; border-radius: 16px; }
+      .side-nav-btn .s-icon { font-size: 2rem; }
+      .side-nav-btn .s-label { font-size: 1.05rem; }
+    }
+
+    /* ── 메인 메뉴 (모바일 하위 호환, PC에서는 side-nav 사용) ── */
     .main-menu { display: flex; flex-direction: column; gap: 14px; margin-bottom: 10px; }
     .menu-btn {
       display: flex; align-items: center; gap: 16px;
@@ -289,22 +343,33 @@
 
     .footer-space { height: 40px; }
 
-    /* ── 메인으로 버튼 ── */
+    /* ── 메인으로 버튼 (모바일 전용) ── */
     .home-btn {
-      display: block;
-      margin: 30px auto 10px;
-      padding: 13px 32px;
-      background: white;
-      border: 2px solid var(--blue);
-      border-radius: 30px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--blue-deep);
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.15s, transform 0.15s;
+      display: none;
     }
-    .home-btn:active { transform: scale(0.97); background: var(--bg); }
+    @media (max-width: 700px) {
+      .home-btn {
+        display: block;
+        margin: 30px auto 10px;
+        padding: 13px 32px;
+        background: white;
+        border: 2px solid var(--blue);
+        border-radius: 30px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--blue-deep);
+        cursor: pointer;
+        text-align: center;
+        transition: background 0.15s, transform 0.15s;
+      }
+      .home-btn:active { transform: scale(0.97); background: var(--bg); }
+    }
+
+    /* ── 사이드바 활성 강조 ── */
+    .side-nav-btn.active {
+      background: #EEF7F5;
+    }
+    .side-nav-btn.active .s-label { color: var(--blue-deep); }
 
     /* ── 답사 페이지 내 기행기 버튼 ── */
     .to-archive-btn {
@@ -322,43 +387,42 @@
 </head>
 <body>
 <div class="container">
+<div class="layout">
 
-  <header onclick="goTo('view-main')">
-    <h1>🧭 인천동양중학교</h1>
-    <p>역사콘텐츠탐구반 &amp; 역사답사반<br>베이스캠프</p>
-  </header>
+  <!-- ── 사이드바 ── -->
+  <div class="sidebar">
+    <header onclick="goTo('view-main')">
+      <h1>🧭 인천동양중학교</h1>
+      <p>역사콘텐츠탐구반 &amp; 역사답사반<br>베이스캠프</p>
+    </header>
 
-  <!-- ══════════════════════════════
-       VIEW 0: 메인 허브
-  ══════════════════════════════ -->
-  <div id="view-main" class="view active">
-    <div class="main-menu">
-      <button class="menu-btn blue" onclick="goTo('view-guide')">
-        <span class="icon">📍</span>
-        <div class="text-wrap">
-          <div class="label">답사 안내</div>
-          <div class="desc">날짜별 답사지 정보 &amp; 미션 확인</div>
+    <nav class="side-nav">
+      <button class="side-nav-btn blue" id="nav-guide" onclick="goTo('view-guide')">
+        <span class="s-icon">📍</span>
+        <div>
+          <div class="s-label">답사 안내</div>
+          <div class="s-desc">날짜별 답사지 정보</div>
         </div>
-        <span class="arrow">›</span>
       </button>
-      <button class="menu-btn pink" onclick="goTo('view-archive'); loadArchive();">
-        <span class="icon">📖</span>
-        <div class="text-wrap">
-          <div class="label">기행기 아카이브</div>
-          <div class="desc">친구들의 생생한 답사 기록 모음</div>
+      <button class="side-nav-btn pink" id="nav-archive" onclick="goTo('view-archive'); loadArchive();">
+        <span class="s-icon">📖</span>
+        <div>
+          <div class="s-label">기행기 아카이브</div>
+          <div class="s-desc">친구들의 답사 기록 모음</div>
         </div>
-        <span class="arrow">›</span>
       </button>
-      <button class="menu-btn yellow" onclick="goTo('view-mission')">
-        <span class="icon">🎯</span>
-        <div class="text-wrap">
-          <div class="label">답사 미션 모음</div>
-          <div class="desc">나만의 답사 가이드 &amp; 미션 결과물</div>
+      <button class="side-nav-btn yellow" id="nav-mission" onclick="goTo('view-mission')">
+        <span class="s-icon">🎯</span>
+        <div>
+          <div class="s-label">답사 미션 모음</div>
+          <div class="s-desc">나만의 답사 가이드</div>
         </div>
-        <span class="arrow">›</span>
       </button>
-    </div>
+    </nav>
   </div>
+
+  <!-- ── 콘텐츠 영역 ── -->
+  <div class="content-area">
 
   <!-- ══════════════════════════════
        VIEW 1: 답사 안내
@@ -418,8 +482,9 @@
       </div>
 
       <button class="to-archive-btn" onclick="goTo('view-archive'); loadArchive();">
-        📖 이 날 친구들의 기행기 보러가기 →
+        📖 친구들의 기행기 보러가기 →
       </button>
+      <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
     </div>
 
     <!-- 계양산성박물관 -->
@@ -458,12 +523,10 @@
       </div>
 
       <button class="to-archive-btn" onclick="goTo('view-archive'); loadArchive();">
-        📖 이 날 친구들의 기행기 보러가기 →
+        📖 친구들의 기행기 보러가기 →
       </button>
-    </div>
-  </div>
-
       <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
+    </div>
   </div>
 
   <!-- ══════════════════════════════
@@ -512,30 +575,74 @@
     <button class="home-btn" onclick="goTo('view-main')">🏠 메인으로</button>
   </div>
 
+  <!-- ══════════════════════════════
+       VIEW 0: 모바일 메인 허브
+  ══════════════════════════════ -->
+  <div id="view-main" class="view">
+    <div class="main-menu">
+      <button class="menu-btn blue" onclick="goTo('view-guide')">
+        <span class="icon">📍</span>
+        <div class="text-wrap">
+          <div class="label">답사 안내</div>
+          <div class="desc">날짜별 답사지 정보 &amp; 미션 확인</div>
+        </div>
+        <span class="arrow">›</span>
+      </button>
+      <button class="menu-btn pink" onclick="goTo('view-archive'); loadArchive();">
+        <span class="icon">📖</span>
+        <div class="text-wrap">
+          <div class="label">기행기 아카이브</div>
+          <div class="desc">친구들의 생생한 답사 기록 모음</div>
+        </div>
+        <span class="arrow">›</span>
+      </button>
+      <button class="menu-btn yellow" onclick="goTo('view-mission')">
+        <span class="icon">🎯</span>
+        <div class="text-wrap">
+          <div class="label">답사 미션 모음</div>
+          <div class="desc">나만의 답사 가이드 &amp; 미션 결과물</div>
+        </div>
+        <span class="arrow">›</span>
+      </button>
+    </div>
+  </div>
+
+  </div><!-- /content-area -->
+</div><!-- /layout -->
+
   <div class="footer-space"></div>
-</div>
+</div><!-- /container -->
 
 <script>
   // ── 설정 ───────────────────────────────────────
   // Apps Script 배포 후 아래 URL을 실제 URL로 교체하세요
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mcVUKve8iINHT_C6lnYQQl-1IU8JH6BIEi2vQBwRUNb9cEdum1864R3Mv15KPE0ExA/exec';
+  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
   const ADMIN_PW = 'ghtjd12!@';
+
+  const IS_PC = window.innerWidth > 700;
 
   // ── 뷰 전환 ────────────────────────────────────
   function goTo(viewId) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById(viewId).classList.add('active');
-    window.scrollTo(0, 0);
+    // 모바일에서만 스크롤 최상단
+    if (!IS_PC) window.scrollTo(0, 0);
     location.hash = viewId;
+    // 사이드바 활성 표시
+    document.querySelectorAll('.side-nav-btn').forEach(b => b.classList.remove('active'));
+    const map = { 'view-guide': 'nav-guide', 'view-archive': 'nav-archive', 'view-mission': 'nav-mission' };
+    if (map[viewId]) document.getElementById(map[viewId]).classList.add('active');
   }
 
-  // ── 해시로 페이지 복원 ──────────────────────────
+  // ── 해시로 페이지 복원 / 초기 뷰 결정 ──────────────
   (function() {
     const hash = location.hash.replace('#', '');
     if (hash && document.getElementById(hash)) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.getElementById(hash).classList.add('active');
+      goTo(hash);
       if (hash === 'view-archive') loadArchive();
+    } else {
+      // PC: 바로 답사 안내 / 모바일: 메인 허브
+      goTo(IS_PC ? 'view-guide' : 'view-main');
     }
   })();
 
