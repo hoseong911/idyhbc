@@ -92,7 +92,8 @@
       display: flex;
       gap: 0;
       min-height: 100vh;
-      max-width: 1200px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     .pc-col {
@@ -279,6 +280,33 @@
       .page-title { font-size: 1.1rem; }
     }
 
+    /* ── 투어 카드 ── */
+    .tour-card {
+      background: var(--card); border-radius: 16px;
+      padding: 20px 22px; margin-bottom: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border-left: 5px solid var(--yellow);
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .tour-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.09); }
+    .tour-card:active { transform: scale(0.99); }
+    .tour-card-label { font-size: 0.75rem; color: var(--light); margin-bottom: 6px; }
+    .tour-card-title { font-size: 1rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+    .tour-card-author { font-size: 0.78rem; color: #aaa; }
+    .tour-card-photo { width: 100%; border-radius: 10px; margin-top: 12px; max-height: 160px; object-fit: cover; }
+
+    /* ── 투어 상세 ── */
+    .tour-detail-header { margin-bottom: 24px; }
+    .tour-detail-label { font-size: 0.8rem; color: var(--light); margin-bottom: 6px; }
+    .tour-detail-title { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; word-break: keep-all; }
+    .tour-detail-author { font-size: 0.85rem; color: #aaa; }
+    .tour-detail-photo { width: 100%; border-radius: 14px; margin: 16px 0; max-height: 300px; object-fit: cover; }
+    .tour-detail-body {
+      font-size: 0.95rem; color: var(--dark); line-height: 1.9;
+      white-space: pre-wrap; word-break: keep-all;
+    }
+    .tour-detail-body strong { color: var(--dark); font-weight: 800; }
+
     .footer-space { height: 40px; }
   </style>
 </head>
@@ -296,7 +324,7 @@
     <nav class="side-nav">
       <button class="side-nav-btn blue" id="nav-guide" onclick="showSingle('guide')">
         <span class="s-icon">📍</span>
-        <div><div class="s-label">답사 안내</div><div class="s-desc">날짜별 답사 정보</div></div>
+        <div><div class="s-label">답사 안내</div><div class="s-desc">미리보는 답사 정보</div></div>
       </button>
       <button class="side-nav-btn pink" id="nav-archive" onclick="showSingle('archive')">
         <span class="s-icon">📖</span>
@@ -304,7 +332,7 @@
       </button>
       <button class="side-nav-btn yellow" id="nav-mission" onclick="showSingle('mission')">
         <span class="s-icon">🎯</span>
-        <div><div class="s-label">답사 미션 모음</div><div class="s-desc">나만의 답사 가이드</div></div>
+        <div><div class="s-label">답사 미션 모음</div><div class="s-desc">액티브한 답사 만들기</div></div>
       </button>
     </nav>
 
@@ -416,11 +444,8 @@
       <!-- 답사 미션 컬럼 -->
       <div class="pc-col">
         <div class="col-title">🎯 답사 미션 모음</div>
-        <div class="coming-soon">
-          <span class="big-icon">🚧</span>
-          <h3>준비 중!</h3>
-          <p>친구들의 답사 가이드와<br>미션 결과물을 곧 공개해요! 🎉</p>
-        </div>
+        <p style="font-size:0.8rem; color:var(--light); margin-bottom:16px;">액티브한 답사 만들기</p>
+        <div id="main-tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
       </div>
 
     </div><!-- /pc-main -->
@@ -536,11 +561,15 @@
     <!-- 단일 페이지: 답사 미션 -->
     <div id="single-mission" class="single-page">
       <div class="page-title">🎯 답사 미션 모음</div>
-      <div class="coming-soon">
-        <span class="big-icon">🚧</span>
-        <h3>준비 중입니다!</h3>
-        <p>친구들의 멋진 답사 가이드와<br>미션 결과물을 모아서<br>곧 공개할게요. 기대해주세요! 🎉</p>
-      </div>
+      <p style="font-size:0.9rem; color:var(--light); margin-bottom:24px;">액티브한 답사 만들기</p>
+      <!-- 투어 카드 목록 -->
+      <div id="tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
+    </div>
+
+    <!-- 투어 상세 페이지 -->
+    <div id="single-tour-detail" class="single-page">
+      <button onclick="showSingle('mission')" style="background:none;border:none;cursor:pointer;font-size:0.88rem;font-weight:700;color:var(--blue-deep);margin-bottom:20px;display:flex;align-items:center;gap:6px;">← 목록으로</button>
+      <div id="tour-detail-content"></div>
     </div>
 
     <!-- 단일 페이지: 관리자 -->
@@ -557,12 +586,26 @@
           <h2>🛠️ 관리자 모드</h2>
           <span id="admin-count">로딩 중...</span>
         </div>
-        <div class="filter-tabs">
-          <button class="filter-btn active" id="admin-filter-all" onclick="adminFilter('all')">전체</button>
-          <button class="filter-btn" id="admin-filter-jungang" onclick="adminFilter('jungang')">국립중앙박물관</button>
-          <button class="filter-btn" id="admin-filter-gyeyang" onclick="adminFilter('gyeyang')">계양산성박물관</button>
+        <!-- 관리자 섹션 탭 -->
+        <div class="filter-tabs" style="margin-bottom:20px;">
+          <button class="filter-btn active" id="admin-tab-archive" onclick="adminTabSwitch('archive')">📖 기행기</button>
+          <button class="filter-btn" id="admin-tab-tour" onclick="adminTabSwitch('tour')">🎯 투어 코스</button>
         </div>
-        <div id="admin-list"></div>
+
+        <!-- 기행기 관리 -->
+        <div id="admin-section-archive">
+          <div class="filter-tabs">
+            <button class="filter-btn active" id="admin-filter-all" onclick="adminFilter('all')">전체</button>
+            <button class="filter-btn" id="admin-filter-jungang" onclick="adminFilter('jungang')">국립중앙박물관</button>
+            <button class="filter-btn" id="admin-filter-gyeyang" onclick="adminFilter('gyeyang')">계양산성박물관</button>
+          </div>
+          <div id="admin-list"></div>
+        </div>
+
+        <!-- 투어 코스 관리 -->
+        <div id="admin-section-tour" style="display:none;">
+          <div id="admin-tour-list"></div>
+        </div>
       </div>
     </div>
 
@@ -618,6 +661,7 @@
     location.hash = page;
 
     if (page === 'archive' && !archiveLoaded) loadArchive();
+    if (page === 'mission') loadTours();
     if (page === 'admin' && adminLoggedIn) loadAdminEntries('all');
 
     // 단일 페이지 드롭다운도 현재 위치 동기화
@@ -820,6 +864,180 @@
     return `${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.`;
   }
 
+  // ══════════════════════════
+  //  관리자 탭 전환
+  // ══════════════════════════
+  function adminTabSwitch(tab) {
+    document.querySelectorAll('[id^="admin-tab-"]').forEach(b => b.classList.remove('active'));
+    document.getElementById('admin-tab-' + tab).classList.add('active');
+    document.getElementById('admin-section-archive').style.display = tab === 'archive' ? 'block' : 'none';
+    document.getElementById('admin-section-tour').style.display = tab === 'tour' ? 'block' : 'none';
+    if (tab === 'tour') loadAdminTours();
+  }
+
+  // ══════════════════════════
+  //  투어 코스 공개용
+  // ══════════════════════════
+  let allTours = [];
+  let tourLoaded = false;
+
+  function loadTours() {
+    if (tourLoaded) {
+      renderTourList(allTours);
+      renderMainTourList(allTours);
+      return;
+    }
+    document.getElementById('tour-list') && (document.getElementById('tour-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>');
+    document.getElementById('main-tour-list') && (document.getElementById('main-tour-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>');
+    fetch(APPS_SCRIPT_URL + '?action=getTourPublished')
+      .then(r => r.json())
+      .then(data => {
+        allTours = data.entries || [];
+        tourLoaded = true;
+        renderTourList(allTours);
+        renderMainTourList(allTours);
+      })
+      .catch(() => {
+        ['tour-list','main-tour-list'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.innerHTML = '<div class="archive-loading">⚠️ 불러오지 못했어요.</div>';
+        });
+      });
+  }
+
+  function renderMainTourList(tours) {
+    const el = document.getElementById('main-tour-list');
+    if (!el) return;
+    if (!tours.length) {
+      el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>곧 친구들의 투어 코스가 공개돼요!</div>`;
+      return;
+    }
+    el.innerHTML = tours.map(t => `
+      <div class="tour-card" onclick="showSingle('mission'); setTimeout(()=>showTourDetail(${t.rowIndex}),100);">
+        <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
+        <div class="tour-card-title"><strong>${t.tourName}</strong></div>
+        <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderTourList(tours) {
+    const el = document.getElementById('tour-list');
+    if (!tours.length) {
+      el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>아직 발행된 투어 코스가 없어요!<br>곧 친구들의 투어 코스가 공개돼요.</div>`;
+      return;
+    }
+    el.innerHTML = tours.map(t => `
+      <div class="tour-card" onclick="showTourDetail(${t.rowIndex})">
+        <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
+        <div class="tour-card-title"><strong>${t.tourName}</strong></div>
+        <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name} · ${formatDate(t.timestamp)}</div>
+        ${t.photo ? `<img class="tour-card-photo" src="${t.photo}" alt="투어 대표 사진" onerror="this.style.display='none'">` : ''}
+      </div>
+    `).join('');
+  }
+
+  function showTourDetail(rowIndex) {
+    const tour = allTours.find(t => t.rowIndex === rowIndex);
+    if (!tour) return;
+
+    const el = document.getElementById('tour-detail-content');
+    // **굵게** 마크다운을 <strong>으로 변환
+    const bodyHtml = (tour.draft || '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    el.innerHTML = `
+      <div class="tour-detail-header">
+        <div class="tour-detail-label">[나만의 국중박 답사 코스 만들기]</div>
+        <div class="tour-detail-title">${tour.tourName}</div>
+        <div class="tour-detail-author">✏️ ${tour.studentId ? tour.studentId + ' ' : ''}${tour.name} · ${formatDate(tour.timestamp)}</div>
+      </div>
+      ${tour.photo ? `<img class="tour-detail-photo" src="${tour.photo}" alt="투어 대표 사진" onerror="this.style.display='none'">` : ''}
+      <div class="tour-detail-body">${bodyHtml}</div>
+    `;
+
+    // 모든 single-page 숨기고 투어 상세 표시
+    document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('single-tour-detail').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // ══════════════════════════
+  //  투어 코스 관리자용
+  // ══════════════════════════
+  let adminTourLoaded = false;
+
+  function loadAdminTours() {
+    if (adminTourLoaded) return;
+    document.getElementById('admin-tour-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
+    fetch(APPS_SCRIPT_URL + '?action=getAllTours')
+      .then(r => r.json())
+      .then(data => {
+        adminTourLoaded = true;
+        renderAdminTourList(data.entries || []);
+      })
+      .catch(() => {
+        document.getElementById('admin-tour-list').innerHTML = '<div class="archive-loading">⚠️ 데이터를 불러오지 못했어요.</div>';
+      });
+  }
+
+  function renderAdminTourList(entries) {
+    const el = document.getElementById('admin-tour-list');
+    if (!entries.length) { el.innerHTML = '<div class="archive-loading">제출된 투어 코스가 없습니다.</div>'; return; }
+    el.innerHTML = entries.map(e => `
+      <div class="admin-entry ${e.published ? 'published' : ''}" id="admin-tour-${e.rowIndex}">
+        <div class="admin-entry-header">
+          <div>
+            <span class="admin-entry-name">${e.studentId ? e.studentId + ' ' : ''}${e.name}</span>
+            <span class="admin-entry-meta"> · ${formatDate(e.timestamp)}</span>
+          </div>
+          ${e.published ? '<span class="publish-badge">✅ 발행됨</span>' : '<span class="unpublish-badge">미발행</span>'}
+        </div>
+        <div class="admin-entry-pick">🗺️ ${e.tourName}</div>
+        <div class="raw-answers">
+          <div class="q">추천 대상</div>${e.recommend}
+          <div class="q">유물 3가지</div>${e.artifacts}
+          <div class="q">꼭 봐야 하는 이유</div>${e.reasons}
+          <div class="q">미션</div>${e.mission}
+        </div>
+        <textarea class="draft-area" id="tour-draft-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${e.draft || ''}</textarea>
+        <div class="admin-actions">
+          <button class="admin-btn btn-generate" onclick="generateTourDraft(${e.rowIndex})">✨ AI 초안 생성</button>
+          ${e.published
+            ? `<button class="admin-btn btn-unpublish" onclick="toggleTourPublish(${e.rowIndex}, false)">🚫 발행 취소</button>`
+            : `<button class="admin-btn btn-publish" onclick="toggleTourPublish(${e.rowIndex}, true)">📢 발행하기</button>`}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function generateTourDraft(rowIndex) {
+    const btn = event.target;
+    btn.disabled = true; btn.textContent = '⏳ 생성 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'generateTourDraft', rowIndex }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.draft) { document.getElementById('tour-draft-' + rowIndex).value = data.draft; btn.textContent = '✅ 생성 완료'; }
+        else { alert('초안 생성 실패: ' + (data.error || '오류')); btn.textContent = '✨ AI 초안 생성'; }
+        btn.disabled = false;
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '✨ AI 초안 생성'; btn.disabled = false; });
+  }
+
+  function toggleTourPublish(rowIndex, publish) {
+    const draft = document.getElementById('tour-draft-' + rowIndex).value;
+    if (publish && !draft.trim()) { alert('먼저 AI 초안을 생성하거나 직접 내용을 입력해주세요.'); return; }
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'toggleTourPublish', rowIndex, published: publish, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          tourLoaded = false; allTours = []; adminTourLoaded = false;
+          alert(publish ? '✅ 발행되었습니다!' : '발행이 취소되었습니다.');
+          loadAdminTours();
+        } else { alert('오류: ' + (data.error || '알 수 없는 오류')); }
+      })
+      .catch(() => alert('네트워크 오류'));
+  }
+
   // ── 초기화 ───────────────────────────────────────
   (function init() {
     const trips = [
@@ -839,8 +1057,9 @@
     onLocationChange(def);
     onLocationChangeSingle(def);
 
-    // 아카이브 미리 로드
+    // 아카이브·투어 미리 로드
     loadArchive();
+    loadTours();
 
     // 모바일 하단 관리자 버튼 표시
     if (window.innerWidth <= 768) {
