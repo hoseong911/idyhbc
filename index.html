@@ -249,9 +249,9 @@
         flex-direction: column; padding: 14px 14px 10px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.06);
       }
-      .site-header { margin-bottom: 10px; padding: 14px; }
-      .site-header h1 { display: none; }
-      .site-header p { font-size: 0.88rem; }
+      .site-header { margin-bottom: 10px; padding: 16px; }
+      .site-header h1 { display: block; font-size: 0.75rem; }
+      .site-header p { font-size: 0.95rem; }
       .side-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
       .side-nav-btn { flex: 1; min-width: 70px; padding: 9px 7px; flex-direction: column; align-items: center; text-align: center; border-left: none; border-bottom: 3px solid transparent; border-radius: 9px; }
       .side-nav-btn.blue   { border-bottom-color: var(--blue); }
@@ -260,9 +260,18 @@
       .side-nav-btn .s-desc { display: none; }
       .side-nav-btn .s-icon { font-size: 1.3rem; }
       .side-nav-btn .s-label { font-size: 0.7rem; }
-      .admin-side-btn { padding: 6px 10px; }
-      .admin-side-btn .s-label { font-size: 0.68rem; }
+      .admin-side-btn {
+        position: fixed; bottom: 0; left: 0; right: 0;
+        display: flex; justify-content: center; align-items: center;
+        width: 100%; padding: 10px;
+        background: white; border-top: 1px solid #f0f0f0;
+        z-index: 200;
+      }
+      .admin-side-btn .s-label { font-size: 0.72rem; }
+      .footer-space { height: 60px; }
       .side-divider { display: none; }
+      .sidebar .admin-side-btn { display: none; }
+      .sidebar .side-divider-admin { display: none; }
       .content { margin-left: 0; }
       .app { flex-direction: column; }
       .pc-main { flex-direction: column; }
@@ -298,12 +307,14 @@
         <span class="s-icon">🎯</span>
         <div><div class="s-label">답사 미션 모음</div><div class="s-desc">나만의 답사 가이드</div></div>
       </button>
-      <div class="side-divider"></div>
-      <button class="admin-side-btn" id="nav-admin" onclick="showSingle('admin')">
-        <span class="s-icon">🔒</span>
-        <div class="s-label">관리자</div>
-      </button>
     </nav>
+
+    <div style="flex:1;"></div>
+    <div class="side-divider"></div>
+    <button class="admin-side-btn" id="nav-admin" onclick="showSingle('admin')">
+      <span class="s-icon">🔒</span>
+      <div class="s-label">관리자</div>
+    </button>
   </div>
 
   <!-- ══════════════════════════════
@@ -426,74 +437,88 @@
 
       <div id="single-guide-jungang" class="guide-page-s" style="display:none;">
         <div class="card blue">
-          <h2><span class="ico">📖</span> 어떤 곳일까?</h2>
+          <h2><span class="ico">📖</span> 국립중앙박물관, 어떤 곳일까?</h2>
           <div class="museum-info">
             <strong>세계 6위 규모의 압도적인 스케일!</strong><br>
-            42만 점이 넘는 유물을 소장한 대한민국 최대 박물관입니다.<br><br>
-            • <strong>1층:</strong> 구석기~조선 시대 핵심 유물<br>
-            • <strong>2층:</strong> 옛 글씨·그림과 기증 문화재<br>
-            • <strong>3층:</strong> 불상·도자기·세계문화관
+            무려 42만 점이 넘는 유물을 소장하고 있는 대한민국 최대의 박물관입니다. 하루 만에 다 보는 것은 불가능에 가까우니, 선택과 집중이 필수랍니다.<br><br>
+            <strong>🚶 층별 핵심 안내</strong><br>
+            • <strong>1층 (선사·고대관/중근세관):</strong> 교과서에서 보던 구석기 시대부터 조선 시대까지의 굵직한 역사적 유물들이 모두 모여 있는 핵심 공간입니다.<br>
+            • <strong>2층 (서화관/기증관):</strong> 옛사람들의 멋진 글씨와 그림, 그리고 개인 수집가들이 기증한 독특한 문화재를 만날 수 있습니다.<br>
+            • <strong>3층 (조각·공예관/세계문화관):</strong> 세계적인 걸작인 불상과 아름다운 도자기, 그리고 이집트·메소포타미아 등 다른 나라의 역사까지 탐험할 수 있습니다.
           </div>
-          <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
+          <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 국립중앙박물관 더 알아보기</a>
         </div>
         <div class="card yellow">
-          <h2><span class="ico">🏛️</span> 보물 Top 5</h2>
+          <h2><span class="ico">🏛️</span> 절대 놓치지 말아야 할 보물 Top 5</h2>
           <div class="highlight-box">
-            1️⃣ <strong>백제 금동대향로</strong> — 최고의 금속 공예품<br><br>
-            2️⃣ <strong>반가사유상</strong> — 세계적 걸작, 힐링 스팟<br><br>
-            3️⃣ <strong>경천사지 10층 석탑</strong> — 웅장한 대리석 탑<br><br>
-            4️⃣ <strong>신라 금관</strong> — 화려함의 극치<br><br>
-            5️⃣ <strong>빗살무늬토기</strong> — 실물이 훨씬 크다!
+            1️⃣ <strong>백제 금동대향로 (1층 백제실)</strong><br>
+            향을 피우면 마치 신선들이 사는 세계에 안개가 피어오르는 듯한 착각을 주는, 우리나라 최고의 금속 공예품입니다.<br><br>
+            2️⃣ <strong>반가사유상 (2층 사유의 방)</strong><br>
+            어두운 방 안, 고요히 미소 짓는 두 부처님. 박물관 최고의 '물멍/불멍' 힐링 스팟이자 세계적인 걸작입니다.<br><br>
+            3️⃣ <strong>경천사지 10층 석탑 (1층 역사의 길)</strong><br>
+            박물관 1층 중심에 웅장하게 솟아오른 거대한 대리석 탑입니다. 화려한 조각들을 가까이서 올려다보세요.<br><br>
+            4️⃣ <strong>신라 금관 (1층 신라실)</strong><br>
+            금과 영롱한 곱은옥으로 장식된 신라 마립간의 상징! 조명 아래에서 눈부시게 빛나는 화려함의 극치를 보여줍니다.<br><br>
+            5️⃣ <strong>빗살무늬토기 (1층 신석기실)</strong><br>
+            교과서 1단원의 주인공! 사진으로 볼 때보다 훨씬 크고 정교한 V자형 토기의 진짜 모습을 확인해 보세요.
           </div>
         </div>
         <div class="card pink">
-          <h2><span class="ico">🗺️</span> 나만의 가이드</h2>
+          <h2><span class="ico">🗺️</span> 나만의 답사 가이드 만들기</h2>
+          <p style="font-size:0.88rem; color:var(--light); margin-bottom:12px;">내가 큐레이터가 된다면? 친구들을 위한 나만의 톡톡 튀는 관람 코스를 기획해 보세요!</p>
           <ul>
-            <li>타깃 정하기</li>
-            <li>최애 유물 3가지 선정</li>
-            <li>친구들 참여 미션 1개</li>
+            <li>누구를 위한 가이드인지 타깃 정하기 (예: 역사 초보 동생, 사진 찍기 좋아하는 친구)</li>
+            <li>내가 추천하는 박물관 최애 유물 3가지 선정하기</li>
+            <li><strong>[미션 내기]</strong> 친구들이 쉽게 참여할 수 있는 미션을 1개 만들어 주세요.<br><em>(예: "이 유물과 찰떡인 표정 지으면서 인증샷 찍기!")</em></li>
           </ul>
-          <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출 🚀</a>
+          <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출하러 가기 🚀</a>
         </div>
         <div class="card purple">
-          <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
+          <h2><span class="ico">✍️</span> 생생 기행기 기록하기</h2>
+          <p style="font-size:0.88rem; color:var(--light); margin-bottom:12px;">답사를 마무리하며 잊지 못할 순간을 아카이빙합니다. 여러분이 남긴 기록은 멋진 온라인 웹진과 PDF 자료집으로 탄생합니다!</p>
           <ul>
-            <li>원픽 유물 사진 첨부</li>
-            <li>키워드 3가지</li>
-            <li>현장 소감 200자 이상</li>
+            <li>가장 인상 깊었던 '나의 원픽' 유물 사진/영상 첨부 필수!</li>
+            <li>그 유물을 보고 떠오른 3가지 키워드 적기</li>
+            <li>현장에서 느낀 점을 편안한 말투로 200자 이상 자유롭게 쓰기</li>
           </ul>
-          <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
+          <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
         </div>
       </div>
 
       <div id="single-guide-gyeyang" class="guide-page-s" style="display:none;">
         <div class="card blue">
-          <h2><span class="ico">📖</span> 어떤 곳일까?</h2>
+          <h2><span class="ico">📖</span> 계양산성박물관, 어떤 곳일까?</h2>
           <div class="museum-info">
-            <strong>국내 최초 산성 전문 박물관!</strong><br>
-            계양산 자락에 위치. 삼국시대 영토 전쟁의 흔적을 담고 있습니다.<br><br>
-            • <strong>상설전시실:</strong> 목간·연화문 수막새 등 발굴 유물<br>
-            • <strong>전망대:</strong> 인천과 한강 일대가 한눈에!
+            <strong>국내 최초의 산성 전문 박물관!</strong><br>
+            우리 학교와 가까운 계양산 자락에 위치한 이곳은 삼국시대부터 치열한 영토 전쟁이 벌어졌던 계양산성의 역사를 고스란히 담고 있습니다.<br><br>
+            <strong>🚶 관람 포인트 안내</strong><br>
+            • <strong>상설전시실:</strong> 계양산성에서 발굴된 목간, 연화문 수막새 등 생생한 유물들을 통해 삼국시대 사람들의 생활상과 군사적 요충지로서의 중요성을 확인할 수 있습니다.<br>
+            • <strong>전망대:</strong> 박물관 관람 후 전망대에 올라가면 우리가 사는 인천과 한강 일대가 한눈에 들어옵니다. 왜 이곳에 산성을 지었는지 직접 눈으로 확인해 보세요!
           </div>
-          <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
+          <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 계양산성박물관 더 알아보기</a>
         </div>
         <div class="card yellow">
-          <h2><span class="ico">🏛️</span> 핵심 4선</h2>
+          <h2><span class="ico">🏛️</span> 절대 놓치지 말아야 할 핵심 4선</h2>
           <div class="highlight-box">
-            1️⃣ <strong>목간</strong> — 1,500년 전 나무 메모지<br><br>
-            2️⃣ <strong>연화문 수막새</strong> — 전쟁터의 아름다운 기와<br><br>
-            3️⃣ <strong>산성 모형</strong> — 계양산성 전체를 한눈에<br><br>
-            4️⃣ <strong>전망대 뷰</strong> — 인천·한강 하구 파노라마!
+            1️⃣ <strong>목간 (상설전시실)</strong><br>
+            나무에 글씨를 새긴 삼국시대의 메모지! 종이가 귀했던 시절, 병사들이 주고받은 실제 기록이 담겨 있습니다. 1,500년 전 사람의 필체를 직접 확인해 보세요.<br><br>
+            2️⃣ <strong>연화문 수막새 (상설전시실)</strong><br>
+            산성 지붕 끝을 장식했던 연꽃무늬 기와입니다. 전쟁터 한가운데서도 아름다움을 추구했던 삼국시대 사람들의 감각이 느껴집니다.<br><br>
+            3️⃣ <strong>산성 모형 (중앙 전시 공간)</strong><br>
+            계양산성 전체를 한눈에 볼 수 있는 대형 모형입니다. 성벽이 어떤 지형을 따라 지어졌는지 살피며 왜 이곳이 전략적 요충지였는지 상상해 보세요.<br><br>
+            4️⃣ <strong>전망대 뷰 (야외)</strong><br>
+            유물만큼 중요한 이곳의 하이라이트! 인천 시내와 한강 하구가 한눈에 펼쳐집니다. 고대 장군이 된 것처럼 "이래서 여기다!"를 외쳐보세요.
           </div>
         </div>
         <div class="card purple">
-          <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
+          <h2><span class="ico">✍️</span> 생생 기행기 기록하기</h2>
+          <p style="font-size:0.88rem; color:var(--light); margin-bottom:12px;">이번 계양산성박물관 답사의 미션은 오직 하나, <strong>'기행기 작성'</strong>입니다! 집중해서 관람하고 나만의 기록을 남겨주세요.</p>
           <ul>
-            <li>원픽 유물·풍경 사진 첨부</li>
-            <li>키워드 3가지</li>
-            <li>현장 소감 200자 이상</li>
+            <li>가장 인상 깊었던 '나의 원픽' 유물이나 풍경 사진/영상 첨부 필수!</li>
+            <li>그 모습을 보고 떠오른 3가지 키워드 적기</li>
+            <li>현장에서 느낀 점을 편안한 말투로 200자 이상 자유롭게 쓰기</li>
           </ul>
-          <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
+          <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
         </div>
       </div>
     </div>
@@ -545,6 +570,14 @@
     <div class="footer-space"></div>
   </div><!-- /content -->
 </div><!-- /app -->
+
+<!-- 모바일 전용 하단 고정 관리자 버튼 -->
+<div id="mobile-admin-btn" style="display:none;">
+  <button class="admin-side-btn" onclick="showSingle('admin')">
+    <span class="s-icon">🔒</span>
+    <div class="s-label" style="margin-left:6px;">관리자</div>
+  </button>
+</div>
 
 <script>
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mcVUKve8iINHT_C6lnYQQl-1IU8JH6BIEi2vQBwRUNb9cEdum1864R3Mv15KPE0ExA/exec';
@@ -810,11 +843,21 @@
     // 아카이브 미리 로드
     loadArchive();
 
-    // 해시 복원
+    // 모바일 하단 관리자 버튼 표시
+    if (window.innerWidth <= 768) {
+      document.getElementById('mobile-admin-btn').style.display = 'block';
+    }
+
+    // 해시 복원 or 초기 페이지
     const hash = location.hash.replace('#', '');
     const validPages = ['guide','archive','mission','admin'];
     if (hash && validPages.includes(hash)) {
       showSingle(hash);
+    } else {
+      // 모바일에서는 답사 안내를 기본으로
+      if (window.innerWidth <= 768) {
+        showSingle('guide');
+      }
     }
   })();
 </script>
