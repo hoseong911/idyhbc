@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>계양산성 박물관 스탬프 투어</title>
+<title>계양산성박물관 스탬프 투어</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Round+Gothic:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Round+Gothic:wght@400;700&family=Jua&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
   font-family:'Nanum Round Gothic',-apple-system,sans-serif;
@@ -37,7 +37,7 @@ body{
 
 /* 헤더 */
 .header{text-align:center;margin-bottom:1rem;}
-.header h1{font-size:20px;font-weight:700;color:#3a1f6e;text-shadow:0 1px 4px rgba(180,150,255,0.3);letter-spacing:-0.3px;}
+.header h1{font-size:20px;font-weight:700;color:#3a1f6e;text-shadow:0 1px 4px rgba(180,150,255,0.3);letter-spacing:-0.3px;font-family:'Jua',sans-serif;}
 
 /* 히어로 이미지 */
 .hero-img{
@@ -52,7 +52,7 @@ body{
 
 /* 로그인 카드 */
 .login-card{padding:1.5rem;}
-.login-title{font-size:17px;font-weight:700;color:#3a1f6e;text-align:center;margin-bottom:4px;}
+.login-title{font-size:17px;font-weight:700;color:#3a1f6e;text-align:center;margin-bottom:4px;font-family:'Jua',sans-serif;}
 .login-sub{font-size:13px;color:#6b4fa8;text-align:center;margin-bottom:1.25rem;}
 .glass-input{
   width:100%;padding:11px 14px;
@@ -280,7 +280,7 @@ body{
 
 <!-- ══ 로그인 ══ -->
 <div id="screen-login" class="screen active">
-  <div class="header"><h1>계양산성 박물관 스탬프 투어</h1></div>
+  <div class="header"><h1>계양산성박물관 스탬프 투어</h1></div>
   <div class="hero-img" id="heroImg" style="padding:0;">
     <img src="images/login.jpg" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentNode.innerHTML='<span style=&quot;font-size:32px&quot;>🖼️</span><span>사진 준비 중</span>'">
   </div>
@@ -301,7 +301,7 @@ body{
 
 <!-- ══ 전시실 선택 ══ -->
 <div id="screen-select" class="screen">
-  <div class="header"><h1>계양산성 박물관 스탬프 투어</h1></div>
+  <div class="header"><h1>계양산성박물관 스탬프 투어</h1></div>
   <div class="glass room-select-card">
     <div class="user-badge">
       <div class="avatar">🏯</div>
@@ -348,7 +348,7 @@ body{
 
 <!-- ══ 중간 쿠폰 ══ -->
 <div id="screen-coupon-interim" class="screen">
-  <div class="header"><h1>계양산성 박물관 스탬프 투어</h1></div>
+  <div class="header"><h1>계양산성박물관 스탬프 투어</h1></div>
   <div class="coupon-wrap">
     <div class="coupon coupon-clickable" onclick="goSelect()">
       <div class="coupon-top">
@@ -368,7 +368,7 @@ body{
 
 <!-- ══ 완성 쿠폰 ══ -->
 <div id="screen-coupon" class="screen">
-  <div class="header"><h1>계양산성 박물관 스탬프 투어</h1></div>
+  <div class="header"><h1>계양산성박물관 스탬프 투어</h1></div>
   <div class="coupon-wrap">
     <div class="coupon">
       <div class="coupon-top">
@@ -498,7 +498,7 @@ function renderStampGrid(){
     const sl=document.createElement('div');
     const earned=stamps.includes(i), isCur=i===currentQ&&!earned;
     sl.className='stamp-slot'+(earned?' earned':'')+(isCur?' current':'');
-    sl.innerHTML=earned?'🏯':'';
+    sl.innerHTML=earned?'<img src="images/stamp.png" style="width:85%;height:85%;object-fit:contain;">':'';
     sl.title=`${i+1}번 문제`;
     sl.addEventListener('click',()=>{ currentQ=i; saveState(); renderStampGrid(); renderQ(); });
     grid.appendChild(sl);
@@ -517,7 +517,7 @@ const QUESTIONS=[
   {room:1,type:'essay',q:'동방성곽지국 영상을 보세요. 보고 난 후의 소감을 작성하세요. (70자 이상)',minLen:70,explain:'멋진 소감이에요! 역사를 느끼는 감수성이 대단해요 😊'},
   {room:1,type:'photo',mission:'역사포토존에서 사진 찍기',desc:'역사포토존을 찾아 인증 사진을 찍어두세요!\n사진은 나중에 선생님이 알려주는 폼에 제출하면 돼요.',verifyAnswer:['아즐거웠당'],explain:'역사포토존 미션 완료! 멋진 사진 기대할게요 📸'},
   {room:1,type:'blank-step2',passage:'신라의 산성은 [○○] 구조로 되어 있으며, 성벽 중간에 문을 두어 사다리를 놓아야만 출입할 수 있습니다.',blankAnswer:['현문'],blankHint:'ㅎㅁ',step2:{label:'그렇다면, 현문 구조를 가진 성이 아닌 것은?',q:'',type:'choice',choices:['이성산성','계양산성','남한산성'],answer:2,explain:'계양산성은 신라 산성이 아니에요! 백제가 처음 쌓고 이후 고구려, 신라가 차례로 사용했어요.'}},
-  {room:1,type:'blank',passage:'몽골과의 전쟁 기간 동안 산성은 주민들의 대피 장소가 되었으며, 고려 정부는 각 고을에 [○○○○○○○]을 파견하여 백성들이 산성에 들어가 항전하도록 독려하였습니다.',answer:['산성방호별감'],hint:'ㅅㅅㅂㅎㅂㄱ',explain:'산성방호별감이에요! 고려시대 몽골 침입 때 각 산성을 지키기 위해 파견한 특별 관리랍니다.'},
+  {room:1,type:'blank',passage:'몽골과의 전쟁 기간 동안 산성은 주민들의 대피 장소가 되었으며, 고려 정부는 각 고을에 [○○○○○○]을 파견하여 백성들이 산성에 들어가 항전하도록 독려하였습니다.',answer:['산성방호별감'],hint:'ㅅㅅㅂㅎㅂㄱ',explain:'산성방호별감이에요! 고려시대 몽골 침입 때 각 산성을 지키기 위해 파견한 특별 관리랍니다.'},
   {room:1,type:'photo-match',q:'사진과 설명을 보고 해당하는 시설 이름을 드래그해 넣어보세요.',photos:[{src:'images/10_1.jpg',desc:'구덩이를 파고 그 안에 물을 채워 적이 성벽으로 접근하는 것을 방해하는 시설입니다.',answer:'해자'},{src:'images/10_2.jpg',desc:'성곽의 안팎을 연결하는 통로로, 구조에 따라 개거식·평거식·현문식이 있습니다.',answer:'성문'},{src:'images/10_3.jpg',desc:'성문을 보호하기 위한 시설로, 성문 바깥쪽을 벽으로 둘러쌓아 적이 성문을 직접 공격하지 못하도록 설치한 것입니다.',answer:'옹성과 적대'},{src:'images/10_4.jpg',desc:'성벽 밖으로 벽을 덧붙여 돌출되도록 쌓은 구조물로, 성벽으로 접근하는 적을 정면과 측면에서 저지합니다.',answer:'치성'},{src:'images/10_5.jpg',desc:'성벽 위에 설치한 낮은 담으로, 적의 화살이나 총알로부터 군사를 보호하고 적을 공격할 수 있도록 만들었습니다.',answer:'여장'},{src:'images/10_6.jpg',desc:'성벽 안쪽이나 하부에 구멍을 내어 물이 드나들도록 한 시설로, 배수가 되지 않으면 성벽이 붕괴되기 쉽습니다.',answer:'수구'},{src:'images/10_7.jpg',desc:'산성에서 생활하기 위해 마실 물을 확보하는 시설입니다. 우물의 존재 여부 확인이 산성 운영의 기본이었습니다.',answer:'우물과 집수지'}],explain:'해자·성문·옹성과 적대·치성·여장·수구·우물과 집수지! 모두 산성의 중요한 구조와 시설이에요.'},
   {room:2,type:'text-image',q:'국화빵 아이스크림처럼 둥글고 꽃무늬가 새겨진 이 유물의 이름은?',placeholder:'○○○ ○○○',image:'images/11.jpg',imageCaption:'연화문 수막새',answer:['연화문 수막새','연화문수막새'],hint:'ㅇㅎㅁ ㅅㅁㅅ',explain:'연화문 수막새예요! 수키와 끝을 막아 목재가 썩는 것을 방지하는 기와로, 연꽃 문양이 새겨져 있어요.'},
   {room:2,type:'text-image',q:'대동여지도에서 계양산성은 어떤 이름으로 표기되어 있나요?',placeholder:'○○○',image:'images/12.png',imageCaption:'대동여지도 계양 부분',answer:['안남산','안남산성'],hint:'ㅇㄴㅅ',explain:'안남산(安南山)이에요! 조선시대 지도인 대동여지도에 계양산성이 이 이름으로 표기되어 있어요.'},
