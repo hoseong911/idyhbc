@@ -225,7 +225,7 @@ body{
 
 /* 지문 빈칸 */
 .passage-box{background:#f8f6ff;border-radius:10px;padding:14px 16px;font-size:15px;color:#1a1a1a;line-height:2.8;margin-bottom:12px;border:1px solid #e0d8ff;}
-.blank-inp{display:inline-block;width:auto;min-width:60px;padding:4px 10px;border:1px solid #7c5cbf;border-radius:8px;font-size:15px;background:#f0ebff;color:#3a1f6e;outline:none;text-align:center;margin:0 4px;font-family:inherit;vertical-align:middle;}
+.blank-inp{display:inline-block;width:auto;min-width:50px;max-width:120px;padding:3px 6px;border:1px solid #7c5cbf;border-radius:8px;font-size:14px;background:#f0ebff;color:#3a1f6e;outline:none;text-align:center;margin:0 3px;font-family:inherit;vertical-align:middle;}
 
 /* 이미지 플레이스홀더 */
 .img-ph{background:#f0ebff;border:1.5px dashed #b39ddb;border-radius:10px;height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:12px;color:#7c5cbf;font-size:13px;gap:6px;}
@@ -498,7 +498,7 @@ function renderStampGrid(){
     const sl=document.createElement('div');
     const earned=stamps.includes(i), isCur=i===currentQ&&!earned;
     sl.className='stamp-slot'+(earned?' earned':'')+(isCur?' current':'');
-    sl.innerHTML=earned?EMOJIS[i]:'';
+    sl.innerHTML=earned?'<img src="images/stamp.png" style="width:80%;height:80%;object-fit:contain;" onerror="this.style.display=\'none\'">'':'';
     sl.title=`${i+1}번 문제`;
     sl.addEventListener('click',()=>{ currentQ=i; saveState(); renderStampGrid(); renderQ(); });
     grid.appendChild(sl);
@@ -509,14 +509,14 @@ function renderStampGrid(){
 
 /* ════ 문제 렌더 ════ */
 const QUESTIONS=[
-  {room:1,type:'text',q:'지금까지 알려진 가장 오래된 성곽 유적은 무엇인가요?',placeholder:'○○○○○',answer:['예리코 성','예리코성'],hint:'ㅇㄹㅋ ㅅ',explain:'예리코 성(Jericho)이에요! 기원전 8000년경 지어진 세계에서 가장 오래된 성곽 유적으로 알려져 있어요.'},
+  {room:1,type:'text',q:'지금까지 알려진 가장 오래된 성곽 유적은 무엇인가요?',placeholder:'○○○○',answer:['예리코 성','예리코성'],hint:'ㅇㄹㅋ ㅅ',explain:'예리코 성(Jericho)이에요! 기원전 8000년경 지어진 세계에서 가장 오래된 성곽 유적으로 알려져 있어요.'},
   {room:1,type:'blank-step2',passage:'삼국시대 각국은 한반도의 패권을 두고 끊임없이 전쟁을 벌였으며, [○○○○] 지역이 삼국의 각축장이었습니다.',blankAnswer:['한강 하류'],blankHint:'ㅎㄱ ㅎㄹ',step2:{label:'그렇다면, 영상에서 찾아볼 수 있는 전투의 이름은?',q:'',type:'text',placeholder:'○○○ ○○',answer:['관산성 전투','관산성전투'],hint:'ㄱㅅㅅ ㅈㅌ',explain:'관산성 전투(554년)예요! 백제 성왕이 신라군에게 전사한 전투로, 삼국의 한강 지배권 다툼을 상징해요.'}},
   {room:1,type:'photo-match',q:'사진을 보고 해당하는 도구 이름을 드래그해 넣어보세요.',photos:[{src:'images/3_1.jpg',desc:'중간 크기의 돌이나 목재를 실어 나르는 수레입니다. 짐이 많고 길이 험할 때는 소 10마리로 운반하지만 길이 평평할 때는 소 4~5마리로도 끌었습니다.',answer:'평거'},{src:'images/3_2.jpg',desc:'커다란 돌이나 원목 등 아주 무거운 짐을 운반할 때 사용되는 수레입니다. 조선시대의 수레 가운데 가장 큰 것으로 소 40여 마리가 끕니다.',answer:'대거'},{src:'images/3_3.jpg',desc:'밧줄과 도르래를 이용하여 무거운 물건을 들어올리는 운반 도구입니다. 정약용이 외국문헌에서 그 원리를 차용하여 수원 화성 건설을 위해 고안하였습니다.',answer:'거중기'},{src:'images/3_4.jpg',desc:'장대 끝에 높이 달린 도르래에 밧줄을 걸어 물건을 달아매고 얼레로 밧줄을 감아 들어올리는 장치입니다.',answer:'녹로'},{src:'images/3_5.jpg',desc:'짐을 운반할 때 사용하는 도구입니다. 두툼한 나무토막을 가늘고 긴 두 개의 손잡이 채에 끈으로 느슨하게 묶어서 매달아 만든 것입니다.',answer:'단기'},{src:'images/3_6.jpg',desc:'나무로 만든 작고 둥근 통으로, 손잡이 부분에 묶어 둔 끈에 나무막대를 꿰어 어깨에 짊어지고 운반하였습니다.',answer:'담통'},{src:'images/3_7.jpg',desc:'터를 다질 때 사용하는 도구로 여럿이서 리듬을 맞춰 줄을 당겨 사용하였습니다.',answer:'달고'},{src:'images/3_8.jpg',desc:'사람이 끄는 작은 수레로, 각목을 가로 세로로 연결하여 짐을 실을 수 있는 틀을 짜고 통나무로 만든 작은 바퀴를 달아 만들었습니다.',answer:'동차'}],explain:'평거·대거·거중기·녹로·단기·담통·달고·동차! 산성을 쌓을 때 사용한 다양한 도구예요!'},
-  {room:1,type:'grid-match',q:'사진을 보고 해당하는 성돌 쌓기 방식을 드래그해 넣어보세요.',images:['images/4_1.png','images/4_2.png','images/4_3.png','images/4_4.png'],items:['장방형 쌓기','정방형 쌓기','점판암 쌓기','잔돌끼움 쌓기'],answer:[0,1,2,3],explain:'장방형 쌓기·정방형 쌓기·점판암 쌓기·잔돌끼움 쌓기! 다양한 성돌 쌓기 방식이에요!'},
+  {room:1,type:'grid-match',q:'사진을 보고 해당하는 성돌 쌓기 방식을 드래그해 넣어보세요.',images:['images/4_1.png','images/4_2.png','images/4_3.png','images/4_4.png'],items:['장방형 쌓기','점판암 쌓기','잔돌끼움 쌓기','정방형 쌓기'],answer:[0,1,2,3],explain:'장방형 쌓기·정방형 쌓기·점판암 쌓기·잔돌끼움 쌓기! 다양한 성돌 쌓기 방식이에요!'},
   {room:1,type:'text-step2',q:'계양산성은 어떤 지형에 쌓은 산성인가요? (산 봉우리 모양 이름)',placeholder:'○○○',answer:['사모봉','사모봉형'],hint:'ㅅㅁㅂ',step2:{label:'그렇다면,',q:'사모봉형 산성에 대한 올바른 설명을 고르세요.',type:'choice',choices:['산 정상부를 사방으로 에워싸듯 쌓은 산성','사모(사각형 모자) 처럼 생긴 봉우리를 이용해 쌓은 산성','강가의 낮은 지형을 이용해 쌓은 산성','여러 봉우리를 연결해 쌓은 복합형 산성'],answer:1,explain:'사모봉형은 사모(四方이 있는 전통 모자)처럼 생긴 봉우리를 이용해 쌓은 산성이에요!'}},
   {room:1,type:'essay',q:'동방성곽지국 영상을 보세요. 보고 난 후의 소감을 작성하세요. (70자 이상)',minLen:70,explain:'멋진 소감이에요! 역사를 느끼는 감수성이 대단해요 😊'},
   {room:1,type:'photo',mission:'역사포토존에서 사진 찍기',desc:'역사포토존을 찾아 인증 사진을 찍어두세요!\n사진은 나중에 선생님이 알려주는 폼에 제출하면 돼요.',verifyAnswer:['아즐거웠당'],explain:'역사포토존 미션 완료! 멋진 사진 기대할게요 📸'},
-  {room:1,type:'blank-step2',passage:'신라의 산성은 [○○] 구조로 되어 있으며, 성벽 중간에 문을 두어 사다리를 놓아야만 출입할 수 있습니다.',blankAnswer:['현문'],blankHint:'ㅎㅁ',step2:{label:'그렇다면,',q:'신라의 산성이 아닌 것은?',type:'choice',choices:['아차산성','이성산성','계양산성','남한산성'],answer:2,explain:'계양산성은 신라 산성이 아니에요! 백제가 처음 쌓고 이후 고구려, 신라가 차례로 사용했어요.'}},
+  {room:1,type:'blank-step2',passage:'신라의 산성은 [○○] 구조로 되어 있으며, 성벽 중간에 문을 두어 사다리를 놓아야만 출입할 수 있습니다.',blankAnswer:['현문'],blankHint:'ㅎㅁ',step2:{label:'그렇다면, 현문 구조를 가진 성이 아닌 것은?',q:'',type:'choice',choices:['이성산성','계양산성','남한산성'],answer:2,explain:'계양산성은 신라 산성이 아니에요! 백제가 처음 쌓고 이후 고구려, 신라가 차례로 사용했어요.'}},
   {room:1,type:'blank',passage:'몽골과의 전쟁 기간 동안 산성은 주민들의 대피 장소가 되었으며, 고려 정부는 각 고을에 [○○○○○○○]을 파견하여 백성들이 산성에 들어가 항전하도록 독려하였습니다.',answer:['산성방호별감'],hint:'ㅅㅅㅂㅎㅂㄱ',explain:'산성방호별감이에요! 고려시대 몽골 침입 때 각 산성을 지키기 위해 파견한 특별 관리랍니다.'},
   {room:1,type:'photo-match',q:'사진과 설명을 보고 해당하는 시설 이름을 드래그해 넣어보세요.',photos:[{src:'images/10_1.jpg',desc:'구덩이를 파고 그 안에 물을 채워 적이 성벽으로 접근하는 것을 방해하는 시설입니다.',answer:'해자'},{src:'images/10_2.jpg',desc:'성곽의 안팎을 연결하는 통로로, 구조에 따라 개거식·평거식·현문식이 있습니다.',answer:'성문'},{src:'images/10_3.jpg',desc:'성문을 보호하기 위한 시설로, 성문 바깥쪽을 벽으로 둘러쌓아 적이 성문을 직접 공격하지 못하도록 설치한 것입니다.',answer:'옹성과 적대'},{src:'images/10_4.jpg',desc:'성벽 밖으로 벽을 덧붙여 돌출되도록 쌓은 구조물로, 성벽으로 접근하는 적을 정면과 측면에서 저지합니다.',answer:'치성'},{src:'images/10_5.jpg',desc:'성벽 위에 설치한 낮은 담으로, 적의 화살이나 총알로부터 군사를 보호하고 적을 공격할 수 있도록 만들었습니다.',answer:'여장'},{src:'images/10_6.jpg',desc:'성벽 안쪽이나 하부에 구멍을 내어 물이 드나들도록 한 시설로, 배수가 되지 않으면 성벽이 붕괴되기 쉽습니다.',answer:'수구'},{src:'images/10_7.jpg',desc:'산성에서 생활하기 위해 마실 물을 확보하는 시설입니다. 우물의 존재 여부 확인이 산성 운영의 기본이었습니다.',answer:'우물과 집수지'}],explain:'해자·성문·옹성과 적대·치성·여장·수구·우물과 집수지! 모두 산성의 중요한 구조와 시설이에요.'},
   {room:2,type:'text-image',q:'국화빵 아이스크림처럼 둥글고 꽃무늬가 새겨진 이 유물의 이름은?',placeholder:'○○○ ○○○',image:'images/11.jpg',imageCaption:'연화문 수막새',answer:['연화문 수막새','연화문수막새'],hint:'ㅇㅎㅁ ㅅㅁㅅ',explain:'연화문 수막새예요! 수키와 끝을 막아 목재가 썩는 것을 방지하는 기와로, 연꽃 문양이 새겨져 있어요.'},
@@ -565,9 +565,9 @@ function renderBlank(q,body){
   let wrong=0;
   const parts=q.passage.split(/\[.*?\]/);
   const box=document.createElement('div'); box.className='passage-box';
+  const inp=document.createElement('input'); inp.className='blank-inp';
   const blankMatch=q.passage.match(/\[([○?]+)\]/);
-  const blankPh=blankMatch?blankMatch[1]:'○○○';
-  inp.placeholder=blankPh;
+  inp.placeholder=blankMatch?blankMatch[1]:'○○○';
   box.appendChild(document.createTextNode(parts[0])); box.appendChild(inp);
   if(parts[1]) box.appendChild(document.createTextNode(parts[1]));
   body.appendChild(box);
@@ -587,9 +587,9 @@ function renderBlankStep2(q,body){
   let wrong=0, done=false;
   const parts=q.passage.split(/\[.*?\]/);
   const box=document.createElement('div'); box.className='passage-box';
+  const inp=document.createElement('input'); inp.className='blank-inp';
   const blankMatch2=q.passage.match(/\[([○?]+)\]/);
-  const blankPh2=blankMatch2?blankMatch2[1]:'○○○';
-  inp.placeholder=blankPh2;
+  inp.placeholder=blankMatch2?blankMatch2[1]:'○○○';
   box.appendChild(document.createTextNode(parts[0])); box.appendChild(inp);
   if(parts[1]) box.appendChild(document.createTextNode(parts[1]));
   body.appendChild(box);
@@ -797,7 +797,7 @@ function renderPhoto(q,body){
 
 function renderTextImage(q,body){
   const ph=document.createElement('div'); ph.className='img-ph';
-  if(q.image){ const img=document.createElement('img'); img.src=q.image; img.style.cssText='width:100%;height:100%;object-fit:cover;'; ph.appendChild(img); }
+  if(q.image){ const img=document.createElement('img'); img.src=q.image; img.style.cssText='width:100%;height:auto;max-height:220px;object-fit:contain;'; ph.appendChild(img); }
   else { ph.innerHTML='<span style="font-size:26px">🖼️</span><span>이미지 준비 중</span>'; }
   body.appendChild(ph);
   renderText(q,body);
@@ -806,7 +806,7 @@ function renderTextImage(q,body){
 function renderImageMatch(q,body){
   // 이미지 플레이스홀더
   const ph=document.createElement('div'); ph.className='img-ph';
-  if(q.image){ const img=document.createElement('img'); img.src=q.image; img.style.cssText='width:100%;height:100%;object-fit:cover;'; ph.appendChild(img); }
+  if(q.image){ const img=document.createElement('img'); img.src=q.image; img.style.cssText='width:100%;height:auto;max-height:220px;object-fit:contain;'; ph.appendChild(img); }
   else { ph.innerHTML='<span style="font-size:26px">🖼️</span><span>'+q.imageCaption+'</span>'; }
   body.appendChild(ph);
   // match-v와 동일하게 처리
@@ -827,7 +827,7 @@ function renderPhotoMatch(q,body){
 
     // 사진
     const imgWrap = document.createElement('div');
-    imgWrap.style.cssText = 'width:100%;height:90px;background:#ede8ff;display:flex;align-items:center;justify-content:center;overflow:hidden;';
+    imgWrap.style.cssText = 'width:100%;height:120px;background:#ede8ff;display:flex;align-items:center;justify-content:center;overflow:hidden;';
     const img = document.createElement('img');
     img.src = photo.src;
     img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
@@ -836,7 +836,7 @@ function renderPhotoMatch(q,body){
 
     // 설명
     const desc = document.createElement('div');
-    desc.style.cssText = 'font-size:10px;color:#444;line-height:1.5;padding:6px 8px;border-top:1px solid #e0d8ff;border-bottom:1px solid #e0d8ff;min-height:60px;';
+    desc.style.cssText = 'font-size:12px;color:#444;line-height:1.6;padding:8px 10px;border-top:1px solid #e0d8ff;border-bottom:1px solid #e0d8ff;min-height:60px;';
     desc.textContent = photo.desc;
 
     // 드래그 타겟
@@ -926,7 +926,7 @@ function renderGridMatch(q,body){
 
   // 그리드
   const grid = document.createElement('div');
-  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;';
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px;';
 
   q.images.forEach((imgSrc, idx) => {
     const cell = document.createElement('div');
@@ -1048,13 +1048,13 @@ function mkChipPlaced(text,idx,onRemove){
 function showCouponInterim(){
   show('screen-coupon-interim');
   const el=document.getElementById('interimStamps'); el.innerHTML='';
-  for(let i=0;i<20;i++){const s=document.createElement('div');s.className='cs'+(stamps.includes(i)?'':' cs-empty');s.textContent=stamps.includes(i)?EMOJIS[i]:'';el.appendChild(s);}
+  for(let i=0;i<20;i++){const s=document.createElement('div');s.className='cs'+(stamps.includes(i)?'':' cs-empty');s.innerHTML=stamps.includes(i)?'<img src="images/stamp.png" style="width:80%;height:80%;object-fit:contain;">'':'';el.appendChild(s);}
   document.getElementById('interimMsg').textContent=stamps.length===20?'스탬프를 모두 모았어요! 🎉':`${stamps.length} / 20개 완료! 계속 탐험해보세요.`;
 }
 function showFinalCoupon(){
   show('screen-coupon');
   const el=document.getElementById('finalStamps'); el.innerHTML='';
-  for(let i=0;i<20;i++){const s=document.createElement('div');s.className='cs';s.textContent=EMOJIS[i];el.appendChild(s);}
+  for(let i=0;i<20;i++){const s=document.createElement('div');s.className='cs';s.innerHTML='<img src="images/stamp.png" style="width:80%;height:80%;object-fit:contain;">';el.appendChild(s);}
   document.getElementById('formBtn').href=FORM_URL;
 }
 
