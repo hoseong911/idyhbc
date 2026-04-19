@@ -706,6 +706,7 @@ function renderMatchV(q,body){
     tgt.addEventListener('drop',e=>{
       e.preventDefault(); tgt.classList.remove('over');
       if(tgt.dataset.answered) return;
+      setTimeout(()=>tgt.scrollIntoView({behavior:'smooth',block:'center'}),100);
       const idx=parseInt(e.dataTransfer.getData('text/plain'));
       const prev=placed.indexOf(idx);
       if(prev!==-1){placed[prev]=null;const pt=document.querySelector(`.match-target-right[data-pi="${prev}"]`);if(pt){pt.innerHTML='';pt.textContent='여기에 놓기';}}
@@ -836,7 +837,7 @@ function renderPhotoMatch(q,body){
 
     // 설명
     const desc = document.createElement('div');
-    desc.style.cssText = 'font-size:12px;color:#444;line-height:1.6;padding:8px 10px;border-top:1px solid #e0d8ff;border-bottom:1px solid #e0d8ff;min-height:60px;';
+    desc.style.cssText = 'font-size:12px;color:#444;line-height:1.6;padding:8px 10px;border-top:1px solid #e0d8ff;border-bottom:1px solid #e0d8ff;min-height:90px;flex:1;';
     desc.textContent = photo.desc;
 
     // 드래그 타겟
@@ -852,6 +853,7 @@ function renderPhotoMatch(q,body){
       e.preventDefault(); tgt.style.background='';
       if(tgt.dataset.answered) return;
       const itemName = e.dataTransfer.getData('text/plain');
+      setTimeout(()=>tgt.scrollIntoView({behavior:'smooth',block:'center'}),100);
       // 이미 다른 타겟에 있으면 제거
       grid.querySelectorAll('.pm-tgt').forEach(t => {
         if(placed[t.dataset.answer] === itemName && t !== tgt){
