@@ -388,7 +388,7 @@ body{
 
 </div><!-- .app -->
 <script>
-/* ════ 상수 ════ */
+/* 상수 */
 const AUTH_ANSWER = '역사의 숨결 가득한 계양문화의 터전'; // ← 인증 문구 정답
 const KAKAO_URL = '#';
 const FORM_URL = 'https://forms.gle/D9NhhLFxRvNQ3XxSA';
@@ -403,10 +403,10 @@ const ROOM_START = [0,10,17,19];
 const IS_PREVIEW = new URLSearchParams(window.location.search).get('preview')==='true';
 const SAVE_KEY = 'gyeyang_stamp_data';
 
-/* ════ 상태 ════ */
+/* 상태 */
 let currentQ=0, stamps=[], userName='', userId='';
 
-/* ════ localStorage 저장/복원 ════ */
+/* localStorage 저장/복원 */
 function saveState(){
   localStorage.setItem(SAVE_KEY, JSON.stringify({stamps, userName, userId, currentQ}));
 }
@@ -422,7 +422,7 @@ function loadState(){
 }
 function clearState(){ localStorage.removeItem(SAVE_KEY); }
 
-/* ════ 유틸 ════ */
+/* 유틸 */
 function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
 function getFb(){ return document.getElementById('feedback'); }
 function clearFb(){ const f=getFb(); f.className='feedback'; f.textContent=''; document.getElementById('stampGuide').textContent=''; }
@@ -437,7 +437,7 @@ function showFeedbackOk(msg){
   document.getElementById('stampGuide').textContent='위의 빈 스탬프를 눌러 다른 미션을 해결해 보세요.';
 }
 
-/* ════ 로그인 ════ */
+/* 로그인 */
 function doLogin(){
   if(IS_PREVIEW){ userName='미리보기'; userId='00000'; goSelectScreen(); return; }
   const sid=document.getElementById('inputId').value.trim();
@@ -461,7 +461,7 @@ function goSelectScreen(){
 }
 function updateBadge(){ document.getElementById('badgeStamps').textContent=stamps.length+' / 20'; }
 
-/* ════ 전시실 선택 ════ */
+/* 전시실 선택 */
 function enterRoom(room){
   currentQ=ROOM_START[room-1];
   saveState(); show('screen-quiz');
@@ -481,7 +481,7 @@ function updateRoomBtns(){
   });
 }
 
-/* ════ 스탬프 그리드 (10개 2줄) ════ */
+/* 스탬프 그리드 (10개 2줄) */
 function renderStampGrid(){
   const grid=document.getElementById('stampGrid');
   const labels=document.getElementById('stampLabels');
@@ -498,7 +498,7 @@ function renderStampGrid(){
     const sl=document.createElement('div');
     const earned=stamps.includes(i), isCur=i===currentQ&&!earned;
     sl.className='stamp-slot'+(earned?' earned':'')+(isCur?' current':'');
-    sl.innerHTML=earned?'<img src="images/stamp.png" style="width:80%;height:80%;object-fit:contain;" onerror="this.style.display=\'none\'">'':'';
+    sl.innerHTML=earned?'🏯':'';
     sl.title=`${i+1}번 문제`;
     sl.addEventListener('click',()=>{ currentQ=i; saveState(); renderStampGrid(); renderQ(); });
     grid.appendChild(sl);
@@ -507,7 +507,7 @@ function renderStampGrid(){
   // 라벨 없음
 }
 
-/* ════ 문제 렌더 ════ */
+/* 문제 렌더 */
 const QUESTIONS=[
   {room:1,type:'text',q:'지금까지 알려진 가장 오래된 성곽 유적은 무엇인가요?',placeholder:'○○○○',answer:['예리코 성','예리코성'],hint:'ㅇㄹㅋ ㅅ',explain:'예리코 성(Jericho)이에요! 기원전 8000년경 지어진 세계에서 가장 오래된 성곽 유적으로 알려져 있어요.'},
   {room:1,type:'blank-step2',passage:'삼국시대 각국은 한반도의 패권을 두고 끊임없이 전쟁을 벌였으며, [○○○○] 지역이 삼국의 각축장이었습니다.',blankAnswer:['한강 하류'],blankHint:'ㅎㄱ ㅎㄹ',step2:{label:'그렇다면, 영상에서 찾아볼 수 있는 전투의 이름은?',q:'',type:'text',placeholder:'○○○ ○○',answer:['관산성 전투','관산성전투'],hint:'ㄱㅅㅅ ㅈㅌ',explain:'관산성 전투(554년)예요! 백제 성왕이 신라군에게 전사한 전투로, 삼국의 한강 지배권 다툼을 상징해요.'}},
@@ -1048,7 +1048,7 @@ function mkChipPlaced(text,idx,onRemove){
 function showCouponInterim(){
   show('screen-coupon-interim');
   const el=document.getElementById('interimStamps'); el.innerHTML='';
-  for(let i=0;i<20;i++){const s=document.createElement('div');s.className='cs'+(stamps.includes(i)?'':' cs-empty');s.innerHTML=stamps.includes(i)?'<img src="images/stamp.png" style="width:80%;height:80%;object-fit:contain;">'':'';el.appendChild(s);}
+  for(let i=0;i<20;i++){const s=document.createElement('div');s.className='cs'+(stamps.includes(i)?'':' cs-empty');s.innerHTML=stamps.includes(i)?'<img src="images/stamp.png" style="width:80%;height:80%;object-fit:contain;">':'';el.appendChild(s);}
   document.getElementById('interimMsg').textContent=stamps.length===20?'스탬프를 모두 모았어요! 🎉':`${stamps.length} / 20개 완료! 계속 탐험해보세요.`;
 }
 function showFinalCoupon(){
@@ -1058,7 +1058,7 @@ function showFinalCoupon(){
   document.getElementById('formBtn').href=FORM_URL;
 }
 
-/* ════ 초기화 ════ */
+/* 초기화 */
 window.addEventListener('DOMContentLoaded',()=>{
   if(IS_PREVIEW){
     const bar=document.createElement('div'); bar.className='preview-bar';
