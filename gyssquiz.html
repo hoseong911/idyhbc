@@ -361,6 +361,7 @@ body{
         <div class="coupon-stamps" id="interimStamps"></div>
         <div class="coupon-msg" id="interimMsg"></div>
         <div class="coupon-tap">쿠폰을 누르면 전시실 선택으로 돌아가요</div>
+        <a class="go-form-btn" href="https://forms.gle/N2CvEDq2PkXkWYs18" target="_blank" onclick="event.stopPropagation()">소감 작성하기 ✍️</a>
       </div>
     </div>
   </div>
@@ -839,7 +840,7 @@ function renderPhotoMatch(q,body){
 
   q.photos.forEach((photo, idx) => {
     const cell = document.createElement('div');
-    cell.style.cssText = 'border:1px solid #e0d8ff;border-radius:10px;overflow:hidden;background:#f8f6ff;';
+    cell.style.cssText = 'border:1px solid #e0d8ff;border-radius:10px;overflow:hidden;background:#f8f6ff;display:flex;flex-direction:column;height:100%;';
 
     // 사진
     const imgWrap = document.createElement('div');
@@ -969,7 +970,7 @@ function renderGridMatch(q,body){
     num.style.cssText = 'font-size:12px;font-weight:700;color:#5b3fa6;flex-shrink:0;';
     num.textContent = '①②③④'[idx];
     const tgt = document.createElement('div');
-    tgt.style.cssText = 'flex:1;min-height:30px;border:1.5px dashed #b39ddb;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#aaa;transition:background 0.15s;';
+    tgt.style.cssText = 'flex:1;height:36px;border:1.5px dashed #b39ddb;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#aaa;transition:background 0.15s;padding:0 12px;';
     tgt.textContent = '여기에 놓기';
     tgt.dataset.idx = idx;
 
