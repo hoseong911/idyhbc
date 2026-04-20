@@ -374,7 +374,7 @@ body{
     <div class="coupon">
       <div class="coupon-top">
         <div class="ct">GYEYANG FORTRESS MUSEUM</div>
-        <h2>탐구 완료 쿠폰 🎉</h2>
+        <h2>계양산성 정복 완료! 🎉</h2>
         <div class="sub">스탬프 20개 달성!</div>
       </div>
       <div class="coupon-div"><div class="circ"></div><div class="circ"></div></div>
@@ -948,7 +948,7 @@ function renderGridMatch(q,body){
 
   // 그리드
   const grid = document.createElement('div');
-  grid.style.cssText = 'display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px;';
+  grid.style.cssText = 'display:flex;flex-direction:column;gap:10px;margin-bottom:14px;';
 
   q.images.forEach((imgSrc, idx) => {
     const cell = document.createElement('div');
@@ -965,12 +965,12 @@ function renderGridMatch(q,body){
 
     // 번호 + 드래그 타겟
     const tgtWrap = document.createElement('div');
-    tgtWrap.style.cssText = 'display:flex;align-items:center;gap:6px;padding:5px 8px;background:#f8f6ff;';
+    tgtWrap.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f8f6ff;';
     const num = document.createElement('span');
     num.style.cssText = 'font-size:12px;font-weight:700;color:#5b3fa6;flex-shrink:0;';
     num.textContent = '①②③④'[idx];
     const tgt = document.createElement('div');
-    tgt.style.cssText = 'flex:1;height:36px;border:1.5px dashed #b39ddb;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#aaa;transition:background 0.15s;padding:0 12px;';
+    tgt.style.cssText = 'flex:1;height:34px;border:1.5px dashed #b39ddb;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#aaa;transition:background 0.15s;';
     tgt.textContent = '여기에 놓기';
     tgt.dataset.idx = idx;
 
