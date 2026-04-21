@@ -7,57 +7,21 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&display=swap">
   <style>
     :root {
-      --bg: #F4F9F9;
-      --blue: #A4D4CC;
-      --yellow: #FBEA9E;
-      --pink: #F5D3D6;
-      --purple: #D5C6E0;
-      --dark: #333333;
-      --light: #666666;
-      --card: #FFFFFF;
-      --blue-deep: #3D7A70;
-      --pink-deep: #A34A52;
-      --yellow-deep: #7A6200;
+      --bg: #F4F9F9; --blue: #A4D4CC; --yellow: #FBEA9E; --pink: #F5D3D6; --purple: #D5C6E0;
+      --dark: #333333; --light: #666666; --card: #FFFFFF;
+      --blue-deep: #3D7A70; --pink-deep: #A34A52; --yellow-deep: #7A6200;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
     html, body { width: 100%; min-height: 100%; overflow-x: hidden; background: var(--bg); color: var(--dark); line-height: 1.6; }
-
-    /* ══════════════════════════════
-       공통 레이아웃
-    ══════════════════════════════ */
     .app { display: flex; min-height: 100vh; }
 
     /* ── 사이드바 ── */
-    .sidebar {
-      width: 200px; flex-shrink: 0;
-      background: white;
-      box-shadow: 2px 0 12px rgba(0,0,0,0.06);
-      display: flex; flex-direction: column;
-      position: fixed; top: 0; left: 0; bottom: 0;
-      z-index: 100; padding: 18px 12px;
-      overflow-y: auto;
-    }
-
-    .site-header {
-      background: linear-gradient(160deg, var(--blue), var(--purple));
-      border-radius: 14px; padding: 18px 12px 14px;
-      text-align: center; color: white;
-      margin-bottom: 14px; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: opacity 0.15s;
-    }
-    .site-header:active { opacity: 0.9; }
+    .sidebar { width: 200px; flex-shrink: 0; background: white; box-shadow: 2px 0 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; padding: 18px 12px; overflow-y: auto; }
+    .site-header { background: linear-gradient(160deg, var(--blue), var(--purple)); border-radius: 14px; padding: 18px 12px 14px; text-align: center; color: white; margin-bottom: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     .site-header h1 { font-size: 0.7rem; font-weight: 600; margin-bottom: 5px; opacity: 0.85; }
     .site-header p  { font-size: 0.88rem; font-weight: 800; line-height: 1.5; word-break: keep-all; }
-
     .side-nav { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-    .side-nav-btn {
-      display: flex; align-items: center; gap: 9px;
-      background: var(--bg); border: none; border-radius: 10px;
-      padding: 10px 11px; width: 100%; cursor: pointer;
-      border-left: 4px solid transparent;
-      text-align: left; transition: background 0.15s, transform 0.15s;
-    }
+    .side-nav-btn { display: flex; align-items: center; gap: 9px; background: var(--bg); border: none; border-radius: 10px; padding: 10px 11px; width: 100%; cursor: pointer; border-left: 4px solid transparent; text-align: left; transition: background 0.15s, transform 0.15s; }
     .side-nav-btn:active { transform: scale(0.98); }
     .side-nav-btn.blue   { border-left-color: var(--blue); }
     .side-nav-btn.pink   { border-left-color: var(--pink); }
@@ -67,192 +31,79 @@
     .side-nav-btn .s-icon  { font-size: 1.1rem; flex-shrink: 0; }
     .side-nav-btn .s-label { font-size: 0.82rem; font-weight: 700; color: var(--dark); }
     .side-nav-btn .s-desc  { font-size: 0.67rem; color: var(--light); margin-top: 1px; }
-
-    /* 관리자 버튼 - 작고 눈에 안 띄게 */
-    .admin-side-btn {
-      display: flex; align-items: center; gap: 6px;
-      background: none; border: none;
-      padding: 8px 11px; width: 100%; cursor: pointer;
-      text-align: left; margin-top: 4px;
-      transition: opacity 0.15s;
-    }
-    .admin-side-btn:hover { opacity: 0.7; }
-    .admin-side-btn .s-icon  { font-size: 0.85rem; color: #bbb; }
-    .admin-side-btn .s-label { font-size: 0.72rem; font-weight: 600; color: #bbb; }
-
     .side-divider { height: 1px; background: #f0f0f0; margin: 8px 0; }
 
-    /* ── 콘텐츠 영역 ── */
+    /* ── 콘텐츠 ── */
     .content { margin-left: 200px; flex: 1; min-width: 0; }
 
-    /* ══════════════════════════════
-       PC 4단 메인 레이아웃
-    ══════════════════════════════ */
-    .pc-main {
-      display: flex;
-      gap: 0;
-      min-height: 100vh;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .pc-col {
-      flex: 1;
-      min-width: 0;
-      padding: 24px 18px;
-      border-right: 1px solid #edf2f2;
-    }
+    /* ── PC 4단 메인 ── */
+    .pc-main { display: flex; gap: 0; min-height: 100vh; max-width: 1400px; margin: 0 auto; }
+    .pc-col { flex: 1; min-width: 0; padding: 24px 18px; border-right: 1px solid #edf2f2; }
     .pc-col:last-child { border-right: none; }
+    .col-title { font-size: 0.88rem; font-weight: 800; color: var(--dark); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 3px solid var(--blue); display: flex; align-items: center; gap: 6px; }
 
-    .col-title {
-      font-size: 0.88rem; font-weight: 800; color: var(--dark);
-      margin-bottom: 16px; padding-bottom: 10px;
-      border-bottom: 3px solid var(--blue);
-      display: flex; align-items: center; gap: 6px;
-    }
-
-    /* ── 단일 페이지 (사이드바 클릭 시 전체화면) ── */
-    .single-page {
-      display: none;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 30px 32px;
-      animation: fadeIn 0.2s ease;
-    }
+    /* ── 단일 페이지 ── */
+    .single-page { display: none; max-width: 800px; margin: 0 auto; padding: 30px 32px; animation: fadeIn 0.2s ease; }
     .single-page.active { display: block; }
-
     @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    .page-title { font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 22px; display: flex; align-items: center; gap: 10px; }
 
-    .page-title {
-      font-size: 1.3rem; font-weight: 800; color: var(--dark);
-      margin-bottom: 22px; display: flex; align-items: center; gap: 10px;
-    }
-
-    /* ══════════════════════════════
-       카드 / 공통 컴포넌트
-    ══════════════════════════════ */
-    .card {
-      background: var(--card); border-radius: 14px;
-      padding: 18px 20px; margin-bottom: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-      border-top: 4px solid transparent;
-    }
+    /* ── 카드 ── */
+    .card { background: var(--card); border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border-top: 4px solid transparent; }
     .card.blue   { border-top-color: var(--blue); }
     .card.yellow { border-top-color: var(--yellow); }
     .card.pink   { border-top-color: var(--pink); }
     .card.purple { border-top-color: var(--purple); }
     .card h2 { font-size: 0.98rem; color: var(--dark); margin-bottom: 11px; display: flex; align-items: center; gap: 7px; }
     .card h2 .ico { font-size: 1.2rem; }
-
-    .location-selector {
-      width: 100%; padding: 11px 12px; border-radius: 10px;
-      border: 2px solid var(--blue); background: white;
-      font-size: 0.88rem; font-weight: 600; color: var(--dark);
-      margin-bottom: 16px; outline: none; cursor: pointer;
-    }
-
-    ul { list-style: none; }
-    ul li { position: relative; padding-left: 18px; margin-bottom: 9px; font-size: 0.85rem; color: var(--light); }
-    ul li::before { content: "📌"; position: absolute; left: 0; top: 1px; font-size: 0.78rem; }
-
-    .highlight-box { background: #FFF9E6; border-radius: 9px; padding: 12px; margin: 11px 0; font-size: 0.82rem; color: #7A6200; line-height: 1.8; }
+    .location-selector { width: 100%; padding: 11px 12px; border-radius: 10px; border: 2px solid var(--blue); background: white; font-size: 0.88rem; font-weight: 600; color: var(--dark); margin-bottom: 16px; outline: none; cursor: pointer; }
+    .guide-content { font-size: 0.88rem; color: var(--light); line-height: 1.85; white-space: pre-wrap; }
+    .highlight-box { background: #FFF9E6; border-radius: 9px; padding: 12px; margin: 11px 0; font-size: 0.85rem; color: #7A6200; line-height: 1.85; white-space: pre-wrap; }
     .highlight-box strong { color: #D4A000; }
-    .museum-info { background: #F0F4F8; border-radius: 9px; padding: 12px; font-size: 0.82rem; color: #334E68; margin-bottom: 11px; line-height: 1.8; }
-
+    .museum-info { background: #F0F4F8; border-radius: 9px; padding: 12px; font-size: 0.85rem; color: #334E68; margin-bottom: 11px; line-height: 1.85; white-space: pre-wrap; }
     .btn { display: block; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 700; text-align: center; text-decoration: none; margin-top: 11px; cursor: pointer; transition: transform 0.15s; }
     .btn:active { transform: scale(0.98); }
     .btn-pink   { background: var(--pink);   color: var(--pink-deep);   box-shadow: 0 3px 0 #DDA9AD; }
     .btn-blue   { background: var(--blue);   color: var(--blue-deep);   box-shadow: 0 3px 0 #85BDB4; }
     .btn-yellow { background: var(--yellow); color: var(--yellow-deep); box-shadow: 0 3px 0 #E0D08A; }
-    .btn-purple { background: var(--purple); color: #5A4A7A;            box-shadow: 0 3px 0 #BDB0D0; }
 
     /* ── 기행기 카드 ── */
     .archive-loading { text-align: center; padding: 30px; color: var(--light); font-size: 0.85rem; }
-    .entry-empty { text-align: center; padding: 50px 20px; color: var(--light); font-size: 0.88rem; }
+    .entry-empty { text-align: center; padding: 40px 20px; color: var(--light); font-size: 0.88rem; }
     .entry-empty .ico { font-size: 2.5rem; display: block; margin-bottom: 10px; }
-
-    .entry-card {
-      background: var(--card); border-radius: 14px;
-      padding: 16px 18px; margin-bottom: 13px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-      border-left: 4px solid var(--blue);
-    }
+    .entry-card { background: var(--card); border-radius: 14px; padding: 16px 18px; margin-bottom: 13px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border-left: 4px solid var(--blue); }
     .entry-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 4px; }
     .entry-author { font-weight: 800; font-size: 0.9rem; color: var(--dark); }
     .entry-date   { font-size: 0.75rem; color: #aaa; }
-    .entry-tag    { display: inline-block; background: #EEF7F5; color: var(--blue-deep); border-radius: 20px; padding: 2px 10px; font-size: 0.72rem; font-weight: 700; margin-bottom: 10px; }
+    .entry-tag    { display: inline-block; background: #EEF7F5; color: var(--blue-deep); border-radius: 20px; padding: 2px 10px; font-size: 0.72rem; font-weight: 700; margin-bottom: 8px; }
     .entry-body   { font-size: 0.86rem; color: var(--light); line-height: 1.8; white-space: pre-wrap; }
     .entry-photo  { width: 100%; border-radius: 9px; margin-top: 10px; max-height: 220px; object-fit: cover; }
-
-    /* ── 필터 탭 ── */
     .filter-tabs { display: flex; gap: 7px; margin-bottom: 16px; flex-wrap: wrap; }
-    .filter-btn {
-      padding: 6px 14px; border: 2px solid #eee; border-radius: 20px;
-      background: white; font-size: 0.78rem; font-weight: 700;
-      color: var(--light); cursor: pointer; transition: all 0.15s;
-    }
+    .filter-btn { padding: 6px 14px; border: 2px solid #eee; border-radius: 20px; background: white; font-size: 0.78rem; font-weight: 700; color: var(--light); cursor: pointer; transition: all 0.15s; }
     .filter-btn.active { border-color: var(--blue); background: #EEF7F5; color: var(--blue-deep); }
 
-    /* ── 준비 중 ── */
-    .coming-soon { text-align: center; padding: 70px 20px; }
-    .coming-soon .big-icon { font-size: 3.5rem; display: block; margin-bottom: 14px; }
-    .coming-soon h3 { font-size: 1.2rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
-    .coming-soon p  { font-size: 0.88rem; color: var(--light); line-height: 1.7; }
+    /* ── 투어 카드 ── */
+    .tour-card { background: var(--card); border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 5px solid var(--yellow); cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+    .tour-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.09); }
+    .tour-card-label  { font-size: 0.75rem; color: var(--light); margin-bottom: 6px; }
+    .tour-card-title  { font-size: 1rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+    .tour-card-author { font-size: 0.78rem; color: #aaa; }
+    .tour-card-photo  { width: 100%; border-radius: 10px; margin-top: 12px; max-height: 160px; object-fit: cover; }
+    .tour-detail-header { margin-bottom: 24px; }
+    .tour-detail-label  { font-size: 0.8rem; color: var(--light); margin-bottom: 6px; }
+    .tour-detail-title  { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; word-break: keep-all; }
+    .tour-detail-author { font-size: 0.85rem; color: #aaa; }
+    .tour-detail-photo  { width: 100%; border-radius: 14px; margin: 16px 0; max-height: 300px; object-fit: cover; }
+    .tour-detail-body   { font-size: 0.95rem; color: var(--dark); line-height: 1.9; white-space: pre-wrap; word-break: keep-all; }
+    .tour-detail-body strong { font-weight: 800; }
+    .footer-space { height: 40px; }
 
-    /* ── 관리자 페이지 ── */
-    .admin-login-wrap {
-      max-width: 340px; margin: 80px auto; text-align: center;
-      background: var(--card); border-radius: 18px; padding: 36px 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-    .admin-login-wrap .lock-ico { font-size: 2.8rem; margin-bottom: 14px; display: block; }
-    .admin-login-wrap p { font-size: 0.88rem; color: var(--light); margin-bottom: 18px; }
-    .admin-input { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #eee; font-size: 0.95rem; margin-bottom: 11px; outline: none; transition: border-color 0.2s; text-align: center; }
-    .admin-input:focus { border-color: var(--blue); }
-
-    .admin-header {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 14px; padding: 18px 22px;
-      color: white; margin-bottom: 20px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .admin-header h2 { font-size: 1rem; font-weight: 800; }
-    .admin-header span { font-size: 0.8rem; opacity: 0.8; }
-
-    .admin-entry { background: var(--card); border-radius: 12px; padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 2px solid #f0f0f0; }
-    .admin-entry.published { border-color: #A4D4CC; }
-    .admin-entry-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; flex-wrap: wrap; gap: 5px; }
-    .admin-entry-name { font-weight: 800; font-size: 0.9rem; }
-    .admin-entry-meta { font-size: 0.72rem; color: #aaa; }
-    .raw-answers { background: #f8f9fa; border-radius: 8px; padding: 11px; margin-bottom: 11px; font-size: 0.78rem; color: var(--light); line-height: 1.7; }
-    .raw-answers .q { font-weight: 700; color: var(--dark); margin-top: 5px; }
-    .raw-answers .q:first-child { margin-top: 0; }
-    .draft-area { width: 100%; min-height: 100px; border: 2px solid #eee; border-radius: 10px; padding: 11px; font-size: 0.85rem; line-height: 1.7; resize: vertical; font-family: 'Noto Sans KR', sans-serif; margin-bottom: 9px; outline: none; transition: border-color 0.2s; }
-    .draft-area:focus { border-color: var(--blue); }
-    .draft-area::placeholder { color: #ccc; }
-    .admin-actions { display: flex; gap: 7px; flex-wrap: wrap; }
-    .admin-btn { flex: 1; min-width: 90px; padding: 9px 8px; border: none; border-radius: 9px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: transform 0.15s, opacity 0.15s; }
-    .admin-btn:active { transform: scale(0.97); }
-    .admin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-generate  { background: #E8E4F8; color: #5A4A7A; }
-    .btn-save      { background: #E8F5E9; color: #2E7D32; }
-    .btn-publish   { background: var(--blue); color: var(--blue-deep); }
-    .btn-unpublish { background: #FFE8EA; color: var(--pink-deep); }
-    .publish-badge   { display: inline-block; background: #D4EDDA; color: #2D6A4F; border-radius: 20px; padding: 2px 9px; font-size: 0.7rem; font-weight: 700; }
-    .unpublish-badge { display: inline-block; background: #f0f0f0; color: #aaa; border-radius: 20px; padding: 2px 9px; font-size: 0.7rem; font-weight: 700; }
-
-    /* ══════════════════════════════
-       모바일
-    ══════════════════════════════ */
+    /* ── 모바일 ── */
     @media (max-width: 768px) {
-      .sidebar {
-        width: 100%; height: auto; position: static;
-        flex-direction: column; padding: 14px 14px 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-      }
+      .sidebar { width: 100%; height: auto; position: static; flex-direction: column; padding: 14px 14px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
       .site-header { margin-bottom: 10px; padding: 16px; }
       .site-header h1 { display: block; font-size: 0.75rem; }
-      .site-header p { font-size: 0.95rem; }
+      .site-header p  { font-size: 0.95rem; }
       .side-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
       .side-nav-btn { flex: 1; min-width: 70px; padding: 9px 7px; flex-direction: column; align-items: center; text-align: center; border-left: none; border-bottom: 3px solid transparent; border-radius: 9px; }
       .side-nav-btn.blue   { border-bottom-color: var(--blue); }
@@ -261,18 +112,7 @@
       .side-nav-btn .s-desc { display: none; }
       .side-nav-btn .s-icon { font-size: 1.3rem; }
       .side-nav-btn .s-label { font-size: 0.7rem; }
-      .admin-side-btn {
-        position: fixed; bottom: 0; left: 0; right: 0;
-        display: flex; justify-content: center; align-items: center;
-        width: 100%; padding: 10px;
-        background: white; border-top: 1px solid #f0f0f0;
-        z-index: 200;
-      }
-      .admin-side-btn .s-label { font-size: 0.72rem; }
-      .footer-space { height: 60px; }
       .side-divider { display: none; }
-      .sidebar .admin-side-btn { display: none; }
-      .sidebar .side-divider-admin { display: none; }
       .content { margin-left: 0; }
       .app { flex-direction: column; }
       .pc-main { flex-direction: column; }
@@ -280,43 +120,11 @@
       .single-page { padding: 20px 16px; }
       .page-title { font-size: 1.1rem; }
     }
-
-    /* ── 투어 카드 ── */
-    .tour-card {
-      background: var(--card); border-radius: 16px;
-      padding: 20px 22px; margin-bottom: 14px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      border-left: 5px solid var(--yellow);
-      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .tour-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.09); }
-    .tour-card:active { transform: scale(0.99); }
-    .tour-card-label { font-size: 0.75rem; color: var(--light); margin-bottom: 6px; }
-    .tour-card-title { font-size: 1rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
-    .tour-card-author { font-size: 0.78rem; color: #aaa; }
-    .tour-card-photo { width: 100%; border-radius: 10px; margin-top: 12px; max-height: 160px; object-fit: cover; }
-
-    /* ── 투어 상세 ── */
-    .tour-detail-header { margin-bottom: 24px; }
-    .tour-detail-label { font-size: 0.8rem; color: var(--light); margin-bottom: 6px; }
-    .tour-detail-title { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; word-break: keep-all; }
-    .tour-detail-author { font-size: 0.85rem; color: #aaa; }
-    .tour-detail-photo { width: 100%; border-radius: 14px; margin: 16px 0; max-height: 300px; object-fit: cover; }
-    .tour-detail-body {
-      font-size: 0.95rem; color: var(--dark); line-height: 1.9;
-      white-space: pre-wrap; word-break: keep-all;
-    }
-    .tour-detail-body strong { color: var(--dark); font-weight: 800; }
-
-    .footer-space { height: 40px; }
   </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- ══════════════════════════════
-       사이드바
-  ══════════════════════════════ -->
   <div class="sidebar">
     <div class="site-header" onclick="showMain()">
       <h1>🧭 인천동양중학교</h1>
@@ -336,24 +144,12 @@
         <div><div class="s-label">답사 미션 모음</div><div class="s-desc">액티브한 답사 만들기</div></div>
       </button>
     </nav>
-
-    <div style="flex:1;"></div>
-    <div class="side-divider"></div>
-    <button class="admin-side-btn" id="nav-admin" onclick="showSingle('admin')">
-      <span class="s-icon">🔒</span>
-      <div class="s-label">관리자</div>
-    </button>
   </div>
 
-  <!-- ══════════════════════════════
-       콘텐츠
-  ══════════════════════════════ -->
   <div class="content">
 
     <!-- PC 4단 메인 -->
     <div id="view-main" class="pc-main">
-
-      <!-- 답사 안내 컬럼 -->
       <div class="pc-col">
         <div class="col-title">📍 답사 안내</div>
         <select class="location-selector" id="pageSelector" onchange="onLocationChange(this.value)">
@@ -361,106 +157,23 @@
           <option value="gyeyang">📍 [현재] 2026. 4. 21. 계양산성박물관</option>
           <option value="" disabled>📍 [예정] 다음 답사지를 기대해주세요!</option>
         </select>
-
-        <div id="guide-jungang" class="guide-page" style="display:none;">
-          <div class="card blue">
-            <h2><span class="ico">📖</span> 어떤 곳일까?</h2>
-            <div class="museum-info">
-              <strong>세계 6위 규모의 압도적인 스케일!</strong><br>
-              42만 점이 넘는 유물을 소장한 대한민국 최대 박물관입니다.<br><br>
-              • <strong>1층:</strong> 구석기~조선 시대 핵심 유물<br>
-              • <strong>2층:</strong> 옛 글씨·그림과 기증 문화재<br>
-              • <strong>3층:</strong> 불상·도자기·세계문화관
-            </div>
-            <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
-          </div>
-          <div class="card yellow">
-            <h2><span class="ico">🏛️</span> 보물 Top 5</h2>
-            <div class="highlight-box">
-              1️⃣ <strong>백제 금동대향로</strong> — 최고의 금속 공예품<br><br>
-              2️⃣ <strong>반가사유상</strong> — 세계적 걸작, 힐링 스팟<br><br>
-              3️⃣ <strong>경천사지 10층 석탑</strong> — 웅장한 대리석 탑<br><br>
-              4️⃣ <strong>신라 금관</strong> — 화려함의 극치<br><br>
-              5️⃣ <strong>빗살무늬토기</strong> — 실물이 훨씬 크다!
-            </div>
-          </div>
-          <div class="card pink">
-            <h2><span class="ico">🗺️</span> 나만의 가이드</h2>
-            <ul>
-              <li>타깃 정하기</li>
-              <li>최애 유물 3가지 선정</li>
-              <li>친구들 참여 미션 1개</li>
-            </ul>
-            <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출 🚀</a>
-          </div>
-          <div class="card purple">
-            <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
-            <ul>
-              <li>원픽 유물 사진 첨부</li>
-              <li>키워드 3가지</li>
-              <li>현장 소감 200자 이상</li>
-            </ul>
-            <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
-          </div>
-        </div>
-
-        <div id="guide-gyeyang" class="guide-page" style="display:none;">
-          <div class="card blue">
-            <h2><span class="ico">📖</span> 어떤 곳일까?</h2>
-            <div class="museum-info">
-              <strong>국내 최초 산성 전문 박물관!</strong><br>
-              계양산 자락에 위치. 삼국시대 영토 전쟁의 흔적을 담고 있습니다.<br><br>
-              • <strong>상설전시실:</strong> 목간·연화문 수막새 등 발굴 유물<br>
-              • <strong>전망대:</strong> 인천과 한강 일대가 한눈에!
-            </div>
-            <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 더 알아보기</a>
-          </div>
-          <div class="card yellow">
-            <h2><span class="ico">🏛️</span> 핵심 4선</h2>
-            <div class="highlight-box">
-              1️⃣ <strong>목간</strong> — 1,500년 전 나무 메모지<br><br>
-              2️⃣ <strong>연화문 수막새</strong> — 전쟁터의 아름다운 기와<br><br>
-              3️⃣ <strong>산성 모형</strong> — 계양산성 전체를 한눈에<br><br>
-              4️⃣ <strong>전망대 뷰</strong> — 인천·한강 하구 파노라마!
-            </div>
-          </div>
-          <div class="card purple">
-            <h2><span class="ico">✍️</span> 기행기 기록하기</h2>
-            <ul>
-              <li>원픽 유물·풍경 사진 첨부</li>
-              <li>키워드 3가지</li>
-              <li>현장 소감 200자 이상</li>
-            </ul>
-            <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성 📸</a>
-          </div>
-          <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html', '_blank')" style="cursor:pointer; margin-top:4px;">
-            <h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2>
-            <p style="font-size:0.85rem; color:var(--light); line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
-          </div>
-        </div>
+        <div id="main-guide-content"><div class="archive-loading">⏳ 불러오는 중...</div></div>
       </div>
-
-      <!-- 기행기 아카이브 컬럼 -->
       <div class="pc-col">
         <div class="col-title">📖 기행기 아카이브</div>
         <div id="main-archive-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
       </div>
-
-      <!-- 답사 미션 컬럼 -->
       <div class="pc-col">
         <div class="col-title">🎯 답사 미션 모음</div>
-        <!-- 계양산성박물관 스탬프 투어 -->
-        <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html', '_blank')" style="cursor:pointer; margin-bottom:16px;">
+        <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html','_blank')" style="cursor:pointer;margin-bottom:16px;">
           <h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2>
-          <p style="font-size:0.82rem; color:var(--light); line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
+          <p style="font-size:0.82rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
         </div>
-        <!-- 국중박 투어 코스 -->
         <div id="main-tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
       </div>
+    </div>
 
-    </div><!-- /pc-main -->
-
-    <!-- 단일 페이지: 답사 안내 -->
+    <!-- 단일: 답사 안내 -->
     <div id="single-guide" class="single-page">
       <div class="page-title">📍 답사 안내</div>
       <select class="location-selector" id="single-pageSelector" onchange="onLocationChangeSingle(this.value)">
@@ -468,208 +181,61 @@
         <option value="gyeyang">📍 [현재] 2026. 4. 21. 계양산성박물관</option>
         <option value="" disabled>📍 [예정] 다음 답사지를 기대해주세요!</option>
       </select>
-
-      <div id="single-guide-jungang" class="guide-page-s" style="display:none;">
-        <div class="card blue">
-          <h2><span class="ico">📖</span> 국립중앙박물관, 어떤 곳일까?</h2>
-          <div class="museum-info">
-            <strong>세계 6위 규모의 압도적인 스케일!</strong><br>
-            무려 42만 점이 넘는 유물을 소장하고 있는 대한민국 최대의 박물관입니다. 하루 만에 다 보는 것은 불가능에 가까우니, 선택과 집중이 필수랍니다.<br><br>
-            <strong>🚶 층별 핵심 안내</strong><br>
-            • <strong>1층 (선사·고대관/중근세관):</strong> 교과서에서 보던 구석기 시대부터 조선 시대까지의 굵직한 역사적 유물들이 모두 모여 있는 핵심 공간입니다.<br>
-            • <strong>2층 (서화관/기증관):</strong> 옛사람들의 멋진 글씨와 그림, 그리고 개인 수집가들이 기증한 독특한 문화재를 만날 수 있습니다.<br>
-            • <strong>3층 (조각·공예관/세계문화관):</strong> 세계적인 걸작인 불상과 아름다운 도자기, 그리고 이집트·메소포타미아 등 다른 나라의 역사까지 탐험할 수 있습니다.
-          </div>
-          <a href="https://www.museum.go.kr/MUSEUM/contents/M0201010000.do" target="_blank" class="btn btn-yellow">🏛️ 국립중앙박물관 더 알아보기</a>
-        </div>
-        <div class="card yellow">
-          <h2><span class="ico">🏛️</span> 절대 놓치지 말아야 할 보물 Top 5</h2>
-          <div class="highlight-box">
-            1️⃣ <strong>백제 금동대향로 (1층 백제실)</strong><br>
-            향을 피우면 마치 신선들이 사는 세계에 안개가 피어오르는 듯한 착각을 주는, 우리나라 최고의 금속 공예품입니다.<br><br>
-            2️⃣ <strong>반가사유상 (2층 사유의 방)</strong><br>
-            어두운 방 안, 고요히 미소 짓는 두 부처님. 박물관 최고의 '물멍/불멍' 힐링 스팟이자 세계적인 걸작입니다.<br><br>
-            3️⃣ <strong>경천사지 10층 석탑 (1층 역사의 길)</strong><br>
-            박물관 1층 중심에 웅장하게 솟아오른 거대한 대리석 탑입니다. 화려한 조각들을 가까이서 올려다보세요.<br><br>
-            4️⃣ <strong>신라 금관 (1층 신라실)</strong><br>
-            금과 영롱한 곱은옥으로 장식된 신라 마립간의 상징! 조명 아래에서 눈부시게 빛나는 화려함의 극치를 보여줍니다.<br><br>
-            5️⃣ <strong>빗살무늬토기 (1층 신석기실)</strong><br>
-            교과서 1단원의 주인공! 사진으로 볼 때보다 훨씬 크고 정교한 V자형 토기의 진짜 모습을 확인해 보세요.
-          </div>
-        </div>
-        <div class="card pink">
-          <h2><span class="ico">🗺️</span> 나만의 답사 가이드 만들기</h2>
-          <p style="font-size:0.88rem; color:var(--light); margin-bottom:12px;">내가 큐레이터가 된다면? 친구들을 위한 나만의 톡톡 튀는 관람 코스를 기획해 보세요!</p>
-          <ul>
-            <li>누구를 위한 가이드인지 타깃 정하기 (예: 역사 초보 동생, 사진 찍기 좋아하는 친구)</li>
-            <li>내가 추천하는 박물관 최애 유물 3가지 선정하기</li>
-            <li><strong>[미션 내기]</strong> 친구들이 쉽게 참여할 수 있는 미션을 1개 만들어 주세요.<br><em>(예: "이 유물과 찰떡인 표정 지으면서 인증샷 찍기!")</em></li>
-          </ul>
-          <a href="https://forms.gle/U6gzC1GNNXJb8mUD8" target="_blank" class="btn btn-pink">가이드 제출하러 가기 🚀</a>
-        </div>
-        <div class="card purple">
-          <h2><span class="ico">✍️</span> 생생 기행기 기록하기</h2>
-          <p style="font-size:0.88rem; color:var(--light); margin-bottom:12px;">답사를 마무리하며 잊지 못할 순간을 아카이빙합니다. 여러분이 남긴 기록은 멋진 온라인 웹진과 PDF 자료집으로 탄생합니다!</p>
-          <ul>
-            <li>가장 인상 깊었던 '나의 원픽' 유물 사진/영상 첨부 필수!</li>
-            <li>그 유물을 보고 떠오른 3가지 키워드 적기</li>
-            <li>현장에서 느낀 점을 편안한 말투로 200자 이상 자유롭게 쓰기</li>
-          </ul>
-          <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
-        </div>
-      </div>
-
-      <div id="single-guide-gyeyang" class="guide-page-s" style="display:none;">
-        <div class="card blue">
-          <h2><span class="ico">📖</span> 계양산성박물관, 어떤 곳일까?</h2>
-          <div class="museum-info">
-            <strong>국내 최초의 산성 전문 박물관!</strong><br>
-            우리 학교와 가까운 계양산 자락에 위치한 이곳은 삼국시대부터 치열한 영토 전쟁이 벌어졌던 계양산성의 역사를 고스란히 담고 있습니다.<br><br>
-            <strong>🚶 관람 포인트 안내</strong><br>
-            • <strong>상설전시실:</strong> 계양산성에서 발굴된 목간, 연화문 수막새 등 생생한 유물들을 통해 삼국시대 사람들의 생활상과 군사적 요충지로서의 중요성을 확인할 수 있습니다.<br>
-            • <strong>전망대:</strong> 박물관 관람 후 전망대에 올라가면 우리가 사는 인천과 한강 일대가 한눈에 들어옵니다. 왜 이곳에 산성을 지었는지 직접 눈으로 확인해 보세요!
-          </div>
-          <a href="https://museum.gyeyang.go.kr/" target="_blank" class="btn btn-yellow">🏛️ 계양산성박물관 더 알아보기</a>
-        </div>
-        <div class="card yellow">
-          <h2><span class="ico">🏛️</span> 절대 놓치지 말아야 할 핵심 4선</h2>
-          <div class="highlight-box">
-            1️⃣ <strong>목간 (상설전시실)</strong><br>
-            나무에 글씨를 새긴 삼국시대의 메모지! 종이가 귀했던 시절, 병사들이 주고받은 실제 기록이 담겨 있습니다. 1,500년 전 사람의 필체를 직접 확인해 보세요.<br><br>
-            2️⃣ <strong>연화문 수막새 (상설전시실)</strong><br>
-            산성 지붕 끝을 장식했던 연꽃무늬 기와입니다. 전쟁터 한가운데서도 아름다움을 추구했던 삼국시대 사람들의 감각이 느껴집니다.<br><br>
-            3️⃣ <strong>산성 모형 (중앙 전시 공간)</strong><br>
-            계양산성 전체를 한눈에 볼 수 있는 대형 모형입니다. 성벽이 어떤 지형을 따라 지어졌는지 살피며 왜 이곳이 전략적 요충지였는지 상상해 보세요.<br><br>
-            4️⃣ <strong>전망대 뷰 (야외)</strong><br>
-            유물만큼 중요한 이곳의 하이라이트! 인천 시내와 한강 하구가 한눈에 펼쳐집니다. 고대 장군이 된 것처럼 "이래서 여기다!"를 외쳐보세요.
-          </div>
-        </div>
-        <div class="card purple">
-          <h2><span class="ico">✍️</span> 생생 기행기 기록하기</h2>
-          <p style="font-size:0.88rem; color:var(--light); margin-bottom:12px;">이번 계양산성박물관 답사의 미션은 오직 하나, <strong>'기행기 작성'</strong>입니다! 집중해서 관람하고 나만의 기록을 남겨주세요.</p>
-          <ul>
-            <li>가장 인상 깊었던 '나의 원픽' 유물이나 풍경 사진/영상 첨부 필수!</li>
-            <li>그 모습을 보고 떠오른 3가지 키워드 적기</li>
-            <li>현장에서 느낀 점을 편안한 말투로 200자 이상 자유롭게 쓰기</li>
-          </ul>
-          <a href="https://forms.gle/XyTciXotEHZAuDaf7" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>
-        </div>
-        <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html', '_blank')" style="cursor:pointer; margin-top:4px;">
-          <h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2>
-          <p style="font-size:0.88rem; color:var(--light); line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
-        </div>
-      </div>
+      <div id="single-guide-content"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     </div>
 
-    <!-- 단일 페이지: 기행기 아카이브 -->
+    <!-- 단일: 기행기 아카이브 -->
     <div id="single-archive" class="single-page">
       <div class="page-title">📖 기행기 아카이브</div>
       <div class="filter-tabs">
-        <button class="filter-btn active" id="filter-all" onclick="filterArchive('all')">전체</button>
+        <button class="filter-btn active" id="filter-all"     onclick="filterArchive('all')">전체</button>
         <button class="filter-btn" id="filter-jungang" onclick="filterArchive('jungang')">국립중앙박물관</button>
         <button class="filter-btn" id="filter-gyeyang" onclick="filterArchive('gyeyang')">계양산성박물관</button>
       </div>
       <div id="single-archive-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     </div>
 
-    <!-- 단일 페이지: 답사 미션 -->
+    <!-- 단일: 답사 미션 -->
     <div id="single-mission" class="single-page">
       <div class="page-title">🎯 답사 미션 모음</div>
-      <!-- 계양산성박물관 스탬프 투어 -->
-      <div class="tour-card" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html', '_blank')" style="border-left-color: var(--blue); margin-bottom:20px;">
-      <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html', '_blank')" style="cursor:pointer; margin-bottom:16px;">
+      <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html','_blank')" style="cursor:pointer;margin-bottom:16px;">
         <h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2>
-        <p style="font-size:0.88rem; color:var(--light); line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
+        <p style="font-size:0.88rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
       </div>
-      <!-- 국중박 투어 카드 목록 -->
       <div id="tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     </div>
 
-    <!-- 투어 상세 페이지 -->
+    <!-- 단일: 투어 상세 -->
     <div id="single-tour-detail" class="single-page">
       <button onclick="showSingle('mission')" style="background:none;border:none;cursor:pointer;font-size:0.88rem;font-weight:700;color:var(--blue-deep);margin-bottom:20px;display:flex;align-items:center;gap:6px;">← 목록으로</button>
       <div id="tour-detail-content"></div>
     </div>
 
-    <!-- 단일 페이지: 관리자 -->
-    <div id="single-admin" class="single-page">
-      <div id="admin-login-wrap" class="admin-login-wrap">
-        <span class="lock-ico">🔒</span>
-        <p>관리자 비밀번호를 입력하세요</p>
-        <input type="password" id="admin-pw-input" class="admin-input" placeholder="비밀번호"
-          onkeydown="if(event.key==='Enter') checkAdminPw()">
-        <button class="btn btn-purple" onclick="checkAdminPw()">확인</button>
-      </div>
-      <div id="admin-panel" style="display:none;">
-        <div class="admin-header">
-          <h2>🛠️ 관리자 모드</h2>
-          <span id="admin-count">로딩 중...</span>
-        </div>
-        <!-- 관리자 섹션 탭 -->
-        <div class="filter-tabs" style="margin-bottom:20px;">
-          <button class="filter-btn active" id="admin-tab-archive" onclick="adminTabSwitch('archive')">📖 기행기</button>
-          <button class="filter-btn" id="admin-tab-tour" onclick="adminTabSwitch('tour')">🎯 투어 코스</button>
-        </div>
-
-        <!-- 기행기 관리 -->
-        <div id="admin-section-archive">
-          <div class="filter-tabs">
-            <button class="filter-btn active" id="admin-filter-all" onclick="adminFilter('all')">전체</button>
-            <button class="filter-btn" id="admin-filter-jungang" onclick="adminFilter('jungang')">국립중앙박물관</button>
-            <button class="filter-btn" id="admin-filter-gyeyang" onclick="adminFilter('gyeyang')">계양산성박물관</button>
-          </div>
-          <div id="admin-list"></div>
-        </div>
-
-        <!-- 투어 코스 관리 -->
-        <div id="admin-section-tour" style="display:none;">
-          <div id="admin-tour-list"></div>
-        </div>
-      </div>
-    </div>
-
     <div class="footer-space"></div>
-  </div><!-- /content -->
-</div><!-- /app -->
-
-<!-- 모바일 전용 하단 고정 관리자 버튼 -->
-<div id="mobile-admin-btn" style="display:none;">
-  <button class="admin-side-btn" onclick="showSingle('admin')">
-    <span class="s-icon">🔒</span>
-    <div class="s-label" style="margin-left:6px;">관리자</div>
-  </button>
+  </div>
 </div>
 
 <script>
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mcVUKve8iINHT_C6lnYQQl-1IU8JH6BIEi2vQBwRUNb9cEdum1864R3Mv15KPE0ExA/exec';
-  const ADMIN_PW = 'ghtjd12!@';
-
-  const LOCATION_MAP = {
-    'jungang': '국립중앙박물관',
-    'gyeyang': '계양산성박물관'
+  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+  const LOCATION_MAP = { 'jungang': '국립중앙박물관', 'gyeyang': '계양산성박물관' };
+  const LOCATION_LINKS = {
+    'jungang': { siteUrl: 'https://www.museum.go.kr/MUSEUM/contents/M0201010000.do', siteLabel: '🏛️ 국립중앙박물관 더 알아보기', missionUrl: 'https://forms.gle/U6gzC1GNNXJb8mUD8', missionLabel: '가이드 제출하러 가기 🚀', essayUrl: 'https://forms.gle/XyTciXotEHZAuDaf7' },
+    'gyeyang': { siteUrl: 'https://museum.gyeyang.go.kr/', siteLabel: '🏛️ 계양산성박물관 더 알아보기', essayUrl: 'https://forms.gle/XyTciXotEHZAuDaf7', stampUrl: 'http://hoseong911.github.io/idyhbc/gyssquiz.html' }
   };
 
   let currentLocation = 'gyeyang';
-  let allEntries = [];
-  let archiveLoaded = false;
-  let adminLoggedIn = false;
-  let currentAdminFilter = 'all';
-  let currentView = 'main'; // 'main' | 'guide' | 'archive' | 'mission' | 'admin'
+  let allEntries = [], allTours = [], guideCache = {};
+  let archiveLoaded = false, tourLoaded = false;
 
-  // ── 메인(4단) 표시 ──────────────────────────────
   function showMain() {
-    currentView = 'main';
     document.getElementById('view-main').style.display = 'flex';
     document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.side-nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('nav-admin').classList.remove('active-admin');
     window.scrollTo(0, 0);
     location.hash = '';
   }
 
-  // ── 단일 페이지 표시 ────────────────────────────
   function showSingle(page) {
-    currentView = page;
     document.getElementById('view-main').style.display = 'none';
     document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
     document.getElementById('single-' + page).classList.add('active');
@@ -678,74 +244,76 @@
     if (nav) nav.classList.add('active');
     window.scrollTo(0, 0);
     location.hash = page;
-
     if (page === 'archive' && !archiveLoaded) loadArchive();
     if (page === 'mission') loadTours();
-    if (page === 'admin' && adminLoggedIn) loadAdminEntries('all');
-
-    // 단일 페이지 드롭다운도 현재 위치 동기화
     if (page === 'guide') {
       document.getElementById('single-pageSelector').value = currentLocation;
-      onLocationChangeSingle(currentLocation);
+      loadGuideContent(currentLocation, 'single-guide-content');
     }
   }
 
-  // ── 답사지 변경 (4단 메인) ───────────────────────
-  function onLocationChange(value) {
-    if (!value) return;
-    currentLocation = value;
-    document.querySelectorAll('#view-main .guide-page').forEach(p => p.style.display = 'none');
-    const g = document.getElementById('guide-' + value);
-    if (g) g.style.display = 'block';
-    // 아카이브 컬럼도 갱신
+  function onLocationChange(val) {
+    if (!val) return;
+    currentLocation = val;
+    loadGuideContent(val, 'main-guide-content');
     if (archiveLoaded) renderMainArchive();
   }
 
-  // ── 답사지 변경 (단일 페이지) ────────────────────
-  function onLocationChangeSingle(value) {
-    if (!value) return;
-    currentLocation = value;
-    document.querySelectorAll('.guide-page-s').forEach(p => p.style.display = 'none');
-    const g = document.getElementById('single-guide-' + value);
-    if (g) g.style.display = 'block';
-    // 4단 메인 드롭다운도 동기화
-    document.getElementById('pageSelector').value = value;
-    document.querySelectorAll('#view-main .guide-page').forEach(p => p.style.display = 'none');
-    const g2 = document.getElementById('guide-' + value);
-    if (g2) g2.style.display = 'block';
+  function onLocationChangeSingle(val) {
+    if (!val) return;
+    currentLocation = val;
+    document.getElementById('pageSelector').value = val;
+    loadGuideContent(val, 'main-guide-content');
+    loadGuideContent(val, 'single-guide-content');
   }
 
-  // ── 아카이브 로드 ────────────────────────────────
+  function loadGuideContent(locVal, targetId) {
+    const locName = LOCATION_MAP[locVal] || '';
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    if (guideCache[locVal]) { renderGuideContent(locVal, targetId, guideCache[locVal]); return; }
+    el.innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
+    fetch(APPS_SCRIPT_URL + '?action=getGuide&location=' + encodeURIComponent(locName))
+      .then(r => r.json())
+      .then(data => { guideCache[locVal] = data.guide || {}; renderGuideContent(locVal, targetId, guideCache[locVal]); })
+      .catch(() => { el.innerHTML = '<div class="archive-loading">⚠️ 안내문을 불러오지 못했어요.</div>'; });
+  }
+
+  function renderGuideContent(locVal, targetId, guide) {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    const links = LOCATION_LINKS[locVal] || {};
+    let html = '';
+    if (guide.intro) {
+      html += `<div class="card blue"><h2><span class="ico">📖</span> ${guide.intro.title}</h2><div class="museum-info">${guide.intro.content}</div>${links.siteUrl ? `<a href="${links.siteUrl}" target="_blank" class="btn btn-yellow">${links.siteLabel}</a>` : ''}</div>`;
+    }
+    if (guide.highlights) {
+      html += `<div class="card yellow"><h2><span class="ico">🏛️</span> ${guide.highlights.title}</h2><div class="highlight-box">${guide.highlights.content}</div></div>`;
+    }
+    if (guide.mission) {
+      html += `<div class="card pink"><h2><span class="ico">🗺️</span> ${guide.mission.title}</h2><div class="guide-content">${guide.mission.content}</div>${links.missionUrl ? `<a href="${links.missionUrl}" target="_blank" class="btn btn-pink">${links.missionLabel}</a>` : ''}</div>`;
+    }
+    if (guide.essay) {
+      html += `<div class="card purple"><h2><span class="ico">✍️</span> ${guide.essay.title}</h2><div class="guide-content">${guide.essay.content}</div>${links.essayUrl ? `<a href="${links.essayUrl}" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>` : ''}</div>`;
+    }
+    if (locVal === 'gyeyang' && links.stampUrl) {
+      html += `<div class="card yellow" onclick="window.open('${links.stampUrl}','_blank')" style="cursor:pointer;margin-top:4px;"><h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2><p style="font-size:0.88rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요!</p></div>`;
+    }
+    el.innerHTML = html || '<div class="archive-loading">안내문 내용이 없습니다.</div>';
+  }
+
   function loadArchive() {
-    const targets = ['main-archive-list', 'single-archive-list'];
-    targets.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
-    });
+    ['main-archive-list','single-archive-list'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>'; });
     fetch(APPS_SCRIPT_URL + '?action=getPublished')
       .then(r => r.json())
-      .then(data => {
-        allEntries = data.entries || [];
-        archiveLoaded = true;
-        renderMainArchive();
-        renderArchive('all');
-      })
-      .catch(() => {
-        ['main-archive-list','single-archive-list'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.innerHTML = '<div class="archive-loading">⚠️ 불러오지 못했어요.</div>';
-        });
-      });
+      .then(data => { allEntries = data.entries || []; archiveLoaded = true; renderMainArchive(); renderArchive('all'); })
+      .catch(() => { ['main-archive-list','single-archive-list'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = '<div class="archive-loading">⚠️ 불러오지 못했어요.</div>'; }); });
   }
 
-  // ── 4단 메인 아카이브 렌더 (현재 답사지 기준) ──────
   function renderMainArchive() {
-    const locationName = LOCATION_MAP[currentLocation] || '';
-    const filtered = allEntries.filter(e => e.location === locationName);
-    renderEntries('main-archive-list', filtered);
+    renderEntries('main-archive-list', allEntries.filter(e => e.location === LOCATION_MAP[currentLocation]));
   }
 
-  // ── 단일 페이지 아카이브 필터 ────────────────────
   function filterArchive(filter) {
     document.querySelectorAll('[id^="filter-"]').forEach(b => b.classList.remove('active'));
     document.getElementById('filter-' + filter).classList.add('active');
@@ -753,158 +321,73 @@
   }
 
   function renderArchive(filter) {
-    const filtered = filter === 'all'
-      ? allEntries
-      : allEntries.filter(e => e.location === LOCATION_MAP[filter]);
-    renderEntries('single-archive-list', filtered);
+    renderEntries('single-archive-list', filter === 'all' ? allEntries : allEntries.filter(e => e.location === LOCATION_MAP[filter]));
   }
 
   function renderEntries(elId, entries) {
     const el = document.getElementById(elId);
     if (!el) return;
-    if (!entries.length) {
-      el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>아직 발행된 기행기가 없어요!<br>첫 번째 기행기를 기대해주세요.</div>`;
-      return;
-    }
+    if (!entries.length) { el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>아직 발행된 기행기가 없어요!</div>`; return; }
     el.innerHTML = entries.map(e => `
       <div class="entry-card">
-        <div class="entry-meta">
-          <span class="entry-author">✏️ ${e.studentId ? e.studentId + ' ' : ''}${e.name}</span>
-          <span class="entry-date">${formatDate(e.timestamp)}</span>
-        </div>
+        <div class="entry-meta"><span class="entry-author">✏️ ${e.studentId ? e.studentId + ' ' : ''}${e.name}</span><span class="entry-date">${formatDate(e.timestamp)}</span></div>
         <span class="entry-tag">🏛️ ${e.location || ''}</span>
         <div class="entry-body">${e.draft}</div>
         ${e.photo ? `<img class="entry-photo" src="${e.photo}" alt="답사 사진" onerror="this.style.display='none'">` : ''}
+      </div>`).join('');
+  }
+
+  function loadTours() {
+    if (tourLoaded) { renderTourList(allTours); renderMainTourList(allTours); return; }
+    ['tour-list','main-tour-list'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>'; });
+    fetch(APPS_SCRIPT_URL + '?action=getTourPublished')
+      .then(r => r.json())
+      .then(data => { allTours = data.entries || []; tourLoaded = true; renderTourList(allTours); renderMainTourList(allTours); })
+      .catch(() => { ['tour-list','main-tour-list'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = '<div class="archive-loading">⚠️ 불러오지 못했어요.</div>'; }); });
+  }
+
+  function renderTourList(tours) {
+    const el = document.getElementById('tour-list');
+    if (!el) return;
+    if (!tours.length) { el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>곧 친구들의 투어 코스가 공개돼요!</div>`; return; }
+    el.innerHTML = tours.map(t => `
+      <div class="tour-card" onclick="showTourDetail(${t.rowIndex})">
+        <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
+        <div class="tour-card-title"><strong>${t.tourName}</strong></div>
+        <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name} · ${formatDate(t.timestamp)}</div>
+        <span class="entry-tag" style="margin-top:8px;display:inline-block;">🏛️ 국립중앙박물관</span>
+        ${t.photo ? `<img class="tour-card-photo" src="${t.photo}" onerror="this.style.display='none'">` : ''}
+      </div>`).join('');
+  }
+
+  function renderMainTourList(tours) {
+    const el = document.getElementById('main-tour-list');
+    if (!el) return;
+    if (!tours.length) { el.innerHTML = `<div class="entry-empty" style="padding:20px;"><span class="ico">📭</span>곧 공개돼요!</div>`; return; }
+    el.innerHTML = tours.map(t => `
+      <div class="tour-card" onclick="showSingle('mission');setTimeout(()=>showTourDetail(${t.rowIndex}),100);">
+        <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
+        <div class="tour-card-title"><strong>${t.tourName}</strong></div>
+        <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name}</div>
+      </div>`).join('');
+  }
+
+  function showTourDetail(rowIndex) {
+    const tour = allTours.find(t => t.rowIndex === rowIndex);
+    if (!tour) return;
+    const bodyHtml = (tour.draft || '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    document.getElementById('tour-detail-content').innerHTML = `
+      <div class="tour-detail-header">
+        <div class="tour-detail-label">[나만의 국중박 답사 코스 만들기]</div>
+        <div class="tour-detail-title">${tour.tourName}</div>
+        <div class="tour-detail-author">✏️ ${tour.studentId ? tour.studentId + ' ' : ''}${tour.name} · ${formatDate(tour.timestamp)}</div>
+        <span class="entry-tag" style="margin-top:8px;display:inline-block;">🏛️ 국립중앙박물관</span>
       </div>
-    `).join('');
-  }
-
-  // ── 관리자 ──────────────────────────────────────
-  function checkAdminPw() {
-    const pw = document.getElementById('admin-pw-input').value;
-    if (pw === ADMIN_PW) {
-      adminLoggedIn = true;
-      document.getElementById('admin-login-wrap').style.display = 'none';
-      document.getElementById('admin-panel').style.display = 'block';
-      loadAdminEntries('all');
-    } else {
-      alert('비밀번호가 틀렸습니다.');
-      document.getElementById('admin-pw-input').value = '';
-    }
-  }
-
-  function loadAdminEntries(filter) {
-    currentAdminFilter = filter;
-    const locationName = filter === 'all' ? '' : (LOCATION_MAP[filter] || '');
-    const url = APPS_SCRIPT_URL + '?action=getAll' + (locationName ? '&location=' + encodeURIComponent(locationName) : '');
-    document.getElementById('admin-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
-    fetch(url)
-      .then(r => r.json())
-      .then(data => {
-        const entries = data.entries || [];
-        document.getElementById('admin-count').textContent = `총 ${entries.length}건`;
-        renderAdminList(entries);
-      })
-      .catch(() => {
-        document.getElementById('admin-list').innerHTML = '<div class="archive-loading">⚠️ 데이터를 불러오지 못했어요.</div>';
-      });
-  }
-
-  function adminFilter(filter) {
-    document.querySelectorAll('[id^="admin-filter-"]').forEach(b => b.classList.remove('active'));
-    document.getElementById('admin-filter-' + filter).classList.add('active');
-    loadAdminEntries(filter);
-  }
-
-  function renderAdminList(entries) {
-    const el = document.getElementById('admin-list');
-    if (!entries.length) { el.innerHTML = '<div class="archive-loading">제출된 기행기가 없습니다.</div>'; return; }
-    el.innerHTML = entries.map(e => `
-      <div class="admin-entry ${e.published ? 'published' : ''}" id="admin-entry-${e.rowIndex}">
-        <div class="admin-entry-header">
-          <div>
-            <span class="admin-entry-name">${e.studentId ? e.studentId + ' ' : ''}${e.name}</span>
-            <span class="admin-entry-meta"> · ${e.location || ''} · ${formatDate(e.timestamp)}</span>
-          </div>
-          ${e.published ? '<span class="publish-badge">✅ 발행됨</span>' : '<span class="unpublish-badge">미발행</span>'}
-        </div>
-        <div class="raw-answers">
-          <div class="q">원픽</div>${e.pick}
-          <div class="q">선정 이유</div>${e.reason}
-          <div class="q">키워드</div>${e.keywords}
-          <div class="q">현장 소감</div>${e.essay}
-          <div class="q">에피소드</div>${e.episode}
-          <div class="q">한 문장 정의</div>${e.definition}
-        </div>
-        <textarea class="draft-area" id="draft-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${e.draft || ''}</textarea>
-        <div class="admin-actions">
-          <button class="admin-btn btn-generate" onclick="generateDraft(${e.rowIndex})">✨ AI 초안 생성</button>
-          <button class="admin-btn btn-save" onclick="saveDraft(${e.rowIndex})">💾 수정 저장</button>
-          ${e.published
-            ? `<button class="admin-btn btn-unpublish" onclick="togglePublish(${e.rowIndex}, false)">🚫 발행 취소</button>`
-            : `<button class="admin-btn btn-publish" onclick="togglePublish(${e.rowIndex}, true)">📢 발행하기</button>`}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // ── 기행기 수정 저장 ─────────────────────────────
-  function saveDraft(rowIndex) {
-    const btn = event.target;
-    const draft = document.getElementById('draft-' + rowIndex).value;
-    if (!draft.trim()) { alert('내용을 입력해주세요.'); return; }
-    btn.disabled = true; btn.textContent = '⏳ 저장 중...';
-    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveDraftOnly', rowIndex, editedDraft: draft }) })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) { btn.textContent = '✅ 저장됨'; setTimeout(() => { btn.textContent = '💾 수정 저장'; btn.disabled = false; }, 2000); }
-        else { alert('저장 실패: ' + (data.error || '오류')); btn.textContent = '💾 수정 저장'; btn.disabled = false; }
-      })
-      .catch(() => { alert('네트워크 오류'); btn.textContent = '💾 수정 저장'; btn.disabled = false; });
-  }
-
-  // ── 투어 수정 저장 ────────────────────────────────
-  function saveTourDraft(rowIndex) {
-    const btn = event.target;
-    const draft = document.getElementById('tour-draft-' + rowIndex).value;
-    if (!draft.trim()) { alert('내용을 입력해주세요.'); return; }
-    btn.disabled = true; btn.textContent = '⏳ 저장 중...';
-    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveTourDraftOnly', rowIndex, editedDraft: draft }) })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) { btn.textContent = '✅ 저장됨'; setTimeout(() => { btn.textContent = '💾 수정 저장'; btn.disabled = false; }, 2000); }
-        else { alert('저장 실패: ' + (data.error || '오류')); btn.textContent = '💾 수정 저장'; btn.disabled = false; }
-      })
-      .catch(() => { alert('네트워크 오류'); btn.textContent = '💾 수정 저장'; btn.disabled = false; });
-  }
-
-  function generateDraft(rowIndex) {
-    const btn = event.target;
-    btn.disabled = true; btn.textContent = '⏳ 생성 중...';
-    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'generateDraft', rowIndex }) })
-      .then(r => r.json())
-      .then(data => {
-        if (data.draft) { document.getElementById('draft-' + rowIndex).value = data.draft; btn.textContent = '✅ 생성 완료'; }
-        else { alert('초안 생성 실패: ' + (data.error || '오류')); btn.textContent = '✨ AI 초안 생성'; }
-        btn.disabled = false;
-      })
-      .catch(() => { alert('네트워크 오류'); btn.textContent = '✨ AI 초안 생성'; btn.disabled = false; });
-  }
-
-  function togglePublish(rowIndex, publish) {
-    const draft = document.getElementById('draft-' + rowIndex).value;
-    if (publish && !draft.trim()) { alert('먼저 AI 초안을 생성하거나 직접 내용을 입력해주세요.'); return; }
-    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'togglePublish', rowIndex, published: publish, editedDraft: draft }) })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          archiveLoaded = false; allEntries = [];
-          alert(publish ? '✅ 발행되었습니다!' : '발행이 취소되었습니다.');
-          loadAdminEntries(currentAdminFilter);
-          loadArchive();
-        } else { alert('오류: ' + (data.error || '알 수 없는 오류')); }
-      })
-      .catch(() => alert('네트워크 오류'));
+      ${tour.photo ? `<img class="tour-detail-photo" src="${tour.photo}" onerror="this.style.display='none'">` : ''}
+      <div class="tour-detail-body">${bodyHtml}</div>`;
+    document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('single-tour-detail').classList.add('active');
+    window.scrollTo(0, 0);
   }
 
   function formatDate(ts) {
@@ -914,222 +397,21 @@
     return `${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.`;
   }
 
-  // ══════════════════════════
-  //  관리자 탭 전환
-  // ══════════════════════════
-  function adminTabSwitch(tab) {
-    document.querySelectorAll('[id^="admin-tab-"]').forEach(b => b.classList.remove('active'));
-    document.getElementById('admin-tab-' + tab).classList.add('active');
-    document.getElementById('admin-section-archive').style.display = tab === 'archive' ? 'block' : 'none';
-    document.getElementById('admin-section-tour').style.display = tab === 'tour' ? 'block' : 'none';
-    if (tab === 'tour') loadAdminTours();
-  }
-
-  // ══════════════════════════
-  //  투어 코스 공개용
-  // ══════════════════════════
-  let allTours = [];
-  let tourLoaded = false;
-
-  function loadTours() {
-    if (tourLoaded) {
-      renderTourList(allTours);
-      renderMainTourList(allTours);
-      return;
-    }
-    document.getElementById('tour-list') && (document.getElementById('tour-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>');
-    document.getElementById('main-tour-list') && (document.getElementById('main-tour-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>');
-    fetch(APPS_SCRIPT_URL + '?action=getTourPublished')
-      .then(r => r.json())
-      .then(data => {
-        allTours = data.entries || [];
-        tourLoaded = true;
-        renderTourList(allTours);
-        renderMainTourList(allTours);
-      })
-      .catch(() => {
-        ['tour-list','main-tour-list'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.innerHTML = '<div class="archive-loading">⚠️ 불러오지 못했어요.</div>';
-        });
-      });
-  }
-
-  function renderMainTourList(tours) {
-    const el = document.getElementById('main-tour-list');
-    if (!el) return;
-    if (!tours.length) {
-      el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>곧 친구들의 투어 코스가 공개돼요!</div>`;
-      return;
-    }
-    el.innerHTML = tours.map(t => `
-      <div class="tour-card" onclick="showSingle('mission'); setTimeout(()=>showTourDetail(${t.rowIndex}),100);">
-        <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
-        <div class="tour-card-title"><strong>${t.tourName}</strong></div>
-        <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name}</div>
-      </div>
-    `).join('');
-  }
-
-  function renderTourList(tours) {
-    const el = document.getElementById('tour-list');
-    if (!tours.length) {
-      el.innerHTML = `<div class="entry-empty"><span class="ico">📭</span>아직 발행된 투어 코스가 없어요!<br>곧 친구들의 투어 코스가 공개돼요.</div>`;
-      return;
-    }
-    el.innerHTML = tours.map(t => `
-      <div class="tour-card" onclick="showTourDetail(${t.rowIndex})">
-        <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
-        <div class="tour-card-title"><strong>${t.tourName}</strong></div>
-        <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name} · ${formatDate(t.timestamp)}</div>
-        <span class="entry-tag" style="margin-top:8px; display:inline-block;">🏛️ 국립중앙박물관</span>
-        ${t.photo ? `<img class="tour-card-photo" src="${t.photo}" alt="투어 대표 사진" onerror="this.style.display='none'">` : ''}
-      </div>
-    `).join('');
-  }
-
-  function showTourDetail(rowIndex) {
-    const tour = allTours.find(t => t.rowIndex === rowIndex);
-    if (!tour) return;
-
-    const el = document.getElementById('tour-detail-content');
-    // **굵게** 마크다운을 <strong>으로 변환
-    const bodyHtml = (tour.draft || '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-    el.innerHTML = `
-      <div class="tour-detail-header">
-        <div class="tour-detail-label">[나만의 국중박 답사 코스 만들기]</div>
-        <div class="tour-detail-title">${tour.tourName}</div>
-        <div class="tour-detail-author">✏️ ${tour.studentId ? tour.studentId + ' ' : ''}${tour.name} · ${formatDate(tour.timestamp)}</div>
-        <span class="entry-tag" style="margin-top:8px; display:inline-block;">🏛️ 국립중앙박물관</span>
-      </div>
-      ${tour.photo ? `<img class="tour-detail-photo" src="${tour.photo}" alt="투어 대표 사진" onerror="this.style.display='none'">` : ''}
-      <div class="tour-detail-body">${bodyHtml}</div>
-    `;
-
-    // 모든 single-page 숨기고 투어 상세 표시
-    document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
-    document.getElementById('single-tour-detail').classList.add('active');
-    window.scrollTo(0, 0);
-  }
-
-  // ══════════════════════════
-  //  투어 코스 관리자용
-  // ══════════════════════════
-  let adminTourLoaded = false;
-
-  function loadAdminTours() {
-    if (adminTourLoaded) return;
-    document.getElementById('admin-tour-list').innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>';
-    fetch(APPS_SCRIPT_URL + '?action=getAllTours')
-      .then(r => r.json())
-      .then(data => {
-        adminTourLoaded = true;
-        renderAdminTourList(data.entries || []);
-      })
-      .catch(() => {
-        document.getElementById('admin-tour-list').innerHTML = '<div class="archive-loading">⚠️ 데이터를 불러오지 못했어요.</div>';
-      });
-  }
-
-  function renderAdminTourList(entries) {
-    const el = document.getElementById('admin-tour-list');
-    if (!entries.length) { el.innerHTML = '<div class="archive-loading">제출된 투어 코스가 없습니다.</div>'; return; }
-    el.innerHTML = entries.map(e => `
-      <div class="admin-entry ${e.published ? 'published' : ''}" id="admin-tour-${e.rowIndex}">
-        <div class="admin-entry-header">
-          <div>
-            <span class="admin-entry-name">${e.studentId ? e.studentId + ' ' : ''}${e.name}</span>
-            <span class="admin-entry-meta"> · ${formatDate(e.timestamp)}</span>
-          </div>
-          ${e.published ? '<span class="publish-badge">✅ 발행됨</span>' : '<span class="unpublish-badge">미발행</span>'}
-        </div>
-        <div class="admin-entry-pick">🗺️ ${e.tourName}</div>
-        <div class="raw-answers">
-          <div class="q">추천 대상</div>${e.recommend}
-          <div class="q">유물 3가지</div>${e.artifacts}
-          <div class="q">꼭 봐야 하는 이유</div>${e.reasons}
-          <div class="q">미션</div>${e.mission}
-        </div>
-        <textarea class="draft-area" id="tour-draft-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${e.draft || ''}</textarea>
-        <div class="admin-actions">
-          <button class="admin-btn btn-generate" onclick="generateTourDraft(${e.rowIndex})">✨ AI 초안 생성</button>
-          <button class="admin-btn btn-save" onclick="saveTourDraft(${e.rowIndex})">💾 수정 저장</button>
-          ${e.published
-            ? `<button class="admin-btn btn-unpublish" onclick="toggleTourPublish(${e.rowIndex}, false)">🚫 발행 취소</button>`
-            : `<button class="admin-btn btn-publish" onclick="toggleTourPublish(${e.rowIndex}, true)">📢 발행하기</button>`}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function generateTourDraft(rowIndex) {
-    const btn = event.target;
-    btn.disabled = true; btn.textContent = '⏳ 생성 중...';
-    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'generateTourDraft', rowIndex }) })
-      .then(r => r.json())
-      .then(data => {
-        if (data.draft) { document.getElementById('tour-draft-' + rowIndex).value = data.draft; btn.textContent = '✅ 생성 완료'; }
-        else { alert('초안 생성 실패: ' + (data.error || '오류')); btn.textContent = '✨ AI 초안 생성'; }
-        btn.disabled = false;
-      })
-      .catch(() => { alert('네트워크 오류'); btn.textContent = '✨ AI 초안 생성'; btn.disabled = false; });
-  }
-
-  function toggleTourPublish(rowIndex, publish) {
-    const draft = document.getElementById('tour-draft-' + rowIndex).value;
-    if (publish && !draft.trim()) { alert('먼저 AI 초안을 생성하거나 직접 내용을 입력해주세요.'); return; }
-    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'toggleTourPublish', rowIndex, published: publish, editedDraft: draft }) })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          tourLoaded = false; allTours = []; adminTourLoaded = false;
-          alert(publish ? '✅ 발행되었습니다!' : '발행이 취소되었습니다.');
-          loadAdminTours();
-        } else { alert('오류: ' + (data.error || '알 수 없는 오류')); }
-      })
-      .catch(() => alert('네트워크 오류'));
-  }
-
-  // ── 초기화 ───────────────────────────────────────
   (function init() {
-    const trips = [
-      { value: 'jungang', date: '2026-04-04' },
-      { value: 'gyeyang', date: '2026-04-21' }
-    ];
+    const trips = [{ value: 'jungang', date: '2026-04-04' }, { value: 'gyeyang', date: '2026-04-21' }];
     const today = new Date(); today.setHours(0,0,0,0);
     const upcoming = trips.filter(t => new Date(t.date) >= today);
     const past     = trips.filter(t => new Date(t.date) < today);
-    const def = upcoming.length > 0 ? upcoming[0].value
-              : past.length > 0     ? past[past.length-1].value
-              : trips[0].value;
-
+    const def = upcoming.length > 0 ? upcoming[0].value : past.length > 0 ? past[past.length-1].value : trips[0].value;
     currentLocation = def;
     document.getElementById('pageSelector').value = def;
     document.getElementById('single-pageSelector').value = def;
-    onLocationChange(def);
-    onLocationChangeSingle(def);
-
-    // 아카이브·투어 미리 로드
+    loadGuideContent(def, 'main-guide-content');
     loadArchive();
     loadTours();
-
-    // 모바일 하단 관리자 버튼 표시
-    if (window.innerWidth <= 768) {
-      document.getElementById('mobile-admin-btn').style.display = 'block';
-    }
-
-    // 해시 복원 or 초기 페이지
     const hash = location.hash.replace('#', '');
-    const validPages = ['guide','archive','mission','admin','tour-detail'];
-    if (hash && validPages.includes(hash)) {
-      showSingle(hash);
-    } else {
-      // 모바일에서는 답사 안내를 기본으로
-      if (window.innerWidth <= 768) {
-        showSingle('guide');
-      }
-    }
+    if (['guide','archive','mission','tour-detail'].includes(hash)) showSingle(hash);
+    else if (window.innerWidth <= 768) showSingle('guide');
   })();
 </script>
 </body>
