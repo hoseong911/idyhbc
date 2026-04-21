@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDY BASECAMP 관리자</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&display=swap">
+  <style>
+    :root {
+      --bg: #F4F9F9; --blue: #A4D4CC; --yellow: #FBEA9E; --pink: #F5D3D6; --purple: #D5C6E0;
+      --dark: #333333; --light: #666666; --card: #FFFFFF;
+      --blue-deep: #3D7A70; --pink-deep: #A34A52; --yellow-deep: #7A6200;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
+    html, body { width: 100%; min-height: 100%; background: var(--bg); color: var(--dark); line-height: 1.6; }
+
+    /* ── 로그인 ── */
+    .login-wrap { max-width: 380px; margin: 100px auto; background: white; border-radius: 20px; padding: 48px 36px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); text-align: center; }
+    .login-wrap .logo { font-size: 2.5rem; margin-bottom: 12px; }
+    .login-wrap h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+    .login-wrap p { font-size: 0.85rem; color: var(--light); margin-bottom: 24px; }
+    .login-input { width: 100%; padding: 13px; border-radius: 10px; border: 2px solid #eee; font-size: 1rem; outline: none; text-align: center; transition: border-color 0.2s; margin-bottom: 12px; }
+    .login-input:focus { border-color: var(--blue); }
+    .login-error { font-size: 0.82rem; color: var(--pink-deep); margin-top: 8px; display: none; }
+
+    /* ── 전체 레이아웃 ── */
+    .admin-app { display: none; }
+    .admin-app.active { display: flex; min-height: 100vh; }
+
+    /* ── 사이드바 ── */
+    .sidebar { width: 220px; flex-shrink: 0; background: white; box-shadow: 2px 0 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; padding: 20px 14px; overflow-y: auto; }
+    .admin-logo { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 14px; padding: 18px 14px; text-align: center; color: white; margin-bottom: 16px; }
+    .admin-logo h1 { font-size: 0.8rem; opacity: 0.85; margin-bottom: 4px; }
+    .admin-logo p { font-size: 0.95rem; font-weight: 800; }
+    .side-nav { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .side-btn { display: flex; align-items: center; gap: 10px; background: var(--bg); border: none; border-radius: 10px; padding: 11px 12px; width: 100%; cursor: pointer; border-left: 4px solid transparent; text-align: left; transition: background 0.15s; }
+    .side-btn.blue   { border-left-color: var(--blue); }
+    .side-btn.yellow { border-left-color: var(--yellow); }
+    .side-btn.pink   { border-left-color: var(--pink); }
+    .side-btn.purple { border-left-color: var(--purple); }
+    .side-btn.active { background: #EEF7F5; }
+    .side-btn.active .s-label { color: var(--blue-deep); }
+    .side-btn .s-icon  { font-size: 1.2rem; }
+    .side-btn .s-label { font-size: 0.85rem; font-weight: 700; color: var(--dark); }
+    .side-btn .s-desc  { font-size: 0.68rem; color: var(--light); margin-top: 1px; }
+    .side-divider { height: 1px; background: #f0f0f0; margin: 8px 0; }
+    .logout-btn { display: flex; align-items: center; gap: 8px; background: none; border: none; padding: 10px 12px; cursor: pointer; font-size: 0.78rem; color: #bbb; }
+    .logout-btn:hover { color: var(--pink-deep); }
+
+    /* ── 콘텐츠 ── */
+    .main-content { margin-left: 220px; flex: 1; padding: 32px 36px; max-width: 1000px; }
+
+    /* ── 섹션 ── */
+    .section { display: none; }
+    .section.active { display: block; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    .section-title { font-size: 1.4rem; font-weight: 800; color: var(--dark); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+    .section-desc  { font-size: 0.85rem; color: var(--light); margin-bottom: 28px; }
+
+    /* ── 버튼 ── */
+    .btn { padding: 11px 20px; border: none; border-radius: 10px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: transform 0.15s, opacity 0.15s; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: var(--blue); color: var(--blue-deep); }
+    .btn-success { background: #D4EDDA; color: #2D6A4F; }
+    .btn-danger  { background: #FFE8EA; color: var(--pink-deep); }
+    .btn-purple  { background: var(--purple); color: #5A4A7A; }
+    .btn-sm { padding: 7px 14px; font-size: 0.78rem; }
+    .btn-block { display: block; width: 100%; text-align: center; }
+
+    /* ── 카드 ── */
+    .card { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .card-title { font-size: 1rem; font-weight: 800; color: var(--dark); }
+    .card-meta  { font-size: 0.75rem; color: #aaa; }
+
+    /* ── 필터 탭 ── */
+    .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .filter-btn { padding: 7px 16px; border: 2px solid #eee; border-radius: 20px; background: white; font-size: 0.8rem; font-weight: 700; color: var(--light); cursor: pointer; transition: all 0.15s; }
+    .filter-btn.active { border-color: var(--blue); background: #EEF7F5; color: var(--blue-deep); }
+
+    /* ── 기행기 / 투어 관리 카드 ── */
+    .entry-card { background: white; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 2px solid #f0f0f0; }
+    .entry-card.published { border-color: var(--blue); }
+    .entry-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .entry-name { font-weight: 800; font-size: 0.95rem; }
+    .entry-meta { font-size: 0.75rem; color: #aaa; }
+    .raw-box { background: #f8f9fa; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 0.8rem; color: var(--light); line-height: 1.7; }
+    .raw-box .q { font-weight: 700; color: var(--dark); margin-top: 5px; }
+    .raw-box .q:first-child { margin-top: 0; }
+    .draft-area { width: 100%; min-height: 120px; border: 2px solid #eee; border-radius: 10px; padding: 12px; font-size: 0.88rem; line-height: 1.7; resize: vertical; font-family: 'Noto Sans KR', sans-serif; margin-bottom: 10px; outline: none; transition: border-color 0.2s; }
+    .draft-area:focus { border-color: var(--blue); }
+    .draft-area::placeholder { color: #ccc; }
+    .entry-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .publish-badge   { display: inline-block; background: #D4EDDA; color: #2D6A4F; border-radius: 20px; padding: 2px 10px; font-size: 0.72rem; font-weight: 700; }
+    .unpublish-badge { display: inline-block; background: #f0f0f0; color: #aaa; border-radius: 20px; padding: 2px 10px; font-size: 0.72rem; font-weight: 700; }
+
+    /* ── 답사 안내문 편집 ── */
+    .guide-editor { margin-bottom: 28px; }
+    .guide-loc-title { font-size: 1rem; font-weight: 800; color: var(--dark); margin-bottom: 16px; padding: 10px 16px; background: white; border-radius: 10px; border-left: 5px solid var(--blue); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .guide-section { background: white; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 4px solid #eee; }
+    .guide-section.blue   { border-top-color: var(--blue); }
+    .guide-section.yellow { border-top-color: var(--yellow); }
+    .guide-section.pink   { border-top-color: var(--pink); }
+    .guide-section.purple { border-top-color: var(--purple); }
+    .guide-section label { font-size: 0.82rem; font-weight: 700; color: var(--dark); display: block; margin-bottom: 6px; }
+    .guide-input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 2px solid #eee; font-size: 0.88rem; outline: none; transition: border-color 0.2s; margin-bottom: 10px; font-family: 'Noto Sans KR', sans-serif; }
+    .guide-input:focus { border-color: var(--blue); }
+    textarea.guide-input { min-height: 100px; resize: vertical; line-height: 1.7; }
+    .guide-save-row { display: flex; justify-content: flex-end; margin-top: 6px; }
+
+    /* ── 로딩 ── */
+    .loading-msg { text-align: center; padding: 40px; color: var(--light); font-size: 0.9rem; }
+
+    /* ── 반응형 ── */
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; height: auto; position: static; padding: 14px; }
+      .side-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+      .side-btn { flex: 1; min-width: 80px; flex-direction: column; align-items: center; text-align: center; border-left: none; border-bottom: 3px solid transparent; border-radius: 9px; padding: 9px 6px; }
+      .side-btn.blue   { border-bottom-color: var(--blue); }
+      .side-btn.yellow { border-bottom-color: var(--yellow); }
+      .side-btn.pink   { border-bottom-color: var(--pink); }
+      .side-btn.purple { border-bottom-color: var(--purple); }
+      .side-btn .s-desc { display: none; }
+      .side-divider { display: none; }
+      .admin-app { flex-direction: column; }
+      .main-content { margin-left: 0; padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 로그인 -->
+  <div id="login-wrap" class="login-wrap">
+    <div class="logo">🔒</div>
+    <h2>관리자 로그인</h2>
+    <p>IDY HISTORY BASECAMP 관리자 페이지입니다</p>
+    <input type="password" id="pw-input" class="login-input" placeholder="비밀번호를 입력하세요"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="btn btn-primary btn-block" onclick="doLogin()">로그인</button>
+    <div id="login-error" class="login-error">비밀번호가 올바르지 않습니다.</div>
+  </div>
+
+  <!-- 관리자 앱 -->
+  <div id="admin-app" class="admin-app">
+
+    <!-- 사이드바 -->
+    <div class="sidebar">
+      <div class="admin-logo">
+        <h1>🧭 인천동양중학교</h1>
+        <p>관리자 모드</p>
+      </div>
+      <nav class="side-nav">
+        <button class="side-btn blue active" id="nav-guide" onclick="showSection('guide')">
+          <span class="s-icon">📍</span>
+          <div><div class="s-label">답사 안내문</div><div class="s-desc">안내문 내용 수정</div></div>
+        </button>
+        <button class="side-btn pink" id="nav-archive" onclick="showSection('archive')">
+          <span class="s-icon">📖</span>
+          <div><div class="s-label">기행기 관리</div><div class="s-desc">발행 · 수정 · 취소</div></div>
+        </button>
+        <button class="side-btn yellow" id="nav-tour" onclick="showSection('tour')">
+          <span class="s-icon">🎯</span>
+          <div><div class="s-label">투어 코스 관리</div><div class="s-desc">발행 · 수정 · 취소</div></div>
+        </button>
+      </nav>
+      <div style="flex:1;"></div>
+      <div class="side-divider"></div>
+      <button class="logout-btn" onclick="doLogout()">🚪 로그아웃</button>
+    </div>
+
+    <!-- 메인 콘텐츠 -->
+    <div class="main-content">
+
+      <!-- ① 답사 안내문 섹션 -->
+      <div id="section-guide" class="section active">
+        <div class="section-title">📍 답사 안내문 수정</div>
+        <p class="section-desc">Sheets에 저장된 답사 안내문 내용을 직접 수정할 수 있어요. 수정 후 저장하면 베이스캠프에 즉시 반영됩니다.</p>
+        <div id="guide-editor-wrap"><div class="loading-msg">⏳ 안내문 불러오는 중...</div></div>
+      </div>
+
+      <!-- ② 기행기 관리 섹션 -->
+      <div id="section-archive" class="section">
+        <div class="section-title">📖 기행기 관리</div>
+        <p class="section-desc">학생들이 제출한 기행기를 AI 초안 생성 후 발행하거나 수정할 수 있어요.</p>
+        <div class="filter-tabs">
+          <button class="filter-btn active" id="af-all"     onclick="archiveFilter('all')">전체</button>
+          <button class="filter-btn" id="af-jungang" onclick="archiveFilter('jungang')">국립중앙박물관</button>
+          <button class="filter-btn" id="af-gyeyang" onclick="archiveFilter('gyeyang')">계양산성박물관</button>
+        </div>
+        <div id="archive-list"><div class="loading-msg">⏳ 불러오는 중...</div></div>
+      </div>
+
+      <!-- ③ 투어 코스 관리 섹션 -->
+      <div id="section-tour" class="section">
+        <div class="section-title">🎯 투어 코스 관리</div>
+        <p class="section-desc">학생들이 제출한 나만의 투어 코스를 AI 초안 생성 후 발행하거나 수정할 수 있어요.</p>
+        <div id="tour-list"><div class="loading-msg">⏳ 불러오는 중...</div></div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /admin-app -->
+
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_mcVUKve8iINHT_C6lnYQQl-1IU8JH6BIEi2vQBwRUNb9cEdum1864R3Mv15KPE0ExA/exec';
+  const ADMIN_PW = 'ghtjd12!@';
+  const LOCATION_MAP = { 'jungang': '국립중앙박물관', 'gyeyang': '계양산성박물관' };
+
+  const SECTION_COLORS = { intro: 'blue', highlights: 'yellow', mission: 'pink', essay: 'purple' };
+  const SECTION_LABELS = { intro: '소개글', highlights: '핵심 유물/볼거리', mission: '미션 안내', essay: '기행기 안내' };
+
+  let currentArchiveFilter = 'all';
+  let guidesData = {};
+
+  // ── 로그인 ─────────────────────────────────────
+  function doLogin() {
+    const pw = document.getElementById('pw-input').value;
+    if (pw === ADMIN_PW) {
+      document.getElementById('login-wrap').style.display = 'none';
+      document.getElementById('admin-app').classList.add('active');
+      loadGuides();
+      loadArchive('all');
+      loadTours();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+    }
+  }
+
+  function doLogout() {
+    if (confirm('로그아웃 하시겠어요?')) location.reload();
+  }
+
+  // ── 섹션 전환 ──────────────────────────────────
+  function showSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + name).classList.add('active');
+    document.querySelectorAll('.side-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('nav-' + name).classList.add('active');
+  }
+
+  // ── 답사 안내문 ────────────────────────────────
+  function loadGuides() {
+    fetch(APPS_SCRIPT_URL + '?action=getAllGuides')
+      .then(r => r.json())
+      .then(data => {
+        guidesData = data.guides || {};
+        renderGuideEditor();
+      })
+      .catch(() => { document.getElementById('guide-editor-wrap').innerHTML = '<div class="loading-msg">⚠️ 불러오지 못했어요.</div>'; });
+  }
+
+  function renderGuideEditor() {
+    const wrap = document.getElementById('guide-editor-wrap');
+    const locations = [
+      { key: 'jungang', label: '📍 국립중앙박물관', sections: ['intro','highlights','mission','essay'] },
+      { key: 'gyeyang', label: '📍 계양산성박물관', sections: ['intro','highlights','essay'] }
+    ];
+
+    wrap.innerHTML = locations.map(loc => {
+      const guide = guidesData[loc.label] || {};
+      const sections = loc.sections.map(sk => {
+        const s = guide[sk] || { title: '', content: '' };
+        return `
+          <div class="guide-section ${SECTION_COLORS[sk] || ''}">
+            <label>${SECTION_LABELS[sk] || sk}</label>
+            <input type="text" class="guide-input" id="gt-${loc.key}-${sk}" value="${escHtml(s.title)}" placeholder="섹션 제목">
+            <textarea class="guide-input" id="gc-${loc.key}-${sk}" placeholder="내용을 입력하세요">${escHtml(s.content)}</textarea>
+            <div class="guide-save-row">
+              <button class="btn btn-primary btn-sm" onclick="saveGuideSection('${loc.key}','${loc.label}','${sk}')">💾 이 섹션 저장</button>
+            </div>
+          </div>`;
+      }).join('');
+      return `
+        <div class="guide-editor">
+          <div class="guide-loc-title">${loc.label}</div>
+          ${sections}
+          <div style="display:flex;justify-content:flex-end;margin-top:4px;">
+            <button class="btn btn-success" onclick="saveAllSections('${loc.key}','${loc.label}',${JSON.stringify(loc.sections)})">✅ 전체 저장</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function saveGuideSection(locKey, locName, sectionKey) {
+    const title   = document.getElementById('gt-' + locKey + '-' + sectionKey).value;
+    const content = document.getElementById('gc-' + locKey + '-' + sectionKey).value;
+    const sections = {};
+    sections[sectionKey] = { title, content };
+    saveGuide(locName, sections);
+  }
+
+  function saveAllSections(locKey, locName, sectionKeys) {
+    const sections = {};
+    sectionKeys.forEach(sk => {
+      sections[sk] = {
+        title:   document.getElementById('gt-' + locKey + '-' + sk).value,
+        content: document.getElementById('gc-' + locKey + '-' + sk).value
+      };
+    });
+    saveGuide(locName, sections);
+  }
+
+  function saveGuide(location, sections) {
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'saveGuide', location, sections })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        // 캐시 무효화 (basecamp에서 다시 로드하도록)
+        alert('✅ 저장됐어요! 베이스캠프를 새로고침하면 반영됩니다.');
+      } else {
+        alert('오류: ' + (data.error || '알 수 없는 오류'));
+      }
+    })
+    .catch(() => alert('네트워크 오류'));
+  }
+
+  // ── 기행기 관리 ────────────────────────────────
+  function loadArchive(filter) {
+    currentArchiveFilter = filter;
+    const locName = filter === 'all' ? '' : (LOCATION_MAP[filter] || '');
+    const url = APPS_SCRIPT_URL + '?action=getAll' + (locName ? '&location=' + encodeURIComponent(locName) : '');
+    document.getElementById('archive-list').innerHTML = '<div class="loading-msg">⏳ 불러오는 중...</div>';
+    fetch(url)
+      .then(r => r.json())
+      .then(data => renderArchiveList(data.entries || []))
+      .catch(() => { document.getElementById('archive-list').innerHTML = '<div class="loading-msg">⚠️ 데이터를 불러오지 못했어요.</div>'; });
+  }
+
+  function archiveFilter(filter) {
+    document.querySelectorAll('[id^="af-"]').forEach(b => b.classList.remove('active'));
+    document.getElementById('af-' + filter).classList.add('active');
+    loadArchive(filter);
+  }
+
+  function renderArchiveList(entries) {
+    const el = document.getElementById('archive-list');
+    if (!entries.length) { el.innerHTML = '<div class="loading-msg">제출된 기행기가 없습니다.</div>'; return; }
+    el.innerHTML = entries.map(e => `
+      <div class="entry-card ${e.published ? 'published' : ''}" id="ae-${e.rowIndex}">
+        <div class="entry-header">
+          <div>
+            <span class="entry-name">${e.studentId ? e.studentId + ' ' : ''}${e.name}</span>
+            <span class="entry-meta"> · ${e.location || ''} · ${formatDate(e.timestamp)}</span>
+          </div>
+          ${e.published ? '<span class="publish-badge">✅ 발행됨</span>' : '<span class="unpublish-badge">미발행</span>'}
+        </div>
+        <div class="raw-box">
+          <div class="q">원픽</div>${escHtml(e.pick)}
+          <div class="q">선정 이유</div>${escHtml(e.reason)}
+          <div class="q">키워드</div>${escHtml(e.keywords)}
+          <div class="q">현장 소감</div>${escHtml(e.essay)}
+          <div class="q">에피소드</div>${escHtml(e.episode)}
+          <div class="q">한 문장 정의</div>${escHtml(e.definition)}
+        </div>
+        <textarea class="draft-area" id="ad-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${escHtml(e.draft || '')}</textarea>
+        <div class="entry-actions">
+          <button class="btn btn-purple btn-sm" onclick="generateDraft(${e.rowIndex})">✨ AI 초안 생성</button>
+          <button class="btn btn-primary btn-sm" onclick="saveDraft(${e.rowIndex})">💾 수정 저장</button>
+          ${e.published
+            ? `<button class="btn btn-danger btn-sm" onclick="togglePublish(${e.rowIndex},false)">🚫 발행 취소</button>`
+            : `<button class="btn btn-success btn-sm" onclick="togglePublish(${e.rowIndex},true)">📢 발행하기</button>`}
+        </div>
+      </div>`).join('');
+  }
+
+  function generateDraft(rowIndex) {
+    const btn = event.target;
+    btn.disabled = true; btn.textContent = '⏳ 생성 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'generateDraft', rowIndex }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.draft) { document.getElementById('ad-' + rowIndex).value = data.draft; btn.textContent = '✅ 생성 완료'; }
+        else { alert('생성 실패: ' + (data.error || '오류')); btn.textContent = '✨ AI 초안 생성'; }
+        btn.disabled = false;
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '✨ AI 초안 생성'; btn.disabled = false; });
+  }
+
+  function saveDraft(rowIndex) {
+    const btn = event.target;
+    const draft = document.getElementById('ad-' + rowIndex).value;
+    if (!draft.trim()) { alert('내용을 입력해주세요.'); return; }
+    btn.disabled = true; btn.textContent = '⏳ 저장 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveDraftOnly', rowIndex, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) { btn.textContent = '✅ 저장됨'; setTimeout(() => { btn.textContent = '💾 수정 저장'; btn.disabled = false; }, 2000); }
+        else { alert('저장 실패: ' + (data.error || '오류')); btn.textContent = '💾 수정 저장'; btn.disabled = false; }
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '💾 수정 저장'; btn.disabled = false; });
+  }
+
+  function togglePublish(rowIndex, publish) {
+    const draft = document.getElementById('ad-' + rowIndex).value;
+    if (publish && !draft.trim()) { alert('먼저 AI 초안을 생성하거나 직접 내용을 입력해주세요.'); return; }
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'togglePublish', rowIndex, published: publish, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) { alert(publish ? '✅ 발행됐어요!' : '발행이 취소됐어요.'); loadArchive(currentArchiveFilter); }
+        else { alert('오류: ' + (data.error || '알 수 없는 오류')); }
+      })
+      .catch(() => alert('네트워크 오류'));
+  }
+
+  // ── 투어 코스 관리 ──────────────────────────────
+  function loadTours() {
+    document.getElementById('tour-list').innerHTML = '<div class="loading-msg">⏳ 불러오는 중...</div>';
+    fetch(APPS_SCRIPT_URL + '?action=getAllTours')
+      .then(r => r.json())
+      .then(data => renderTourList(data.entries || []))
+      .catch(() => { document.getElementById('tour-list').innerHTML = '<div class="loading-msg">⚠️ 데이터를 불러오지 못했어요.</div>'; });
+  }
+
+  function renderTourList(entries) {
+    const el = document.getElementById('tour-list');
+    if (!entries.length) { el.innerHTML = '<div class="loading-msg">제출된 투어 코스가 없습니다.</div>'; return; }
+    el.innerHTML = entries.map(e => `
+      <div class="entry-card ${e.published ? 'published' : ''}" id="te-${e.rowIndex}">
+        <div class="entry-header">
+          <div>
+            <span class="entry-name">${e.studentId ? e.studentId + ' ' : ''}${e.name}</span>
+            <span class="entry-meta"> · ${formatDate(e.timestamp)}</span>
+          </div>
+          ${e.published ? '<span class="publish-badge">✅ 발행됨</span>' : '<span class="unpublish-badge">미발행</span>'}
+        </div>
+        <div style="font-size:0.85rem;color:var(--dark);font-weight:700;margin-bottom:10px;">🗺️ ${escHtml(e.tourName)}</div>
+        <div class="raw-box">
+          <div class="q">추천 대상</div>${escHtml(e.recommend)}
+          <div class="q">유물 3가지</div>${escHtml(e.artifacts)}
+          <div class="q">꼭 봐야 하는 이유</div>${escHtml(e.reasons)}
+          <div class="q">미션</div>${escHtml(e.mission)}
+        </div>
+        <textarea class="draft-area" id="td-${e.rowIndex}" placeholder="AI 초안 생성 버튼을 눌러주세요">${escHtml(e.draft || '')}</textarea>
+        <div class="entry-actions">
+          <button class="btn btn-purple btn-sm" onclick="generateTourDraft(${e.rowIndex})">✨ AI 초안 생성</button>
+          <button class="btn btn-primary btn-sm" onclick="saveTourDraft(${e.rowIndex})">💾 수정 저장</button>
+          ${e.published
+            ? `<button class="btn btn-danger btn-sm" onclick="toggleTourPublish(${e.rowIndex},false)">🚫 발행 취소</button>`
+            : `<button class="btn btn-success btn-sm" onclick="toggleTourPublish(${e.rowIndex},true)">📢 발행하기</button>`}
+        </div>
+      </div>`).join('');
+  }
+
+  function generateTourDraft(rowIndex) {
+    const btn = event.target;
+    btn.disabled = true; btn.textContent = '⏳ 생성 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'generateTourDraft', rowIndex }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.draft) { document.getElementById('td-' + rowIndex).value = data.draft; btn.textContent = '✅ 생성 완료'; }
+        else { alert('생성 실패: ' + (data.error || '오류')); btn.textContent = '✨ AI 초안 생성'; }
+        btn.disabled = false;
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '✨ AI 초안 생성'; btn.disabled = false; });
+  }
+
+  function saveTourDraft(rowIndex) {
+    const btn = event.target;
+    const draft = document.getElementById('td-' + rowIndex).value;
+    if (!draft.trim()) { alert('내용을 입력해주세요.'); return; }
+    btn.disabled = true; btn.textContent = '⏳ 저장 중...';
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveTourDraftOnly', rowIndex, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) { btn.textContent = '✅ 저장됨'; setTimeout(() => { btn.textContent = '💾 수정 저장'; btn.disabled = false; }, 2000); }
+        else { alert('저장 실패: ' + (data.error || '오류')); btn.textContent = '💾 수정 저장'; btn.disabled = false; }
+      })
+      .catch(() => { alert('네트워크 오류'); btn.textContent = '💾 수정 저장'; btn.disabled = false; });
+  }
+
+  function toggleTourPublish(rowIndex, publish) {
+    const draft = document.getElementById('td-' + rowIndex).value;
+    if (publish && !draft.trim()) { alert('먼저 AI 초안을 생성하거나 직접 내용을 입력해주세요.'); return; }
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'toggleTourPublish', rowIndex, published: publish, editedDraft: draft }) })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) { alert(publish ? '✅ 발행됐어요!' : '발행이 취소됐어요.'); loadTours(); }
+        else { alert('오류: ' + (data.error || '알 수 없는 오류')); }
+      })
+      .catch(() => alert('네트워크 오류'));
+  }
+
+  // ── 유틸 ────────────────────────────────────────
+  function formatDate(ts) {
+    if (!ts) return '';
+    const d = new Date(ts);
+    if (isNaN(d)) return ts;
+    return `${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.`;
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
