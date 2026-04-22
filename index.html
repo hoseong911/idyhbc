@@ -33,6 +33,26 @@
     .side-nav-btn .s-desc  { font-size: 0.67rem; color: var(--light); margin-top: 1px; }
     .side-divider { height: 1px; background: #f0f0f0; margin: 8px 0; }
 
+    /* ── 관리자 버튼 공통 & PC ── */
+    .admin-btn-pc {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      background: #EAEFEF; border: none; border-radius: 10px;
+      padding: 10px; width: 100%; cursor: pointer;
+      color: var(--light); font-size: 0.75rem; font-weight: 700;
+      transition: background 0.15s, color 0.15s;
+    }
+    .admin-btn-pc:hover { background: #DDE5E5; color: var(--dark); }
+
+    /* ── 관리자 버튼 모바일 ── */
+    .admin-btn-mobile {
+      display: none; /* PC에서는 기본적으로 숨김 */
+      align-items: center; justify-content: center; gap: 6px;
+      background: #EAEFEF; border: none; border-radius: 10px;
+      padding: 12px; margin: 20px 16px; /* 좌우 여백 */
+      color: var(--light); font-size: 0.8rem; font-weight: 700;
+      cursor: pointer;
+    }
+
     /* ── 콘텐츠 ── */
     .content { margin-left: 200px; flex: 1; min-width: 0; }
 
@@ -119,6 +139,10 @@
       .pc-col { border-right: none; border-bottom: 1px solid #edf2f2; padding: 20px 16px; }
       .single-page { padding: 20px 16px; }
       .page-title { font-size: 1.1rem; }
+
+      /* 모바일에서는 PC버전 버튼을 숨기고 모바일버전 버튼을 표시 */
+      .admin-btn-pc { display: none; }
+      .admin-btn-mobile { display: flex; }
     }
   </style>
 </head>
@@ -144,11 +168,11 @@
         <div><div class="s-label">답사 미션 모음</div><div class="s-desc">액티브한 답사 만들기</div></div>
       </button>
     </nav>
+    <button class="admin-btn-pc" onclick="alert('관리자 모드 준비 중입니다.')">⚙️ 관리자 모드</button>
   </div>
 
   <div class="content">
 
-    <!-- PC 4단 메인 -->
     <div id="view-main" class="pc-main">
       <div class="pc-col">
         <div class="col-title">📍 답사 안내</div>
@@ -173,7 +197,6 @@
       </div>
     </div>
 
-    <!-- 단일: 답사 안내 -->
     <div id="single-guide" class="single-page">
       <div class="page-title">📍 답사 안내</div>
       <select class="location-selector" id="single-pageSelector" onchange="onLocationChangeSingle(this.value)">
@@ -184,7 +207,6 @@
       <div id="single-guide-content"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     </div>
 
-    <!-- 단일: 기행기 아카이브 -->
     <div id="single-archive" class="single-page">
       <div class="page-title">📖 기행기 아카이브</div>
       <div class="filter-tabs">
@@ -195,7 +217,6 @@
       <div id="single-archive-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     </div>
 
-    <!-- 단일: 답사 미션 -->
     <div id="single-mission" class="single-page">
       <div class="page-title">🎯 답사 미션 모음</div>
       <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html','_blank')" style="cursor:pointer;margin-bottom:16px;">
@@ -205,11 +226,12 @@
       <div id="tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
     </div>
 
-    <!-- 단일: 투어 상세 -->
     <div id="single-tour-detail" class="single-page">
       <button onclick="showSingle('mission')" style="background:none;border:none;cursor:pointer;font-size:0.88rem;font-weight:700;color:var(--blue-deep);margin-bottom:20px;display:flex;align-items:center;gap:6px;">← 목록으로</button>
       <div id="tour-detail-content"></div>
     </div>
+
+    <button class="admin-btn-mobile" onclick="alert('관리자 모드 준비 중입니다.')">⚙️ 관리자 모드</button>
 
     <div class="footer-space"></div>
   </div>
