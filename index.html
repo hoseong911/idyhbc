@@ -143,7 +143,6 @@
       .single-page { padding: 20px 16px; }
       .page-title { font-size: 1.1rem; }
 
-      /* 모바일에서는 PC버전 버튼 구역을 숨기고 모바일버전 구역을 표시 */
       .admin-area-pc { display: none; }
       .admin-area-mobile { display: block; }
     }
@@ -173,7 +172,7 @@
     </nav>
     
     <div class="admin-area-pc">
-      <div class="version-text">ver. 2.0</div>
+      <div class="version-text">ver. 2.1</div>
       <button class="admin-btn-pc" onclick="alert('관리자 모드 준비 중입니다.')">⚙️ 관리자 모드</button>
     </div>
   </div>
@@ -236,12 +235,12 @@
     </div>
 
     <div id="single-tour-detail" class="single-page">
-      <button onclick="showSingle('mission')" style="background:none;border:none;cursor:pointer;font-size:0.88rem;font-weight:700;color:var(--blue-deep);margin-bottom:20px;display:flex;align-items:center;gap:6px;">← 목록으로</button>
+      <button onclick="goBackToList()" style="background:none;border:none;cursor:pointer;font-size:0.88rem;font-weight:700;color:var(--blue-deep);margin-bottom:20px;display:flex;align-items:center;gap:6px;">← 목록으로</button>
       <div id="tour-detail-content"></div>
     </div>
 
     <div class="admin-area-mobile">
-      <div class="version-text">ver. 2.0</div>
+      <div class="version-text">ver. 2.1</div>
       <button class="admin-btn-mobile" onclick="alert('관리자 모드 준비 중입니다.')">⚙️ 관리자 모드</button>
     </div>
 
@@ -261,15 +260,38 @@
   let allEntries = [], allTours = [], guideCache = {};
   let archiveLoaded = false, tourLoaded = false;
 
-  function showMain() {
+  // 브라우저 뒤로가기 버튼(혹은 기기 스와이프)을 감지하여 알맞은 화면을 띄워주는 라우팅 기능
+  window.addEventListener('hashchange', () => {
+    const hash = location.hash.replace('#', '');
+    if (hash === '') {
+      if (window.innerWidth <= 768) showSingle('guide', true);
+      else showMain(true);
+    } else if (hash.startsWith('tour-detail-')) {
+      const id = parseInt(hash.replace('tour-detail-', ''));
+      if (!isNaN(id)) showTourDetail(id, true);
+    } else if (['guide','archive','mission'].includes(hash)) {
+      showSingle(hash, true);
+    }
+  });
+
+  // 디테일 화면에서 '← 목록으로' 클릭 시 실행되는 함수
+  function goBackToList() {
+    if (window.history.length > 1) {
+      window.history.back(); // 브라우저 자체 뒤로가기를 호출하여 자연스럽게 이전 목록으로 이동
+    } else {
+      window.innerWidth > 768 ? showMain() : showSingle('mission');
+    }
+  }
+
+  function showMain(isHistoryEvent = false) {
     document.getElementById('view-main').style.display = 'flex';
     document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.side-nav-btn').forEach(b => b.classList.remove('active'));
     window.scrollTo(0, 0);
-    location.hash = '';
+    if (!isHistoryEvent) location.hash = ''; // URL 해시 초기화
   }
 
-  function showSingle(page) {
+  function showSingle(page, isHistoryEvent = false) {
     document.getElementById('view-main').style.display = 'none';
     document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
     document.getElementById('single-' + page).classList.add('active');
@@ -277,13 +299,42 @@
     const nav = document.getElementById('nav-' + page);
     if (nav) nav.classList.add('active');
     window.scrollTo(0, 0);
-    location.hash = page;
+    
+    if (!isHistoryEvent) location.hash = page; // URL 해시 업데이트
+
     if (page === 'archive' && !archiveLoaded) loadArchive();
     if (page === 'mission') loadTours();
     if (page === 'guide') {
       document.getElementById('single-pageSelector').value = currentLocation;
       loadGuideContent(currentLocation, 'single-guide-content');
     }
+  }
+
+  function showTourDetail(rowIndex, isHistoryEvent = false) {
+    if (!tourLoaded) {
+      // 투어 데이터가 아직 로드되지 않은 상태에서 호출된 경우 (URL 직접 접속)
+      if (!isHistoryEvent) location.hash = 'tour-detail-' + rowIndex;
+      return; 
+    }
+    const tour = allTours.find(t => t.rowIndex === rowIndex);
+    if (!tour) return;
+    const bodyHtml = (tour.draft || '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    document.getElementById('tour-detail-content').innerHTML = `
+      <div class="tour-detail-header">
+        <div class="tour-detail-label">[나만의 국중박 답사 코스 만들기]</div>
+        <div class="tour-detail-title">${tour.tourName}</div>
+        <div class="tour-detail-author">✏️ ${tour.studentId ? tour.studentId + ' ' : ''}${tour.name} · ${formatDate(tour.timestamp)}</div>
+        <span class="entry-tag" style="margin-top:8px;display:inline-block;">🏛️ 국립중앙박물관</span>
+      </div>
+      ${tour.photo ? `<img class="tour-detail-photo" src="${tour.photo}" onerror="this.style.display='none'">` : ''}
+      <div class="tour-detail-body">${bodyHtml}</div>`;
+      
+    document.getElementById('view-main').style.display = 'none'; // PC 메인화면 확실히 숨김
+    document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('single-tour-detail').classList.add('active');
+    window.scrollTo(0, 0);
+    
+    if (!isHistoryEvent) location.hash = 'tour-detail-' + rowIndex; // URL 해시 업데이트
   }
 
   function onLocationChange(val) {
@@ -331,7 +382,6 @@
       html += `<div class="card purple"><h2><span class="ico">✍️</span> ${guide.essay.title}</h2><div class="guide-content">${guide.essay.content}</div>${links.essayUrl ? `<a href="${links.essayUrl}" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>` : ''}</div>`;
     }
     if (locVal === 'gyeyang' && links.stampUrl) {
-      // [답사 안내용] 다른 안내문과 동일한 일반 상단 띠 카드(card.yellow) 형식으로 복구
       html += `<div class="card yellow" onclick="window.open('${links.stampUrl}','_blank')" style="cursor:pointer;margin-top:4px;"><h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2><p style="font-size:0.88rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요!</p></div>`;
     }
     el.innerHTML = html || '<div class="archive-loading">안내문 내용이 없습니다.</div>';
@@ -377,7 +427,19 @@
     ['tour-list','main-tour-list'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = '<div class="archive-loading">⏳ 불러오는 중...</div>'; });
     fetch(APPS_SCRIPT_URL + '?action=getTourPublished')
       .then(r => r.json())
-      .then(data => { allTours = data.entries || []; tourLoaded = true; renderTourList(allTours); renderMainTourList(allTours); })
+      .then(data => { 
+        allTours = data.entries || []; 
+        tourLoaded = true; 
+        renderTourList(allTours); 
+        renderMainTourList(allTours); 
+        
+        // 투어 데이터 로딩 후, 주소창에 투어 디테일 해시가 있다면 바로 열어줌
+        const hash = location.hash.replace('#', '');
+        if (hash.startsWith('tour-detail-')) {
+          const id = parseInt(hash.replace('tour-detail-', ''));
+          if (!isNaN(id)) showTourDetail(id, true);
+        }
+      })
       .catch(() => { ['tour-list','main-tour-list'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = '<div class="archive-loading">⚠️ 불러오지 못했어요.</div>'; }); });
   }
 
@@ -400,29 +462,11 @@
     if (!el) return;
     if (!tours.length) { el.innerHTML = `<div class="entry-empty" style="padding:20px;"><span class="ico">📭</span>곧 공개돼요!</div>`; return; }
     el.innerHTML = tours.map(t => `
-      <div class="tour-card" onclick="showSingle('mission');setTimeout(()=>showTourDetail(${t.rowIndex}),100);">
+      <div class="tour-card" onclick="showTourDetail(${t.rowIndex})">
         <div class="tour-card-label">[나만의 국중박 답사 코스 만들기]</div>
         <div class="tour-card-title"><strong>${t.tourName}</strong></div>
         <div class="tour-card-author">✏️ ${t.studentId ? t.studentId + ' ' : ''}${t.name}</div>
       </div>`).join('');
-  }
-
-  function showTourDetail(rowIndex) {
-    const tour = allTours.find(t => t.rowIndex === rowIndex);
-    if (!tour) return;
-    const bodyHtml = (tour.draft || '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    document.getElementById('tour-detail-content').innerHTML = `
-      <div class="tour-detail-header">
-        <div class="tour-detail-label">[나만의 국중박 답사 코스 만들기]</div>
-        <div class="tour-detail-title">${tour.tourName}</div>
-        <div class="tour-detail-author">✏️ ${tour.studentId ? tour.studentId + ' ' : ''}${tour.name} · ${formatDate(tour.timestamp)}</div>
-        <span class="entry-tag" style="margin-top:8px;display:inline-block;">🏛️ 국립중앙박물관</span>
-      </div>
-      ${tour.photo ? `<img class="tour-detail-photo" src="${tour.photo}" onerror="this.style.display='none'">` : ''}
-      <div class="tour-detail-body">${bodyHtml}</div>`;
-    document.querySelectorAll('.single-page').forEach(p => p.classList.remove('active'));
-    document.getElementById('single-tour-detail').classList.add('active');
-    window.scrollTo(0, 0);
   }
 
   function formatDate(ts) {
@@ -444,9 +488,17 @@
     loadGuideContent(def, 'main-guide-content');
     loadArchive();
     loadTours();
+
     const hash = location.hash.replace('#', '');
-    if (['guide','archive','mission','tour-detail'].includes(hash)) showSingle(hash);
-    else if (window.innerWidth <= 768) showSingle('guide');
+    if (hash.startsWith('tour-detail-')) {
+      // 투어 데이터가 로딩된 후 loadTours에서 처리됨
+    } else if (['guide','archive','mission'].includes(hash)) {
+      showSingle(hash, true);
+    } else if (window.innerWidth <= 768) {
+      showSingle('guide', true);
+    } else {
+      showMain(true);
+    }
   })();
 </script>
 </body>
