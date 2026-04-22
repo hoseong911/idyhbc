@@ -102,7 +102,7 @@
     .filter-btn { padding: 6px 14px; border: 2px solid #eee; border-radius: 20px; background: white; font-size: 0.78rem; font-weight: 700; color: var(--light); cursor: pointer; transition: all 0.15s; }
     .filter-btn.active { border-color: var(--blue); background: #EEF7F5; color: var(--blue-deep); }
 
-    /* ── 투어 카드 ── */
+    /* ── 투어 카드 (스탬프 투어 & 코스 모음 공용) ── */
     .tour-card { background: var(--card); border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 5px solid var(--yellow); cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
     .tour-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.09); }
     .tour-card-label  { font-size: 0.75rem; color: var(--light); margin-bottom: 6px; }
@@ -189,8 +189,8 @@
       </div>
       <div class="pc-col">
         <div class="col-title">🎯 답사 미션 모음</div>
-        <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html','_blank')" style="cursor:pointer;margin-bottom:16px;">
-          <h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2>
+        <div class="tour-card" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html','_blank')" style="margin-bottom:16px;">
+          <div class="tour-card-title" style="margin-bottom: 6px;"><strong>🎯 계양산성박물관 스탬프 투어</strong></div>
           <p style="font-size:0.82rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
         </div>
         <div id="main-tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
@@ -219,8 +219,8 @@
 
     <div id="single-mission" class="single-page">
       <div class="page-title">🎯 답사 미션 모음</div>
-      <div class="card yellow" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html','_blank')" style="cursor:pointer;margin-bottom:16px;">
-        <h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2>
+      <div class="tour-card" onclick="window.open('http://hoseong911.github.io/idyhbc/gyssquiz.html','_blank')" style="margin-bottom:16px;">
+        <div class="tour-card-title" style="margin-bottom: 6px;"><strong>🎯 계양산성박물관 스탬프 투어</strong></div>
         <p style="font-size:0.88rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요! 클릭하면 바로 시작할 수 있어요.</p>
       </div>
       <div id="tour-list"><div class="archive-loading">⏳ 불러오는 중...</div></div>
@@ -319,7 +319,8 @@
       html += `<div class="card purple"><h2><span class="ico">✍️</span> ${guide.essay.title}</h2><div class="guide-content">${guide.essay.content}</div>${links.essayUrl ? `<a href="${links.essayUrl}" target="_blank" class="btn btn-blue">기행기 작성하기 📸</a>` : ''}</div>`;
     }
     if (locVal === 'gyeyang' && links.stampUrl) {
-      html += `<div class="card yellow" onclick="window.open('${links.stampUrl}','_blank')" style="cursor:pointer;margin-top:4px;"><h2><span class="ico">🎯</span> 계양산성박물관 스탬프 투어</h2><p style="font-size:0.88rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요!</p></div>`;
+      // 자바스크립트로 동적 생성되는 안내문 내부의 스탬프 투어 카드도 디자인 변경
+      html += `<div class="tour-card" onclick="window.open('${links.stampUrl}','_blank')" style="margin-top:4px;"><div class="tour-card-title" style="margin-bottom: 6px;"><strong>🎯 계양산성박물관 스탬프 투어</strong></div><p style="font-size:0.88rem;color:var(--light);line-height:1.7;">박물관을 탐험하며 스탬프를 모아보세요!</p></div>`;
     }
     el.innerHTML = html || '<div class="archive-loading">안내문 내용이 없습니다.</div>';
   }
